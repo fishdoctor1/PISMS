@@ -1,0 +1,7 @@
+c:\users\pornb3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\obj\Debug\PISMS_Service_Realtime.csprojResolveAssemblyReference.cache
+c:\users\pornb3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\obj\Debug\PISMS_Service_Realtime.PISMS_Service_RealTime.resources
+c:\users\pornb3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\obj\Debug\PISMS_Service_Realtime.csproj.GenerateResource.Cache
+c:\users\pornb3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\bin\Debug\PISMS_Service_Realtime.exe
+c:\users\pornb3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\bin\Debug\PISMS_Service_Realtime.pdb
+c:\users\pornb3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\obj\Debug\PISMS_Service_Realtime.exe
+c:\users\pornb3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\obj\Debug\PISMS_Service_Realtime.pdb

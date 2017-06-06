@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="http://schwebpart:83/ICTSMSDTAC.asmx?wsdl" docRef="http://schwebpart:83/ICTSMSDTAC.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="http://schwebpart:83/ICTSMSDTAC.asmx" xmlns:q1="http://schwebpart:83/" binding="q1:ICTSMSDTACSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="http://schwebpart:83/ICTSMSDTAC.asmx" xmlns:q2="http://schwebpart:83/" binding="q2:ICTSMSDTACSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>
