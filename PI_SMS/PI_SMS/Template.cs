@@ -177,95 +177,21 @@ namespace PI_SMS
                     }
                     break;
                 case "Edit":
-                    //Do Something            
-                    buttonUpdateTemplate.Visible = true;
-                    buttonAdd.Visible = false;
                     try
                     {
-                        textBoxTemplate.Clear();
-                        textBoxDescription.Clear();
+                        buttonUpdate.Visible = true;
+                        buttonAdd.Visible = false;
                         textBoxTemplate.Text = dataGridViewTemplate.Rows[SelectedrowIndexdataGridView].Cells["TemplateName"].Value.ToString();
                         textBoxDescription.Text = dataGridViewTemplate.Rows[SelectedrowIndexdataGridView].Cells["DescriptionCol"].Value.ToString();
-                        string smsStatus = dataGridViewTemplate.Rows[SelectedrowIndexdataGridView].Cells["SMSCol"].Value.ToString();
-                        if (smsStatus == "True")
-                        {
-                            checkBox1.Checked = true;
-                        }
-                        else
-                        {
-                            checkBox1.Checked = false;
-                        }
+                        checkBox1.Checked = Boolean.Parse(dataGridViewTemplate.Rows[SelectedrowIndexdataGridView].Cells["SMSCol"].Value.ToString());
 
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show("Error \n" + ex, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                    //Console.WriteLine("Edit Case");
-                    
                     break;
-
             }           
-        }
-
-#endregion
-
-        #region Update
-        private void buttonUpdateTemplate_Click(object sender, EventArgs e)
-        {
-            
-            try
-            {                
-                using (SqlConnection connection = new SqlConnection(
-               connectionString))
-                {
-                    //int position_xy_mouse_row = dataGridViewTemplate.CurrentCell.RowIndex;
-                    string TemplateSelected = dataGridViewTemplate.Rows[SelectedrowIndexdataGridView].Cells["TemplateID"].Value.ToString();
-                    string templatename = textBoxTemplate.Text;                   
-                    string description = textBoxDescription.Text;
-                    int checksameTemplate = 0;
-
-                    for (int row = 0; row < dataGridViewTemplate.Rows.Count; row++)
-                    {
-                        if (row == SelectedrowIndexdataGridView)
-                        {
-                            continue;
-                        }
-                        string Template_Ondatagridview = dataGridViewTemplate.Rows[row].Cells["TemplateName"].Value.ToString();
-                        //check same Template
-                        if (templatename == Template_Ondatagridview)
-                        {
-                            MessageBox.Show("Error Template used", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            checksameTemplate = 1;
-                            break;
-                        }
-                    }
-                    if (checksameTemplate == 0)
-                    {
-
-                        string queryString = "UPDATE ["+DataBaseName+"].[dbo].[NotificationTemplate] SET TemplateName='" + templatename + "', Description='" + description + "',SMSNotify='" + checkBox1.Checked + "' WHERE TemplateIDAuToInc = '" + TemplateSelected + "'";
-                        SqlCommand command = new SqlCommand(queryString, connection);
-                        SqlDataAdapter data = new SqlDataAdapter(command);
-                        command.Connection.Open();
-                        command.ExecuteNonQuery();
-
-                        LoadDataToTable_Template();
-                        Filldatagridview();
-                        dataGridViewTemplate.Update();
-                    }
-                        
-
-                    buttonAdd.Visible = true;
-                    buttonUpdateTemplate.Visible = false;
-                    textBoxTemplate.ReadOnly = false;
-                    textBoxTemplate.Clear();
-                    textBoxDescription.Clear();
-                }//end using
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error \n" + ex, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         #endregion
@@ -332,10 +258,10 @@ namespace PI_SMS
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             buttonAdd.Visible = true;
-            buttonUpdateTemplate.Visible = false;
+            buttonUpdate.Visible = false;
             textBoxTemplate.Clear();
             textBoxDescription.Clear();
-            textBoxTemplate.ReadOnly = false;
+            checkBox1.Checked = false;
         }
         #endregion
 
@@ -344,12 +270,8 @@ namespace PI_SMS
             if (checkBoxEnableAll.Checked)
             {
                 checkBoxDisablAll.Checked = false;
-                buttonUpdateStatusSMS.Enabled = true;
             }
-            else
-            {
-                buttonUpdateStatusSMS.Enabled = false;
-            }
+
         }
 
         private void checkBoxDisablAll_CheckedChanged(object sender, EventArgs e)
@@ -357,12 +279,8 @@ namespace PI_SMS
             if (checkBoxDisablAll.Checked)
             {
                 checkBoxEnableAll.Checked = false;
-                buttonUpdateStatusSMS.Enabled = true;
             }
-            else
-            {
-                buttonUpdateStatusSMS.Enabled = false;
-            }
+
         }
 
         private void buttonUpdateStatusSMS_Click(object sender, EventArgs e)
@@ -401,6 +319,30 @@ namespace PI_SMS
                         Filldatagridview();
                     }
                 }
+                else if (!checkBoxEnableAll.Checked && !checkBoxDisablAll.Checked)
+                {
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                        for (int row = 0; row < dataGridViewTemplate.Rows.Count; row++)
+                        {
+                            queryString = "UPDATE [" + DataBaseName + "].[dbo].[NotificationTemplate] SET SMSNotify='" + dataGridViewTemplate.Rows[row].Cells["SMSCol"].Value + "' ";
+
+                            SqlCommand command = new SqlCommand(queryString, connection);
+                            SqlDataAdapter data = new SqlDataAdapter(command);
+                            if (row == 0)
+                            {
+                                command.Connection.Open();
+                            }
+
+                            command.ExecuteNonQuery();
+
+
+                        }
+                    }
+                    LoadDataToTable_Template();
+                    Filldatagridview();
+
+                }
             }
             catch (Exception ex)
             {
@@ -415,6 +357,34 @@ namespace PI_SMS
             panel2.Dispose();
         }
 
+        private void buttonUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(
+                       connectionString))
+                {
+                    string queryString3 = "Update [" + DataBaseName + "].[dbo].[NotificationTemplate] SET [TemplateName]='" + textBoxTemplate.Text.ToString() + "',[Description]='" + textBoxDescription.Text.ToString() + "',[SMSNotify]='" + checkBox1.Checked.ToString() + "' WHERE TemplateIDAuToInc= '"+ dataGridViewTemplate.Rows[SelectedrowIndexdataGridView].Cells["TemplateID"].Value.ToString() + "'"; 
+                    SqlCommand command3 = new SqlCommand(queryString3, connection);
+                    command3.Connection.Open();
+                    command3.ExecuteNonQuery();
 
+                    LoadDataToTable_Template();
+                    Filldatagridview();
+                    dataGridViewTemplate.Update();
+
+                    buttonAdd.Visible = true;
+                    buttonUpdate.Visible = false;
+                    textBoxTemplate.Clear();
+                    textBoxDescription.Clear();
+                    checkBox1.Checked = false;
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Error \n" + ex, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+        }
     }
 }

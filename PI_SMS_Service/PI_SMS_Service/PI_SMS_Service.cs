@@ -116,6 +116,8 @@ namespace PI_SMS_Service
         protected override void OnStart(string[] args)
         {
             // Create a timer and set a two second interval.
+            Prepare_TemplateID_ForSendSMS.Columns.Add("TemplateID", typeof(string));//0
+            Prepare_TemplateID_ForSendSMS.Columns.Add("TemplateDescriptionForSend", typeof(string));
             aTimer = new System.Timers.Timer();           
 
             // Hook up the Elapsed event for the timer. 
@@ -133,33 +135,58 @@ namespace PI_SMS_Service
         {
         }
 
+        string path = AppDomain.CurrentDomain.BaseDirectory+"\\ServiceLog";
+        string NowDate = DateTime.Now.ToString("yyyy-MM-dd");
+
         private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
         {
-            getconfig();
-            connectionString = "Data Source = "+ Pub_Config.Rows[0].ItemArray[0].ToString()+ "; Initial Catalog ="+ Pub_Config.Rows[0].ItemArray[2].ToString() + "; User ID ="+ Pub_Config.Rows[0].ItemArray[3].ToString() + "; Password ="+ Pub_Config.Rows[0].ItemArray[4].ToString() + "";
-            Thread threadSendSMS = new Thread(Send_SMS);
-            if (threadSendSMS.IsAlive)
+            try
             {
-                TimeNow = DateTime.Now.ToString("HH:mm");
-                
-                threadSendSMS.Join();
-                LoadDataToTable_Template();
-                CheckTemplate_ONSMS();
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                if (!File.Exists(path + "\\" + NowDate + ".txt"))
+                {
+                    File.Create(path + "\\" + NowDate + ".txt");
+                }
+                // Try to create the directory.
+                DirectoryInfo di = Directory.CreateDirectory(path);
+                getconfig();
+                connectionString = "Data Source = " + Pub_Config.Rows[0].ItemArray[0].ToString() + "; Initial Catalog =" + Pub_Config.Rows[0].ItemArray[2].ToString() + "; User ID =" + Pub_Config.Rows[0].ItemArray[3].ToString() + "; Password =" + Pub_Config.Rows[0].ItemArray[4].ToString() + "";
+                Thread threadSendSMS = new Thread(Send_SMS);
+                if (threadSendSMS.IsAlive)
+                {
+                    TimeNow = DateTime.Now.ToString("HH:mm");
+
+                    threadSendSMS.Join();
+                    LoadDataToTable_Template();
+                    CheckTemplate_ONSMS();
+                }
+                else
+                {
+                    TimeNow = DateTime.Now.ToString("HH:mm");
+                    LoadDataToTable_Template();
+                    CheckTemplate_ONSMS();
+                }
+
+                if (Prepare_TemplateID_ForSendSMS.Rows.Count > 0)
+                {
+                    threadSendSMS.Start();
+                }
+                aTimer.Interval = 60000; //sleep 60 sec
+                aTimer.AutoReset = false; // prevent race condition
+                aTimer.Start();
             }
-            else
+            catch(Exception ex)
             {
-                TimeNow = DateTime.Now.ToString("HH:mm");
-                LoadDataToTable_Template();
-                CheckTemplate_ONSMS();
-            }
-            
-            if (Prepare_TemplateID_ForSendSMS.Rows.Count > 0)
-            {
-                threadSendSMS.Start();
-            }
-            aTimer.Interval = 60000; //sleep 60 sec
-            aTimer.AutoReset = false; // prevent race condition
-            aTimer.Start();
+                using (StreamWriter sw = File.AppendText(path + "\\" + NowDate + ".txt"))
+                {
+                    sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
+                    sw.WriteLine(ex);
+
+                }
+            }           
 
         }       
         
@@ -190,7 +217,13 @@ namespace PI_SMS_Service
             }
             catch (Exception ex)
             {
-                Console.WriteLine("ERROR : " +ex);
+                //Console.WriteLine("ERROR : " +ex);
+                using (StreamWriter sw = File.AppendText(path + "\\" + NowDate + ".txt"))
+                {
+                    sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
+                    sw.WriteLine(ex);
+
+                }
             }
 
         }
@@ -219,6 +252,12 @@ namespace PI_SMS_Service
             catch (Exception ex)
             {
                 Console.WriteLine("ERROR : " + ex);
+                using (StreamWriter sw = File.AppendText(path + "\\" + NowDate + ".txt"))
+                {
+                    sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
+                    sw.WriteLine(ex);
+
+                }
             }
         }
         #endregion
@@ -249,7 +288,12 @@ namespace PI_SMS_Service
             }
             catch (Exception ex)
             {
-                
+                using (StreamWriter sw = File.AppendText(path + "\\" + NowDate + ".txt"))
+                {
+                    sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
+                    sw.WriteLine(ex);
+
+                }
             }
         }
         #endregion
@@ -280,7 +324,12 @@ namespace PI_SMS_Service
             }
             catch (Exception ex)
             {
+                using (StreamWriter sw = File.AppendText(path + "\\" + NowDate + ".txt"))
+                {
+                    sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
+                    sw.WriteLine(ex);
 
+                }
             }
         }
 
@@ -314,177 +363,195 @@ namespace PI_SMS_Service
             }
             catch (Exception ex)
             {
+                using (StreamWriter sw = File.AppendText(path + "\\" + NowDate + ".txt"))
+                {
+                    sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
+                    sw.WriteLine(ex);
 
+                }
             }
         }
 
         private void CheckEvent_In_Template(int Template_ID,int templatenumber,string TemplateDescription)
         {
-            LoadDataToTableEvent_in_Template(Template_ID);
-
-            for (int EventNumber = 0; EventNumber < EventID_In_Template.Rows.Count; EventNumber++)
+            try
             {
-                //
+                LoadDataToTableEvent_in_Template(Template_ID);
 
-                //Check Day
-
-                //
-                bool DayStatus;
-                NowDayOfWeek = System.DateTime.Now.DayOfWeek.ToString();
-                Time = EventID_In_Template.Rows[EventNumber].ItemArray[8].ToString(); //Time Event in Template
-                string[] result = Time.Split(':');
-                int Timehours_EventInTemplate = Convert.ToInt32(result[0]);
-                int Timeminutes_EventInTemplate = Convert.ToInt32(result[1]);
-                
-
-                if (NowDayOfWeek == "Monday")
+                for (int EventNumber = 0; EventNumber < EventID_In_Template.Rows.Count; EventNumber++)
                 {
-                    
-                    string mondaystatus = EventID_In_Template.Rows[EventNumber].ItemArray[1].ToString(); //Mon
-                    Boolean.TryParse(mondaystatus, out DayStatus);
-                    if (DayStatus)
-                    {
-                        if (Time == TimeNow)
-                        {
-                            DataRow rowTableSearch;
-                            rowTableSearch = Prepare_TemplateID_ForSendSMS.NewRow();
+                    //
 
-                            rowTableSearch["TemplateID"] = Template_ID;
-                            rowTableSearch["TemplateDescriptionForSend"] = TemplateDescription;
+                    //Check Day
 
-                            Prepare_TemplateID_ForSendSMS.Rows.Add(rowTableSearch);
+                    //
+                    bool DayStatus;
+                    NowDayOfWeek = System.DateTime.Now.DayOfWeek.ToString();
+                    Time = EventID_In_Template.Rows[EventNumber].ItemArray[8].ToString(); //Time Event in Template
+                    string[] result = Time.Split(':');
+                    int Timehours_EventInTemplate = Convert.ToInt32(result[0]);
+                    int Timeminutes_EventInTemplate = Convert.ToInt32(result[1]);
 
-                        }
 
-                    }
-                }
-                else if(NowDayOfWeek == "Tuesday")
-                {
-                    string tuesdaystatus = EventID_In_Template.Rows[EventNumber].ItemArray[2].ToString(); //Tue
-                    Boolean.TryParse(tuesdaystatus, out DayStatus);
-                    if (DayStatus)
+                    if (NowDayOfWeek == "Monday")
                     {
 
-                        if (Time == TimeNow)
+                        string mondaystatus = EventID_In_Template.Rows[EventNumber].ItemArray[1].ToString(); //Mon
+                        Boolean.TryParse(mondaystatus, out DayStatus);
+                        if (DayStatus)
                         {
-                            DataRow rowTableSearch;
-                            rowTableSearch = Prepare_TemplateID_ForSendSMS.NewRow();
+                            if (Time == TimeNow)
+                            {
+                                DataRow rowTableSearch;
+                                rowTableSearch = Prepare_TemplateID_ForSendSMS.NewRow();
 
-                            rowTableSearch["TemplateID"] = Template_ID;
-                            rowTableSearch["TemplateDescriptionForSend"] = TemplateDescription;
+                                rowTableSearch["TemplateID"] = Template_ID;
+                                rowTableSearch["TemplateDescriptionForSend"] = TemplateDescription;
 
-                            Prepare_TemplateID_ForSendSMS.Rows.Add(rowTableSearch);
+                                Prepare_TemplateID_ForSendSMS.Rows.Add(rowTableSearch);
+
+                            }
 
                         }
-
                     }
-                }
-                else if(NowDayOfWeek == "Wednesday")
-                {
-                    string wednesdaystatus = EventID_In_Template.Rows[EventNumber].ItemArray[3].ToString(); //Wed
-                    Boolean.TryParse(wednesdaystatus, out DayStatus);
-                    if (DayStatus)
+                    else if (NowDayOfWeek == "Tuesday")
                     {
-
-                        if (Time == TimeNow)
+                        string tuesdaystatus = EventID_In_Template.Rows[EventNumber].ItemArray[2].ToString(); //Tue
+                        Boolean.TryParse(tuesdaystatus, out DayStatus);
+                        if (DayStatus)
                         {
-                            DataRow rowTableSearch;
-                            rowTableSearch = Prepare_TemplateID_ForSendSMS.NewRow();
 
-                            rowTableSearch["TemplateID"] = Template_ID;
-                            rowTableSearch["TemplateDescriptionForSend"] = TemplateDescription;
+                            if (Time == TimeNow)
+                            {
+                                DataRow rowTableSearch;
+                                rowTableSearch = Prepare_TemplateID_ForSendSMS.NewRow();
 
-                            Prepare_TemplateID_ForSendSMS.Rows.Add(rowTableSearch);
-                        }
+                                rowTableSearch["TemplateID"] = Template_ID;
+                                rowTableSearch["TemplateDescriptionForSend"] = TemplateDescription;
 
-                    }
-                }
-                else if(NowDayOfWeek == "Thursday")
-                {                    
-                    string Thursdaystatus = EventID_In_Template.Rows[EventNumber].ItemArray[4].ToString(); //Thu
-                    Boolean.TryParse(Thursdaystatus, out DayStatus);
-                    if (DayStatus)
-                    {                        
-                        if (Time == TimeNow)
-                        {
-                            DataRow rowTableSearch;
-                            rowTableSearch = Prepare_TemplateID_ForSendSMS.NewRow();
+                                Prepare_TemplateID_ForSendSMS.Rows.Add(rowTableSearch);
 
-                            rowTableSearch["TemplateID"] = Template_ID;
-                            rowTableSearch["TemplateDescriptionForSend"] = TemplateDescription;
-
-                            Prepare_TemplateID_ForSendSMS.Rows.Add(rowTableSearch);
-
+                            }
 
                         }
-
                     }
-                }
-                else if(NowDayOfWeek == "Friday")
-                {
-                    string fridaystatus = EventID_In_Template.Rows[EventNumber].ItemArray[5].ToString(); //Fri
-                    Boolean.TryParse(fridaystatus, out DayStatus);
-                    if (DayStatus)
+                    else if (NowDayOfWeek == "Wednesday")
                     {
-                        if (Time == TimeNow)
+                        string wednesdaystatus = EventID_In_Template.Rows[EventNumber].ItemArray[3].ToString(); //Wed
+                        Boolean.TryParse(wednesdaystatus, out DayStatus);
+                        if (DayStatus)
                         {
-                            DataRow rowTableSearch;
-                            rowTableSearch = Prepare_TemplateID_ForSendSMS.NewRow();
 
-                            rowTableSearch["TemplateID"] = Template_ID;
-                            rowTableSearch["TemplateDescriptionForSend"] = TemplateDescription;
+                            if (Time == TimeNow)
+                            {
+                                DataRow rowTableSearch;
+                                rowTableSearch = Prepare_TemplateID_ForSendSMS.NewRow();
 
-                            Prepare_TemplateID_ForSendSMS.Rows.Add(rowTableSearch);
+                                rowTableSearch["TemplateID"] = Template_ID;
+                                rowTableSearch["TemplateDescriptionForSend"] = TemplateDescription;
+
+                                Prepare_TemplateID_ForSendSMS.Rows.Add(rowTableSearch);
+                            }
+
                         }
-
                     }
-                }
-                else if(NowDayOfWeek == "Saturday")
-                {
-                    string saturdaystatus = EventID_In_Template.Rows[EventNumber].ItemArray[6].ToString(); //Sat
-                    Boolean.TryParse(saturdaystatus, out DayStatus);
-                    if (DayStatus)
+                    else if (NowDayOfWeek == "Thursday")
                     {
-
-                        if (Time == TimeNow)
+                        string Thursdaystatus = EventID_In_Template.Rows[EventNumber].ItemArray[4].ToString(); //Thu
+                        Boolean.TryParse(Thursdaystatus, out DayStatus);
+                        if (DayStatus)
                         {
-                            DataRow rowTableSearch;
-                            rowTableSearch = Prepare_TemplateID_ForSendSMS.NewRow();
+                            if (Time == TimeNow)
+                            {
+                                DataRow rowTableSearch;
+                                rowTableSearch = Prepare_TemplateID_ForSendSMS.NewRow();
 
-                            rowTableSearch["TemplateID"] = Template_ID;
-                            rowTableSearch["TemplateDescriptionForSend"] = TemplateDescription;
+                                rowTableSearch["TemplateID"] = Template_ID;
+                                rowTableSearch["TemplateDescriptionForSend"] = TemplateDescription;
 
-                            Prepare_TemplateID_ForSendSMS.Rows.Add(rowTableSearch);
+                                Prepare_TemplateID_ForSendSMS.Rows.Add(rowTableSearch);
+
+
+                            }
 
                         }
-
                     }
-                }
-                else if (NowDayOfWeek == "Sunday")
-                {
-                    string sundaystatus = EventID_In_Template.Rows[EventNumber].ItemArray[7].ToString(); //Sun
-                    Boolean.TryParse(sundaystatus, out DayStatus);
-                    if (DayStatus)
+                    else if (NowDayOfWeek == "Friday")
                     {
-
-                        if (Time == TimeNow)
+                        string fridaystatus = EventID_In_Template.Rows[EventNumber].ItemArray[5].ToString(); //Fri
+                        Boolean.TryParse(fridaystatus, out DayStatus);
+                        if (DayStatus)
                         {
-                            DataRow rowTableSearch;
-                            rowTableSearch = Prepare_TemplateID_ForSendSMS.NewRow();
+                            if (Time == TimeNow)
+                            {
+                                DataRow rowTableSearch;
+                                rowTableSearch = Prepare_TemplateID_ForSendSMS.NewRow();
 
-                            rowTableSearch["TemplateID"] = Template_ID;
-                            rowTableSearch["TemplateDescriptionForSend"] = TemplateDescription;
+                                rowTableSearch["TemplateID"] = Template_ID;
+                                rowTableSearch["TemplateDescriptionForSend"] = TemplateDescription;
 
-                            Prepare_TemplateID_ForSendSMS.Rows.Add(rowTableSearch);
+                                Prepare_TemplateID_ForSendSMS.Rows.Add(rowTableSearch);
+                            }
+
+                        }
+                    }
+                    else if (NowDayOfWeek == "Saturday")
+                    {
+                        string saturdaystatus = EventID_In_Template.Rows[EventNumber].ItemArray[6].ToString(); //Sat
+                        Boolean.TryParse(saturdaystatus, out DayStatus);
+                        if (DayStatus)
+                        {
+
+                            if (Time == TimeNow)
+                            {
+                                DataRow rowTableSearch;
+                                rowTableSearch = Prepare_TemplateID_ForSendSMS.NewRow();
+
+                                rowTableSearch["TemplateID"] = Template_ID;
+                                rowTableSearch["TemplateDescriptionForSend"] = TemplateDescription;
+
+                                Prepare_TemplateID_ForSendSMS.Rows.Add(rowTableSearch);
+
+                            }
+
+                        }
+                    }
+                    else if (NowDayOfWeek == "Sunday")
+                    {
+                        string sundaystatus = EventID_In_Template.Rows[EventNumber].ItemArray[7].ToString(); //Sun
+                        Boolean.TryParse(sundaystatus, out DayStatus);
+                        if (DayStatus)
+                        {
+
+                            if (Time == TimeNow)
+                            {
+                                DataRow rowTableSearch;
+                                rowTableSearch = Prepare_TemplateID_ForSendSMS.NewRow();
+
+                                rowTableSearch["TemplateID"] = Template_ID;
+                                rowTableSearch["TemplateDescriptionForSend"] = TemplateDescription;
+
+                                Prepare_TemplateID_ForSendSMS.Rows.Add(rowTableSearch);
+
+                            }
 
                         }
 
                     }
 
-                }                               
-
-                //
+                    //
+                }
             }
+            catch(Exception ex)
+            {
+                using (StreamWriter sw = File.AppendText(path + "\\" + NowDate + ".txt"))
+                {
+                    sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
+                    sw.WriteLine(ex);
+
+                }
+            }
+            
 
         }       
 
@@ -540,7 +607,12 @@ namespace PI_SMS_Service
             }
             catch (System.Runtime.InteropServices.COMException comExc)
             {
+                using (StreamWriter sw = File.AppendText(path + "\\" + NowDate + ".txt"))
+                {
+                    sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
+                    sw.WriteLine(comExc);
 
+                }
                 //MessageBox.Show(comExc.Message, comExc.ErrorCode + " Error",
 
                 //MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -552,72 +624,90 @@ namespace PI_SMS_Service
 
         public void Send_SMS()
         {
-            using(SMSGateway.CTSMSDTACSoapClient client = new SMSGateway.CTSMSDTACSoapClient())
+            try
             {
-                string newFileName = AppDomain.CurrentDomain.BaseDirectory + "\\Log\\"+ DateTime.Now.ToString("yyyy-MM-dd") +".csv";
-                int sendmessage = 0;
-                try
+                using (SMSGateway.CTSMSDTACSoapClient client = new SMSGateway.CTSMSDTACSoapClient())
                 {
-                    if (!File.Exists(newFileName))
+                    string newFileName = AppDomain.CurrentDomain.BaseDirectory + "\\Log\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".csv";
+                    int sendmessage = 0;
+                    try
                     {
-                        string clientHeader = "Time" + "," + "USERID" + "," + "Phone" + "," + "message" + "," + "Status" + Environment.NewLine;
-
-                        File.WriteAllText(newFileName, clientHeader);
-                    }
-
-                    for (int template = 0; template < Prepare_TemplateID_ForSendSMS.Rows.Count; template++)
-                    {
-                        int Template_ID = Convert.ToInt32(Prepare_TemplateID_ForSendSMS.Rows[template].ItemArray[0].ToString());
-                        string TemplateDescription = Prepare_TemplateID_ForSendSMS.Rows[template].ItemArray[1].ToString();
-
-                        LoadDataTo_User_In_TemplateTable(Template_ID);
-                        Load_TaginTemplate_To_DataTable(Template_ID);
-
-                        string[] TagTimeStamp = new string[Tag_in_TemplateTable.Rows.Count];
-                        string[] TagValue = new string[Tag_in_TemplateTable.Rows.Count];
-
-                        GET_TagValue(ref TagTimeStamp, ref TagValue);
-
-                        string header = Pub_Config.Rows[0].ItemArray[1].ToString();
-
-                        string message = TemplateDescription + "\n"; //Template Description
-                        string messagelog = TemplateDescription + " ";
-                        for (int tag = 0; tag < Tag_in_TemplateTable.Rows.Count; tag++)
+                        if (!File.Exists(newFileName))
                         {
-                            string tagalias = Tag_in_TemplateTable.Rows[tag].ItemArray[2].ToString(); //Tag alias
-                            message += tagalias + "\n";
-                            message += TagValue[tag] + "\n";
-                            messagelog += tagalias + " ";
-                            messagelog += TagValue[tag] + " ";
+                            string clientHeader = "Time" + "," + "USERID" + "," + "Phone" + "," + "message" + "," + "Status" + Environment.NewLine;
+
+                            File.WriteAllText(newFileName, clientHeader);
                         }
 
-                        
-                        for (sendmessage = 0; sendmessage < User_In_Template.Rows.Count; sendmessage++)
+                        for (int template = 0; template < Prepare_TemplateID_ForSendSMS.Rows.Count; template++)
                         {
-                            string phonenumber = User_In_Template.Rows[sendmessage].ItemArray[4].ToString();
-                            char in_msg_type = 'E';
+                            int Template_ID = Convert.ToInt32(Prepare_TemplateID_ForSendSMS.Rows[template].ItemArray[0].ToString());
+                            string TemplateDescription = Prepare_TemplateID_ForSendSMS.Rows[template].ItemArray[1].ToString();
 
-                            SMSGateway.SMS_Result response = client.sendSMS2DTAC(phonenumber, header, message, in_msg_type);
-                            response.result.ToString();
+                            LoadDataTo_User_In_TemplateTable(Template_ID);
+                            Load_TaginTemplate_To_DataTable(Template_ID);
 
-                            message = message.Remove(message.Length - 2);
-                            using (StreamWriter file2 = File.AppendText(newFileName))
+                            string[] TagTimeStamp = new string[Tag_in_TemplateTable.Rows.Count];
+                            string[] TagValue = new string[Tag_in_TemplateTable.Rows.Count];
+
+                            GET_TagValue(ref TagTimeStamp, ref TagValue);
+
+                            string header = Pub_Config.Rows[0].ItemArray[1].ToString();
+
+                            string message = TemplateDescription + "\n"; //Template Description
+                            string messagelog = TemplateDescription + " ";
+                            for (int tag = 0; tag < Tag_in_TemplateTable.Rows.Count; tag++)
                             {
-                                string clientDetails = DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "," + User_In_Template.Rows[sendmessage].ItemArray[0].ToString() + "," + phonenumber + "," + messagelog + "," + response.result.ToString() + "";
-
-                                file2.WriteLine(clientDetails);
+                                string tagalias = Tag_in_TemplateTable.Rows[tag].ItemArray[2].ToString(); //Tag alias
+                                message += tagalias + "\n";
+                                message += TagValue[tag] + "\n";
+                                messagelog += tagalias + " ";
+                                messagelog += TagValue[tag] + " ";
                             }
-                                
+
+
+                            for (sendmessage = 0; sendmessage < User_In_Template.Rows.Count; sendmessage++)
+                            {
+                                string phonenumber = User_In_Template.Rows[sendmessage].ItemArray[4].ToString();
+                                char in_msg_type = 'E';
+
+                                SMSGateway.SMS_Result response = client.sendSMS2DTAC(phonenumber, header, message, in_msg_type);
+                                response.result.ToString();
+
+                                message = message.Remove(message.Length - 2);
+                                using (StreamWriter file2 = File.AppendText(newFileName))
+                                {
+                                    string clientDetails = DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "," + User_In_Template.Rows[sendmessage].ItemArray[0].ToString() + "," + phonenumber + "," + messagelog + "," + response.result.ToString() + "";
+
+                                    file2.WriteLine(clientDetails);
+                                }
+
+                            }
+                        }
+                        Prepare_TemplateID_ForSendSMS.Clear();
+                    }
+                    catch (Exception ex)
+                    {
+                        using (StreamWriter sw = File.AppendText(path + "\\" + NowDate + ".txt"))
+                        {
+                            sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
+                            sw.WriteLine(ex);
+
                         }
                     }
-                    Prepare_TemplateID_ForSendSMS.Clear();
+
                 }
-                catch (Exception ex)
-                {
-                    
-                }
-                
             }
+            catch(Exception ex)
+            {
+                using (StreamWriter sw = File.AppendText(path + "\\" + NowDate + ".txt"))
+                {
+                    sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
+                    sw.WriteLine(ex);
+
+                }
+            }
+            
             
         }
 

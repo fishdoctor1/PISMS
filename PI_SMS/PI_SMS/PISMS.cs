@@ -32,6 +32,7 @@ namespace PI_SMS
         AssignEventToTemplate myFormAssignEventToTemplate;
         TagCurrentValue myFormTagInformation;
         SendSMS myFormSendSMS1;
+        SendTemplate myFormSendTemplate;
 
         bool templatestart = false;
         bool eventstart = false;
@@ -47,6 +48,7 @@ namespace PI_SMS
         bool myFormDailySMSFormstart = false;
         bool myFormSystemConfigstart = false;
         bool myFormSendSMS1start = false;
+        bool myFormSendTemplatestart = false;
 
         public PISMS()
         {
@@ -372,6 +374,23 @@ namespace PI_SMS
                     lv2BottomRightPanel.Controls.Add(myFormSendSMS1);
                     myFormSendSMS1.Show();
                     myFormSendSMS1start = true;
+                }
+                else if (selectedNodeText == "SendTemplate")
+                {
+                    if (myFormSendTemplatestart)
+                    {
+                        myFormSendTemplate.Dispose();
+                    }
+                    label2.Text = "SendTemplate";
+                    myFormSendTemplate = new SendTemplate(this);
+                    myFormSendTemplate.Dock = DockStyle.Fill;
+                    myFormSendTemplate.TopLevel = false;
+                    myFormSendTemplate.AutoScroll = true;
+                    myFormSendTemplate.FormBorderStyle = FormBorderStyle.None;
+                    lv2BottomRightPanel.Controls.Clear();
+                    lv2BottomRightPanel.Controls.Add(myFormSendTemplate);
+                    myFormSendTemplate.Show();
+                    myFormSendTemplatestart = true;
                 }
             }
             catch (Exception ex)

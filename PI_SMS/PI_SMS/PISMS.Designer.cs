@@ -38,7 +38,8 @@ namespace PI_SMS
             System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("DailySMSForm");
             System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("DailySMSLog");
             System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("TagCurrentValue");
-            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("SMSReport", new System.Windows.Forms.TreeNode[] {
+            System.Windows.Forms.TreeNode treeNode9 = new System.Windows.Forms.TreeNode("SendTemplate");
+            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("SMSReport", new System.Windows.Forms.TreeNode[] {
             treeNode1,
             treeNode2,
             treeNode3,
@@ -46,19 +47,20 @@ namespace PI_SMS
             treeNode5,
             treeNode6,
             treeNode7,
-            treeNode8});
-            System.Windows.Forms.TreeNode treeNode10 = new System.Windows.Forms.TreeNode("GroupPIAlarm");
-            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("RealTimeGroup");
-            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("AssignUserToRealTimeGroup");
-            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("AlarmManagement", new System.Windows.Forms.TreeNode[] {
-            treeNode10,
+            treeNode8,
+            treeNode9});
+            System.Windows.Forms.TreeNode treeNode11 = new System.Windows.Forms.TreeNode("GroupPIAlarm");
+            System.Windows.Forms.TreeNode treeNode12 = new System.Windows.Forms.TreeNode("RealTimeGroup");
+            System.Windows.Forms.TreeNode treeNode13 = new System.Windows.Forms.TreeNode("AssignUserToRealTimeGroup");
+            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("AlarmManagement", new System.Windows.Forms.TreeNode[] {
             treeNode11,
-            treeNode12});
-            System.Windows.Forms.TreeNode treeNode14 = new System.Windows.Forms.TreeNode("User");
-            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("UserConfiguration", new System.Windows.Forms.TreeNode[] {
-            treeNode14});
-            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("SystemConfig");
-            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("SendSMS");
+            treeNode12,
+            treeNode13});
+            System.Windows.Forms.TreeNode treeNode15 = new System.Windows.Forms.TreeNode("User");
+            System.Windows.Forms.TreeNode treeNode16 = new System.Windows.Forms.TreeNode("UserConfiguration", new System.Windows.Forms.TreeNode[] {
+            treeNode15});
+            System.Windows.Forms.TreeNode treeNode17 = new System.Windows.Forms.TreeNode("SystemConfig");
+            System.Windows.Forms.TreeNode treeNode18 = new System.Windows.Forms.TreeNode("SendSMS");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PISMS));
             this.LV1LEFTpanel = new System.Windows.Forms.Panel();
             this.TreeMenu = new System.Windows.Forms.TreeView();
@@ -109,30 +111,32 @@ namespace PI_SMS
             treeNode7.Text = "DailySMSLog";
             treeNode8.Name = "TagCurrentValue";
             treeNode8.Text = "TagCurrentValue";
-            treeNode9.Name = "node0";
-            treeNode9.Text = "SMSReport";
-            treeNode10.Name = "GroupPIAlarm";
-            treeNode10.Text = "GroupPIAlarm";
-            treeNode11.Name = "RealTimeGroup";
-            treeNode11.Text = "RealTimeGroup";
-            treeNode12.Name = "AssignUserToRealTimeGroup";
-            treeNode12.Text = "AssignUserToRealTimeGroup";
-            treeNode13.Name = "AlarmManagement";
-            treeNode13.Text = "AlarmManagement";
-            treeNode14.Name = "User";
-            treeNode14.Text = "User";
-            treeNode15.Name = "Root2";
-            treeNode15.Text = "UserConfiguration";
-            treeNode16.Name = "SystemConfig";
-            treeNode16.Text = "SystemConfig";
-            treeNode17.Name = "SendSMS";
-            treeNode17.Text = "SendSMS";
+            treeNode9.Name = "SendTemplate";
+            treeNode9.Text = "SendTemplate";
+            treeNode10.Name = "node0";
+            treeNode10.Text = "SMSReport";
+            treeNode11.Name = "GroupPIAlarm";
+            treeNode11.Text = "GroupPIAlarm";
+            treeNode12.Name = "RealTimeGroup";
+            treeNode12.Text = "RealTimeGroup";
+            treeNode13.Name = "AssignUserToRealTimeGroup";
+            treeNode13.Text = "AssignUserToRealTimeGroup";
+            treeNode14.Name = "AlarmManagement";
+            treeNode14.Text = "AlarmManagement";
+            treeNode15.Name = "User";
+            treeNode15.Text = "User";
+            treeNode16.Name = "Root2";
+            treeNode16.Text = "UserConfiguration";
+            treeNode17.Name = "SystemConfig";
+            treeNode17.Text = "SystemConfig";
+            treeNode18.Name = "SendSMS";
+            treeNode18.Text = "SendSMS";
             this.TreeMenu.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode9,
-            treeNode13,
-            treeNode15,
+            treeNode10,
+            treeNode14,
             treeNode16,
-            treeNode17});
+            treeNode17,
+            treeNode18});
             this.TreeMenu.Size = new System.Drawing.Size(232, 569);
             this.TreeMenu.TabIndex = 0;
             this.TreeMenu.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TreeMenu_AfterSelect);

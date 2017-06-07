@@ -352,7 +352,7 @@ namespace PI_SMS
                         using (SqlConnection connection = new SqlConnection(
                        connectionString))
                         {
-                            string queryString3 = "DELETE FROM ["+DataBaseName+"].[dbo].[Template_Event_RelationTable] WHERE EventID ='" + EventSelected + "'";
+                            string queryString3 = "DELETE FROM ["+DataBaseName+"].[dbo].[Template_Event_RelationTable] WHERE EventID ='" + EventSelected + "' AND TemplateIDAuToInc='"+comboBoxTemplate.SelectedValue.ToString()+"'";
                             SqlCommand command3 = new SqlCommand(queryString3, connection);
                             command3.Connection.Open();
                             command3.ExecuteNonQuery();

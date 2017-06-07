@@ -19,7 +19,6 @@ C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\bin\Relea
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Release\PI_SMS.ADDRealTimeTag.resources
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Release\PI_SMS.AddTrigger.resources
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Release\PI_SMS.AssignEventToTemplate.resources
-C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Release\PI_SMS.AssignRealTimeGroupToUser.resources
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Release\PI_SMS.AssignTagToTemplate.resources
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Release\PI_SMS.DailySMSForm.resources
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Release\PI_SMS.DailySMSLog.resources
@@ -39,3 +38,5 @@ C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Relea
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Release\PI_SMS.csproj.GenerateResource.Cache
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Release\PI_SMS.exe
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Release\PI_SMS.pdb
+C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Release\PI_SMS.csprojResolveAssemblyReference.cache
+C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Release\PI_SMS.AssignUserToRealTimeGroup.resources

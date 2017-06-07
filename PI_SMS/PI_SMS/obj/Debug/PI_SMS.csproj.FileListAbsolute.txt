@@ -74,3 +74,4 @@ C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.pdb
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.csprojResolveAssemblyReference.cache
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.AssignUserToRealTimeGroup.resources
+C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.SendTemplate.resources

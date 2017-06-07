@@ -1,0 +1,1 @@
+sc create PI_OPC2Modbus binpath= "C:\Users\PorNB\Documents\Visual Studio 2015\Projects1\PI_OPC2Modbus\PI_OPC2Modbus\bin\Release\PI_OPC2Modbus.exe" start= auto displayname= "OPC 2 Modbus"
