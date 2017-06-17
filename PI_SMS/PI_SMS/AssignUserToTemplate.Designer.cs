@@ -33,6 +33,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.panel1 = new System.Windows.Forms.Panel();
             this.buttonSearch = new System.Windows.Forms.Button();
             this.checkBoxLastName = new System.Windows.Forms.CheckBox();
@@ -49,7 +50,7 @@
             this.buttonAddSelected = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.dataGridViewAdd = new System.Windows.Forms.DataGridView();
+            this.dataGridViewAvilableUser = new System.Windows.Forms.DataGridView();
             this.CheckBoxADD = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.UserIDAdd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FirstNameAdd = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -68,7 +69,7 @@
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAdd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAvilableUser)).BeginInit();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUserInTemplate)).BeginInit();
             this.panel4.SuspendLayout();
@@ -254,11 +255,12 @@
             // 
             // tableLayoutPanel1
             // 
+            this.tableLayoutPanel1.AutoScroll = true;
             this.tableLayoutPanel1.BackColor = System.Drawing.Color.Thistle;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.dataGridViewAdd, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.dataGridViewAvilableUser, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.panel3, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.dataGridViewUserInTemplate, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.panel4, 1, 0);
@@ -271,31 +273,39 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(945, 311);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
-            // dataGridViewAdd
+            // dataGridViewAvilableUser
             // 
-            this.dataGridViewAdd.AllowUserToAddRows = false;
-            this.dataGridViewAdd.AllowUserToDeleteRows = false;
-            this.dataGridViewAdd.BackgroundColor = System.Drawing.Color.LightGreen;
-            this.dataGridViewAdd.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewAdd.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewAvilableUser.AllowUserToAddRows = false;
+            this.dataGridViewAvilableUser.AllowUserToDeleteRows = false;
+            this.dataGridViewAvilableUser.BackgroundColor = System.Drawing.Color.LightGreen;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewAvilableUser.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dataGridViewAvilableUser.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewAvilableUser.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.CheckBoxADD,
             this.UserIDAdd,
             this.FirstNameAdd,
             this.LastNameAdd,
             this.UserIDAuToIncAllUser});
-            this.dataGridViewAdd.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewAdd.EnableHeadersVisualStyles = false;
-            this.dataGridViewAdd.Location = new System.Drawing.Point(3, 88);
-            this.dataGridViewAdd.MultiSelect = false;
-            this.dataGridViewAdd.Name = "dataGridViewAdd";
-            this.dataGridViewAdd.RowHeadersVisible = false;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.dataGridViewAdd.RowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridViewAdd.RowTemplate.Height = 26;
-            this.dataGridViewAdd.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridViewAdd.Size = new System.Drawing.Size(466, 220);
-            this.dataGridViewAdd.TabIndex = 1;
-            this.dataGridViewAdd.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dataGridViewAdd_MouseClick);
+            this.dataGridViewAvilableUser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewAvilableUser.EnableHeadersVisualStyles = false;
+            this.dataGridViewAvilableUser.Location = new System.Drawing.Point(3, 88);
+            this.dataGridViewAvilableUser.MultiSelect = false;
+            this.dataGridViewAvilableUser.Name = "dataGridViewAvilableUser";
+            this.dataGridViewAvilableUser.RowHeadersVisible = false;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.dataGridViewAvilableUser.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            this.dataGridViewAvilableUser.RowTemplate.Height = 26;
+            this.dataGridViewAvilableUser.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewAvilableUser.Size = new System.Drawing.Size(466, 220);
+            this.dataGridViewAvilableUser.TabIndex = 1;
+            this.dataGridViewAvilableUser.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dataGridViewAvilableUser_MouseClick);
             // 
             // CheckBoxADD
             // 
@@ -366,14 +376,14 @@
             this.dataGridViewUserInTemplate.AllowUserToAddRows = false;
             this.dataGridViewUserInTemplate.AllowUserToDeleteRows = false;
             this.dataGridViewUserInTemplate.BackgroundColor = System.Drawing.Color.Tan;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridViewUserInTemplate.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridViewUserInTemplate.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridViewUserInTemplate.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewUserInTemplate.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Delete,
@@ -389,13 +399,13 @@
             this.dataGridViewUserInTemplate.MultiSelect = false;
             this.dataGridViewUserInTemplate.Name = "dataGridViewUserInTemplate";
             this.dataGridViewUserInTemplate.RowHeadersVisible = false;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
-            this.dataGridViewUserInTemplate.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
+            this.dataGridViewUserInTemplate.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridViewUserInTemplate.RowTemplate.Height = 26;
             this.dataGridViewUserInTemplate.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewUserInTemplate.Size = new System.Drawing.Size(467, 220);
             this.dataGridViewUserInTemplate.TabIndex = 0;
-            this.dataGridViewUserInTemplate.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseClick);
+            this.dataGridViewUserInTemplate.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dataGridViewUserInTemplate_MouseClick);
             // 
             // Delete
             // 
@@ -468,7 +478,7 @@
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAdd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAvilableUser)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUserInTemplate)).EndInit();
@@ -487,7 +497,7 @@
         private System.Windows.Forms.ComboBox comboBoxTemplate;
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Button buttonAddSelected;
-        public System.Windows.Forms.DataGridView dataGridViewAdd;
+        public System.Windows.Forms.DataGridView dataGridViewAvilableUser;
         private System.Windows.Forms.Button buttonselect;
         private System.Windows.Forms.Button buttonSearch;
         private System.Windows.Forms.CheckBox checkBoxLastName;

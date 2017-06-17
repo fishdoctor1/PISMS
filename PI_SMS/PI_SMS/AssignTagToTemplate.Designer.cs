@@ -62,7 +62,7 @@
             // panel1
             // 
             this.panel1.AutoScroll = true;
-            this.panel1.BackColor = System.Drawing.Color.MediumSpringGreen;
+            this.panel1.BackColor = System.Drawing.Color.SkyBlue;
             this.panel1.Controls.Add(this.checkBoxSelectAll);
             this.panel1.Controls.Add(this.buttonGetValue);
             this.panel1.Controls.Add(this.buttonBack);

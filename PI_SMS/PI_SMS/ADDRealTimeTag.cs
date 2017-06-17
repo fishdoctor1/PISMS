@@ -116,10 +116,7 @@ namespace PI_SMS
                     textBoxTagname.Text = PtList[1].Name.ToString();
                     textBoxserver.Text = PtList.get_Item(ref valInx).Parent.Name;
 
-                    comboBoxoperator.Enabled = true;
-                    textBoxtime.Enabled = true;
-                    comboBoxunittime.Enabled = true;
-                    textBoxvalue.Enabled = true;
+                    
 
                     for (int tag_in_database = 0; tag_in_database < ALLRealTimeTag.Rows.Count; tag_in_database++)
                     {
@@ -127,13 +124,12 @@ namespace PI_SMS
                         if (textBoxTagname.Text.ToString() == ALLRealTimeTag.Rows[tag_in_database].ItemArray[0].ToString())
                         {
                             checkDuplicateTaginDatabase = 1;
-                            comboBoxoperator.Enabled = false;
-                            textBoxtime.Enabled = false;
-                            comboBoxunittime.Enabled = false;
-                            textBoxvalue.Enabled = false;
                             checkBoxEnabled.Enabled = false;
                             checkBoxMail.Enabled = false;
                             checkBoxPhone.Enabled = false;
+                            textBoxhigh.Enabled = false;
+                            textBoxhihi.Enabled = false;
+                            textBoxlow.Enabled = false;
                             break;
                         }
 
@@ -156,7 +152,7 @@ namespace PI_SMS
         {               
                 //
 
-                // (0) While don't have TagName in TagDataBase Then Add
+                // (0) When don't have TagName in TagDataBase Then Add
 
                 //
                 if (checkDuplicateTaginDatabase == 0)
@@ -167,7 +163,8 @@ namespace PI_SMS
                         using (SqlConnection connection = new SqlConnection(connectionString))
                         {
                         string message = "[vtagname] Value = [vtagname]";
-                            string queryString = "INSERT INTO ["+DataBaseName+"].[dbo].[RealTimeTag] ([PIServer],[TagName],[Mail],[Phone],[Enabled],[MessageForm]) VALUES('" + textBoxserver.Text.ToString() + "','" + textBoxTagname.Text.ToString() + "','" + checkBoxMail.Checked.ToString() + "','" + checkBoxPhone.Checked.ToString() + "','" + checkBoxEnabled.Checked.ToString() + "','"+ message + "')";
+                            string queryString = "INSERT INTO ["+DataBaseName+"].[dbo].[RealTimeTag] ([PIServer],[TagName],[Mail],[Phone],[Enabled],[MessageForm],[High],[Low],[Danger]) VALUES('" + textBoxserver.Text.ToString() + "','" + textBoxTagname.Text.ToString() + "','" + checkBoxMail.Checked.ToString() + "','" + checkBoxPhone.Checked.ToString() + "','" + checkBoxEnabled.Checked.ToString() + "','"+ message + "',"+
+                            "'"+ textBoxhigh.Text.ToString() + "','"+ textBoxlow.Text.ToString() + "','"+ textBoxhihi.Text.ToString() + "')"; 
                             SqlCommand command = new SqlCommand(queryString, connection);
                             SqlDataAdapter data = new SqlDataAdapter(command);
                             command.Connection.Open();
@@ -175,14 +172,15 @@ namespace PI_SMS
 
                             Load_ALLTag();
                             string queryString2 = "";
-                            string queryString3 = "";
+                            //string queryString3 = "";
 
                             for (int i = 0; i < ALLRealTimeTag.Rows.Count; i++)
                             {
                                 if (ALLRealTimeTag.Rows[i].ItemArray[0].ToString() == textBoxTagname.Text.ToString())
                                 {
-                                    queryString2 = "INSERT INTO ["+DataBaseName+"].[dbo].[RealTimeTag_RealTimeGroup_Relation] ([RealTimeGroupID],[RealTimeTagID]) VALUES('" + groupid + "','" + ALLRealTimeTag.Rows[i].ItemArray[1].ToString() + "')";
-                                    queryString3 = "INSERT INTO ["+DataBaseName+"].[dbo].[RealTimeTagCondition] ([operator],[value],[TimeTrue],[TimeUnit],[RealTimeTagID]) VALUES('" + comboBoxoperator.SelectedItem.ToString() + "','" + textBoxvalue.Text.ToString() + "','" + textBoxtime.Text.ToString() + "','" + comboBoxunittime.SelectedItem.ToString() + "','" + ALLRealTimeTag.Rows[i].ItemArray[1].ToString() + "')";
+                                    queryString2 = "INSERT INTO ["+DataBaseName+"].[dbo].[RealTimeTag_RealTimeGroup_Relation] ([RealTimeGroupID],[RealTimeTagID]) VALUES('" + groupid + "','" + ALLRealTimeTag.Rows[i].ItemArray[1].ToString() + "') " +
+                                    " INSERT INTO [" + DataBaseName + "].[dbo].[AlertInformation] ([OnAlert],[Acknowledge],[RealTimeGroupID],[RealTimeTagID]) VALUES('false','false','"+groupid+"','"+ALLRealTimeTag.Rows[i].ItemArray[1].ToString()+"')";
+                                    //queryString3 = "INSERT INTO ["+DataBaseName+"].[dbo].[RealTimeTagCondition] ([CompareTo],[operator],[value],[TimeTrue],[TimeUnit],[RealTimeTagID]) VALUES('"+comboBoxCompareTo.SelectedItem.ToString()+"','" + comboBoxoperator.SelectedItem.ToString() + "','" + textBoxvalue.Text.ToString() + "','" + textBoxtime.Text.ToString() + "','" + comboBoxunittime.SelectedItem.ToString() + "','" + ALLRealTimeTag.Rows[i].ItemArray[1].ToString() + "')";
                                     break;
                                 }
                             }
@@ -190,8 +188,8 @@ namespace PI_SMS
                             SqlCommand command2 = new SqlCommand(queryString2, connection);
                             command2.ExecuteNonQuery();
 
-                            SqlCommand command3 = new SqlCommand(queryString3, connection);
-                            command3.ExecuteNonQuery();
+                            //SqlCommand command3 = new SqlCommand(queryString3, connection);
+                            //command3.ExecuteNonQuery();
 
                         grouppi.LoadData_RealTimeTag_in_RealTimeGroup();
                         grouppi.Fill_datagridview_Tag_in_RealTimeGroup();
@@ -274,30 +272,7 @@ namespace PI_SMS
                 }
 
         }
-
-        private void comboBoxCompareTo_SelectedIndexChanged(object sender, EventArgs e)
-        {            
-            textBoxvalue.Enabled = true;
-            if(comboBoxCompareTo.SelectedItem.ToString() == "Danger")
-            {
-                textBoxvalue.Enabled = false;
-                textBoxvalue.Text = grouppi.dataGridViewTaginRealTimeGroup.Rows[rowindexTaginREalTime].Cells["Danger"].Value.ToString();
-            }
-            else if (comboBoxCompareTo.SelectedItem.ToString() == "High")
-            {
-                textBoxvalue.Enabled = false;
-                textBoxvalue.Text = grouppi.dataGridViewTaginRealTimeGroup.Rows[rowindexTaginREalTime].Cells["High"].Value.ToString();
-            }
-            else if (comboBoxCompareTo.SelectedItem.ToString() == "Low")
-            {
-                textBoxvalue.Enabled = false;
-                textBoxvalue.Text = grouppi.dataGridViewTaginRealTimeGroup.Rows[rowindexTaginREalTime].Cells["Low"].Value.ToString();
-            }
-            else
-            {
-                textBoxvalue.Enabled = true ;
-            }
-        }
+        
     }
 }
 

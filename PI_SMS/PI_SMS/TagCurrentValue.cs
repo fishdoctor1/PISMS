@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using PISDKDlg;
 using System.Data.SqlClient;
+using System.Threading;
 
 namespace PI_SMS
 {
@@ -92,6 +93,11 @@ namespace PI_SMS
         {
             try
             {
+                progressBar1.Visible = true;
+                progressBar1.Minimum = 0;
+                progressBar1.Maximum = 110;
+                progressBar1.Value = 0;
+                progressBar1.Update();
                 PISDK.Server myServer; // server object from the name in textBox1 
 
                 PISDK.PIPoints myPoints; // PIPoints collection of server 
@@ -99,9 +105,12 @@ namespace PI_SMS
                 PISDK.PIPoint snapPoint; // point from the name in textBox2 
 
                 PISDK.PIValue myValue; // snapshot value 
-
+                
                 for(int row = 0; row < dataGridView1.Rows.Count; row++)
                 {
+                    progressBar1.Value = 10+((row*100) / dataGridView1.Rows.Count);
+                    progressBar1.Update();
+                    Thread.Sleep(100);
                     string server = dataGridView1.Rows[row].Cells["Server"].Value.ToString();
                     myServer = g_SDK.Servers[server];
 
@@ -135,7 +144,11 @@ namespace PI_SMS
                         dataGridView1.Rows[row].Cells["Value"].Value = myValue.Value.ToString();
 
                     }
-                }               
+                    
+                    
+                    
+                }
+                progressBar1.Visible = false;
 
             }
             catch (System.Runtime.InteropServices.COMException comExc)
@@ -144,28 +157,6 @@ namespace PI_SMS
                 MessageBox.Show(comExc.Message, comExc.ErrorCode + " Error",
 
                 MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-
-            }
-        }
-
-        private void SendSMS_Load(object sender, EventArgs e)
-        {
-            try
-            {
-
-                g_SDK = new PISDK.PISDKClass();
-
-                g_SDKDlgAppObject = new PISDKDlg.ApplicationObjectClass();
-
-            }
-            catch (System.Runtime.InteropServices.COMException comExc)
-            {
-
-                MessageBox.Show(comExc.Message, comExc.ErrorCode + " Error",
-
-                MessageBoxButtons.OK,
-
-                MessageBoxIcon.Exclamation);
 
             }
         }
@@ -193,11 +184,6 @@ namespace PI_SMS
         }
 
         #endregion
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            
-        }
 
         private void buttonSearch_Click(object sender, EventArgs e)
         {
@@ -233,14 +219,36 @@ namespace PI_SMS
                 for (int row = 0; row < TagMatchSearch.Rows.Count; row++)
                 {
                     dataGridView1.Rows.Add();
-                    
+
                     dataGridView1.Rows[row].Cells["Server"].Value = TagMatchSearch.Rows[row].ItemArray[0];
-                    dataGridView1.Rows[row].Cells["TagName"].Value = TagMatchSearch.Rows[row].ItemArray[1];                   
+                    dataGridView1.Rows[row].Cells["TagName"].Value = TagMatchSearch.Rows[row].ItemArray[1];
                 }//end forloop add Match Search
             }
             catch (Exception exc)
             {
                 MessageBox.Show(exc.Message);
+            }
+        }
+
+        private void TagCurrentValue_Load(object sender, EventArgs e)
+        {
+            try
+            {
+
+                g_SDK = new PISDK.PISDKClass();
+
+                g_SDKDlgAppObject = new PISDKDlg.ApplicationObjectClass();
+
+            }
+            catch (System.Runtime.InteropServices.COMException comExc)
+            {
+
+                MessageBox.Show(comExc.Message, comExc.ErrorCode + " Error",
+
+                MessageBoxButtons.OK,
+
+                MessageBoxIcon.Exclamation);
+
             }
         }
     }

@@ -12,10 +12,10 @@ namespace PI_SMS
 {
     public partial class DailySMSLog : Form
     {
-        DataTable UserMatchSearch = new DataTable();
+        DataTable RowMatchSearch = new DataTable();
         DataTable importdatatableReadonly = new DataTable();
         bool startprogram = true;
-        string path = AppDomain.CurrentDomain.BaseDirectory + "\\Log\\"+ DateTime.Now.ToString("yyyy-MM-dd") + ".csv";
+        string path = AppDomain.CurrentDomain.BaseDirectory + "\\SendLog\\"+ DateTime.Now.ToString("yyyy-MM-dd") + ".csv";
 
         private readonly PISMS pisms;
         public DailySMSLog(PISMS frompisms)
@@ -31,13 +31,20 @@ namespace PI_SMS
             try
             {
                 //string filenameWithoutExtension = Path.GetFileNameWithoutExtension(path);//get filenameWithout type
-                string dateselect = monthCalendar1.SelectionEnd.ToString("yyyy-MM-dd") + ".csv";
-                string pathsearch = AppDomain.CurrentDomain.BaseDirectory + "Log\\";
-                string[] dirs = Directory.GetFiles(pathsearch, dateselect);
 
+                string dateselect = monthCalendar1.SelectionEnd.ToString("yyyy-MM-dd") + ".csv";
+                string pathsearch = AppDomain.CurrentDomain.BaseDirectory + "SendLog\\";
+                
+                //Console.WriteLine("The number of files starting with c is {0}.", dirs.Length);
+                if (!Directory.Exists(pathsearch))
+                {
+                    Directory.CreateDirectory(pathsearch);
+                }
+
+                string[] dirs = Directory.GetFiles(pathsearch, dateselect);
                 importdatatableReadonly.Clear();
                 dataGridView1.Rows.Clear();
-                //Console.WriteLine("The number of files starting with c is {0}.", dirs.Length);
+
                 if (dirs.Length == 0)
                 {
                     dataGridView1.Rows.Clear();
@@ -97,7 +104,7 @@ namespace PI_SMS
             string searchValue = textBox1.Text;
             int strIndex = 0;
             DataRow rowTableSearch;
-            UserMatchSearch.Clear();
+            RowMatchSearch.Clear();
 
             try
             {
@@ -120,27 +127,28 @@ namespace PI_SMS
                     if (strIndex >= 0)
                     {
 
-                        rowTableSearch = UserMatchSearch.NewRow();
+                        rowTableSearch = RowMatchSearch.NewRow();
                         rowTableSearch["UserID"] = importdatatableReadonly.Rows[rowIndex].ItemArray[1].ToString();
                         rowTableSearch["Time"] = importdatatableReadonly.Rows[rowIndex].ItemArray[0].ToString();
                         rowTableSearch["CellPhone"] = importdatatableReadonly.Rows[rowIndex].ItemArray[2].ToString();
                         rowTableSearch["Message"] = importdatatableReadonly.Rows[rowIndex].ItemArray[3].ToString();
                         rowTableSearch["Status"] = importdatatableReadonly.Rows[rowIndex].ItemArray[4].ToString();                   
-                        UserMatchSearch.Rows.Add(rowTableSearch);
+                        RowMatchSearch.Rows.Add(rowTableSearch);
                     }
                     rowIndex++;
 
                 }
                 dataGridView1.Rows.Clear();
                 // Set a DataGrid control's DataSource to the DataView.
-                for (int row = 0; row < UserMatchSearch.Rows.Count; row++)
+                for (int row = 0; row < RowMatchSearch.Rows.Count; row++)
                 {
                     dataGridView1.Rows.Add();
-                    dataGridView1.Rows[row].Cells["UserID"].Value = UserMatchSearch.Rows[row].ItemArray[1];
-                    dataGridView1.Rows[row].Cells["Time"].Value = UserMatchSearch.Rows[row].ItemArray[0];
-                    dataGridView1.Rows[row].Cells["CellPhone"].Value = UserMatchSearch.Rows[row].ItemArray[2];
-                    dataGridView1.Rows[row].Cells["Message"].Value = UserMatchSearch.Rows[row].ItemArray[3];
-                    dataGridView1.Rows[row].Cells["Status"].Value = UserMatchSearch.Rows[row].ItemArray[4];
+                    dataGridView1.Rows[row].Cells["No"].Value = row + 1;
+                    dataGridView1.Rows[row].Cells["UserID"].Value = RowMatchSearch.Rows[row].ItemArray[1];
+                    dataGridView1.Rows[row].Cells["Time"].Value = RowMatchSearch.Rows[row].ItemArray[0];
+                    dataGridView1.Rows[row].Cells["CellPhone"].Value = RowMatchSearch.Rows[row].ItemArray[2];
+                    dataGridView1.Rows[row].Cells["Message"].Value = RowMatchSearch.Rows[row].ItemArray[3];
+                    dataGridView1.Rows[row].Cells["Status"].Value = RowMatchSearch.Rows[row].ItemArray[4];
                     
                 }//end forloop add Match Search
             }
@@ -162,31 +170,31 @@ namespace PI_SMS
             column = new DataColumn();
             column.DataType = System.Type.GetType("System.String");
             column.ColumnName = "Time";
-            UserMatchSearch.Columns.Add(column);
+            RowMatchSearch.Columns.Add(column);
 
             // Create second column.
             column = new DataColumn();
             column.DataType = Type.GetType("System.String");
             column.ColumnName = "UserID";
-            UserMatchSearch.Columns.Add(column);
+            RowMatchSearch.Columns.Add(column);
 
             // Create new DataColumn, set DataType, ColumnName and add to DataTable.    
             column = new DataColumn();
             column.DataType = System.Type.GetType("System.String");
             column.ColumnName = "CellPhone";
-            UserMatchSearch.Columns.Add(column);
+            RowMatchSearch.Columns.Add(column);
 
             // Create second column.
             column = new DataColumn();
             column.DataType = Type.GetType("System.String");
             column.ColumnName = "Message";
-            UserMatchSearch.Columns.Add(column);
+            RowMatchSearch.Columns.Add(column);
 
             // Create new DataColumn, set DataType, ColumnName and add to DataTable.    
             column = new DataColumn();
             column.DataType = System.Type.GetType("System.String");
             column.ColumnName = "Status";
-            UserMatchSearch.Columns.Add(column);
+            RowMatchSearch.Columns.Add(column);
 
             column.Dispose();
         }
@@ -199,26 +207,17 @@ namespace PI_SMS
         {
             if (checkBoxUserID.Checked)
             {
-                buttonsearch.Enabled = true;
-                //checkBoxDAY.Enabled = false;
-                checkBoxPhone.Enabled = false;
-                checkBoxStatusFalse.Enabled = false;
-                checkBoxStatusSuccess.Enabled = false;
+                buttonsearch.Enabled = true;                
+                checkBoxPhone.Checked = false;
+                checkBoxStatusFalse.Checked = false;
+                checkBoxStatusSuccess.Checked = false;
             }
             else
             {
-                buttonsearch.Enabled = false;
-                //checkBoxDAY.Enabled = true;
-                checkBoxPhone.Enabled = true;
-                checkBoxStatusFalse.Enabled = true;
-                checkBoxStatusSuccess.Enabled = true;
+                //buttonsearch.Enabled = false;
             }
         }
 
-        private void checkBoxDAY_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void checkBoxPhone_CheckedChanged(object sender, EventArgs e)
         {
@@ -226,18 +225,13 @@ namespace PI_SMS
             {
                 buttonsearch.Enabled = true;
                 checkBoxUserID.Checked = false;
-                checkBoxUserID.Enabled = false;
                 //checkBoxDAY.Enabled = false;
-                checkBoxStatusFalse.Enabled = false;
-                checkBoxStatusSuccess.Enabled = false;
+                checkBoxStatusFalse.Checked = false;
+                checkBoxStatusSuccess.Checked = false;
             }
             else
             {
-                buttonsearch.Enabled = false;
-                checkBoxUserID.Enabled = true;
-                //checkBoxDAY.Enabled = true;
-                checkBoxStatusFalse.Enabled = true;
-                checkBoxStatusSuccess.Enabled = true;
+                //buttonsearch.Enabled = false;
             }
         }
 
@@ -248,19 +242,15 @@ namespace PI_SMS
                 textBox1.Text = "False";
                 buttonsearch.Enabled = true;
                 checkBoxUserID.Checked = false;
-                checkBoxUserID.Enabled = false;
-                //checkBoxDAY.Enabled = false;
-                checkBoxPhone.Enabled = false;
-                checkBoxStatusSuccess.Enabled = false;
+
+                checkBoxPhone.Checked = false;
+                checkBoxStatusSuccess.Checked = false;
             }
             else
             {
                 textBox1.Clear();
-                buttonsearch.Enabled = false;
-                checkBoxUserID.Enabled = true;
-                //checkBoxDAY.Enabled = true;
-                checkBoxPhone.Enabled = true;
-                checkBoxStatusSuccess.Enabled = true;
+                //buttonsearch.Enabled = false;
+
             }
         }
 
@@ -271,19 +261,15 @@ namespace PI_SMS
                 textBox1.Text = "True";
                 buttonsearch.Enabled = true;
                 checkBoxUserID.Checked = false;
-                checkBoxUserID.Enabled = false;
-                //checkBoxDAY.Enabled = false;
-                checkBoxPhone.Enabled = false;
-                checkBoxStatusFalse.Enabled = false;
+
+                checkBoxPhone.Checked = false;
+                checkBoxStatusFalse.Checked = false;
             }
             else
             {
                 textBox1.Clear();
-                buttonsearch.Enabled = false;
-                checkBoxUserID.Enabled = true;
-                //checkBoxDAY.Enabled = true;
-                checkBoxPhone.Enabled = true;
-                checkBoxStatusFalse.Enabled = true;
+                //buttonsearch.Enabled = false;
+
             }
             
 
@@ -294,7 +280,7 @@ namespace PI_SMS
         private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
         {
             string dateselect = monthCalendar1.SelectionEnd.ToString("yyyy-MM-dd")+".csv";
-            string pathsearch = AppDomain.CurrentDomain.BaseDirectory + "Log\\";
+            string pathsearch = AppDomain.CurrentDomain.BaseDirectory + "SendLog\\";
             try
             {
                 if (radioButtonPeriod.Checked)
@@ -347,6 +333,7 @@ namespace PI_SMS
                         for (int row = 0; row < importdatatableReadonly.Rows.Count; row++)
                         {
                             dataGridView1.Rows.Add();
+                            dataGridView1.Rows[row].Cells["No"].Value = row + 1;
                             dataGridView1.Rows[row].Cells["Time"].Value = importdatatableReadonly.Rows[row].ItemArray[0].ToString();
                             dataGridView1.Rows[row].Cells["UserID"].Value = importdatatableReadonly.Rows[row].ItemArray[1].ToString();
                             dataGridView1.Rows[row].Cells["CellPhone"].Value = importdatatableReadonly.Rows[row].ItemArray[2].ToString();
@@ -386,7 +373,7 @@ namespace PI_SMS
             DateTime dt1 = DateTime.Parse(dateselect);
             DateTime dt2 = DateTime.Parse(dateselect2);
             int result = DateTime.Compare(dt1, dt2);
-            string pathsearch = AppDomain.CurrentDomain.BaseDirectory + "Log\\";
+            string pathsearch = AppDomain.CurrentDomain.BaseDirectory + "SendLog\\";
 
             dataGridView1.Rows.Clear();
             importdatatableReadonly.Clear();
@@ -432,6 +419,7 @@ namespace PI_SMS
                 for (int row = 0; row < importdatatableReadonly.Rows.Count; row++)
                 {
                     dataGridView1.Rows.Add();
+                    dataGridView1.Rows[row].Cells["No"].Value = row+1;
                     dataGridView1.Rows[row].Cells["Time"].Value = importdatatableReadonly.Rows[row].ItemArray[0].ToString();
                     dataGridView1.Rows[row].Cells["UserID"].Value = importdatatableReadonly.Rows[row].ItemArray[1].ToString();
                     dataGridView1.Rows[row].Cells["CellPhone"].Value = importdatatableReadonly.Rows[row].ItemArray[2].ToString();
@@ -470,7 +458,7 @@ namespace PI_SMS
         public void mydispose()
         {
             tableLayoutPanel1.Dispose();
-            UserMatchSearch.Dispose();
+            RowMatchSearch.Dispose();
             importdatatableReadonly.Dispose();
             dataGridView1.Dispose();
         }

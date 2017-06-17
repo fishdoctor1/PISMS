@@ -28,7 +28,8 @@ namespace PI_SMS_Service
         OleDbConnection connecAccess = new OleDbConnection(@"Provider = Microsoft.ACE.OLEDB.12.0; Data Source = " + AppDomain.CurrentDomain.BaseDirectory + "\\SystemConfig.mdb;Persist Security Info=False");
 
         string connectionString = "Data Source = 172.28.57.123; Initial Catalog =PISMS; User ID =PISMS; Password =P@ssw0rd";
-        public  System.Timers.Timer aTimer;        
+        public  System.Timers.Timer aTimer;
+        string debuglog = AppDomain.CurrentDomain.BaseDirectory + "\\ServiceDebugLog";
 
         string TimeNow;
         //DateTime NowDateTime1;
@@ -108,7 +109,12 @@ namespace PI_SMS_Service
             }
             catch (Exception ex)
             {
-                
+                using (StreamWriter sw = File.AppendText(debuglog + "\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt"))
+                {
+                    sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
+                    sw.WriteLine(ex);
+
+                }
             }
 
         }
@@ -116,8 +122,6 @@ namespace PI_SMS_Service
         protected override void OnStart(string[] args)
         {
             // Create a timer and set a two second interval.
-            Prepare_TemplateID_ForSendSMS.Columns.Add("TemplateID", typeof(string));//0
-            Prepare_TemplateID_ForSendSMS.Columns.Add("TemplateDescriptionForSend", typeof(string));
             aTimer = new System.Timers.Timer();           
 
             // Hook up the Elapsed event for the timer. 
@@ -135,23 +139,19 @@ namespace PI_SMS_Service
         {
         }
 
-        string path = AppDomain.CurrentDomain.BaseDirectory+"\\ServiceLog";
-        string NowDate = DateTime.Now.ToString("yyyy-MM-dd");
-
         private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
         {
+            
+            if (!Directory.Exists(debuglog))
+            {
+                Directory.CreateDirectory(debuglog);
+            }
+            if(!File.Exists(debuglog+"\\" + DateTime.Now.ToString("yyyy-MM-dd")+".txt"))
+            {
+                File.Create(debuglog + "\\" + DateTime.Now.ToString("yyyy-MM-dd")+".txt");
+            }
             try
             {
-                if (!Directory.Exists(path))
-                {
-                    Directory.CreateDirectory(path);
-                }
-                if (!File.Exists(path + "\\" + NowDate + ".txt"))
-                {
-                    File.Create(path + "\\" + NowDate + ".txt");
-                }
-                // Try to create the directory.
-                DirectoryInfo di = Directory.CreateDirectory(path);
                 getconfig();
                 connectionString = "Data Source = " + Pub_Config.Rows[0].ItemArray[0].ToString() + "; Initial Catalog =" + Pub_Config.Rows[0].ItemArray[2].ToString() + "; User ID =" + Pub_Config.Rows[0].ItemArray[3].ToString() + "; Password =" + Pub_Config.Rows[0].ItemArray[4].ToString() + "";
                 Thread threadSendSMS = new Thread(Send_SMS);
@@ -180,13 +180,13 @@ namespace PI_SMS_Service
             }
             catch(Exception ex)
             {
-                using (StreamWriter sw = File.AppendText(path + "\\" + NowDate + ".txt"))
+                using (StreamWriter sw = File.AppendText(debuglog + "\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt"))
                 {
                     sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
                     sw.WriteLine(ex);
 
                 }
-            }           
+            }
 
         }       
         
@@ -217,8 +217,7 @@ namespace PI_SMS_Service
             }
             catch (Exception ex)
             {
-                //Console.WriteLine("ERROR : " +ex);
-                using (StreamWriter sw = File.AppendText(path + "\\" + NowDate + ".txt"))
+                using (StreamWriter sw = File.AppendText(debuglog + "\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt"))
                 {
                     sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
                     sw.WriteLine(ex);
@@ -251,8 +250,7 @@ namespace PI_SMS_Service
             }
             catch (Exception ex)
             {
-                Console.WriteLine("ERROR : " + ex);
-                using (StreamWriter sw = File.AppendText(path + "\\" + NowDate + ".txt"))
+                using (StreamWriter sw = File.AppendText(debuglog + "\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt"))
                 {
                     sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
                     sw.WriteLine(ex);
@@ -288,7 +286,7 @@ namespace PI_SMS_Service
             }
             catch (Exception ex)
             {
-                using (StreamWriter sw = File.AppendText(path + "\\" + NowDate + ".txt"))
+                using (StreamWriter sw = File.AppendText(debuglog + "\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt"))
                 {
                     sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
                     sw.WriteLine(ex);
@@ -324,7 +322,7 @@ namespace PI_SMS_Service
             }
             catch (Exception ex)
             {
-                using (StreamWriter sw = File.AppendText(path + "\\" + NowDate + ".txt"))
+                using (StreamWriter sw = File.AppendText(debuglog + "\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt"))
                 {
                     sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
                     sw.WriteLine(ex);
@@ -363,7 +361,7 @@ namespace PI_SMS_Service
             }
             catch (Exception ex)
             {
-                using (StreamWriter sw = File.AppendText(path + "\\" + NowDate + ".txt"))
+                using (StreamWriter sw = File.AppendText(debuglog + "\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt"))
                 {
                     sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
                     sw.WriteLine(ex);
@@ -374,10 +372,10 @@ namespace PI_SMS_Service
 
         private void CheckEvent_In_Template(int Template_ID,int templatenumber,string TemplateDescription)
         {
+
+            LoadDataToTableEvent_in_Template(Template_ID);
             try
             {
-                LoadDataToTableEvent_in_Template(Template_ID);
-
                 for (int EventNumber = 0; EventNumber < EventID_In_Template.Rows.Count; EventNumber++)
                 {
                     //
@@ -544,14 +542,13 @@ namespace PI_SMS_Service
             }
             catch(Exception ex)
             {
-                using (StreamWriter sw = File.AppendText(path + "\\" + NowDate + ".txt"))
+                using (StreamWriter sw = File.AppendText(debuglog + "\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt"))
                 {
                     sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
                     sw.WriteLine(ex);
 
                 }
             }
-            
 
         }       
 
@@ -605,17 +602,18 @@ namespace PI_SMS_Service
                 }
 
             }
-            catch (System.Runtime.InteropServices.COMException comExc)
+            catch (System.Runtime.InteropServices.COMException ex)
             {
-                using (StreamWriter sw = File.AppendText(path + "\\" + NowDate + ".txt"))
-                {
-                    sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
-                    sw.WriteLine(comExc);
 
-                }
                 //MessageBox.Show(comExc.Message, comExc.ErrorCode + " Error",
 
                 //MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                using (StreamWriter sw = File.AppendText(debuglog + "\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt"))
+                {
+                    sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
+                    sw.WriteLine(ex);
+
+                }
 
             }
         }
@@ -624,90 +622,82 @@ namespace PI_SMS_Service
 
         public void Send_SMS()
         {
-            try
+            using(SMSGateway.CTSMSDTACSoapClient client = new SMSGateway.CTSMSDTACSoapClient())
             {
-                using (SMSGateway.CTSMSDTACSoapClient client = new SMSGateway.CTSMSDTACSoapClient())
+                string folder = AppDomain.CurrentDomain.BaseDirectory + "\\SendLog";
+                string newFileName = DateTime.Now.ToString("yyyy-MM-dd") +".csv";
+                int sendmessage = 0;
+                try
                 {
-                    string newFileName = AppDomain.CurrentDomain.BaseDirectory + "\\Log\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".csv";
-                    int sendmessage = 0;
-                    try
+                    if (!Directory.Exists(AppDomain.CurrentDomain.BaseDirectory + "\\SendLog"))
                     {
-                        if (!File.Exists(newFileName))
-                        {
-                            string clientHeader = "Time" + "," + "USERID" + "," + "Phone" + "," + "message" + "," + "Status" + Environment.NewLine;
-
-                            File.WriteAllText(newFileName, clientHeader);
-                        }
-
-                        for (int template = 0; template < Prepare_TemplateID_ForSendSMS.Rows.Count; template++)
-                        {
-                            int Template_ID = Convert.ToInt32(Prepare_TemplateID_ForSendSMS.Rows[template].ItemArray[0].ToString());
-                            string TemplateDescription = Prepare_TemplateID_ForSendSMS.Rows[template].ItemArray[1].ToString();
-
-                            LoadDataTo_User_In_TemplateTable(Template_ID);
-                            Load_TaginTemplate_To_DataTable(Template_ID);
-
-                            string[] TagTimeStamp = new string[Tag_in_TemplateTable.Rows.Count];
-                            string[] TagValue = new string[Tag_in_TemplateTable.Rows.Count];
-
-                            GET_TagValue(ref TagTimeStamp, ref TagValue);
-
-                            string header = Pub_Config.Rows[0].ItemArray[1].ToString();
-
-                            string message = TemplateDescription + "\n"; //Template Description
-                            string messagelog = TemplateDescription + " ";
-                            for (int tag = 0; tag < Tag_in_TemplateTable.Rows.Count; tag++)
-                            {
-                                string tagalias = Tag_in_TemplateTable.Rows[tag].ItemArray[2].ToString(); //Tag alias
-                                message += tagalias + "\n";
-                                message += TagValue[tag] + "\n";
-                                messagelog += tagalias + " ";
-                                messagelog += TagValue[tag] + " ";
-                            }
-
-
-                            for (sendmessage = 0; sendmessage < User_In_Template.Rows.Count; sendmessage++)
-                            {
-                                string phonenumber = User_In_Template.Rows[sendmessage].ItemArray[4].ToString();
-                                char in_msg_type = 'E';
-
-                                SMSGateway.SMS_Result response = client.sendSMS2DTAC(phonenumber, header, message, in_msg_type);
-                                response.result.ToString();
-
-                                message = message.Remove(message.Length - 2);
-                                using (StreamWriter file2 = File.AppendText(newFileName))
-                                {
-                                    string clientDetails = DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "," + User_In_Template.Rows[sendmessage].ItemArray[0].ToString() + "," + phonenumber + "," + messagelog + "," + response.result.ToString() + "";
-
-                                    file2.WriteLine(clientDetails);
-                                }
-
-                            }
-                        }
-                        Prepare_TemplateID_ForSendSMS.Clear();
+                        Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "\\SendLog");
                     }
-                    catch (Exception ex)
+                    if (!File.Exists(folder +"\\"+ newFileName))
                     {
-                        using (StreamWriter sw = File.AppendText(path + "\\" + NowDate + ".txt"))
-                        {
-                            sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
-                            sw.WriteLine(ex);
+                        string clientHeader = "Time" + "," + "USERID" + "," + "Phone" + "," + "message" + "," + "Status" + Environment.NewLine;
 
-                        }
+                        File.WriteAllText(newFileName, clientHeader);
                     }
 
-                }
-            }
-            catch(Exception ex)
-            {
-                using (StreamWriter sw = File.AppendText(path + "\\" + NowDate + ".txt"))
-                {
-                    sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
-                    sw.WriteLine(ex);
+                    for (int template = 0; template < Prepare_TemplateID_ForSendSMS.Rows.Count; template++)
+                    {
+                        int Template_ID = Convert.ToInt32(Prepare_TemplateID_ForSendSMS.Rows[template].ItemArray[0].ToString());
+                        string TemplateDescription = Prepare_TemplateID_ForSendSMS.Rows[template].ItemArray[1].ToString();
 
+                        LoadDataTo_User_In_TemplateTable(Template_ID);
+                        Load_TaginTemplate_To_DataTable(Template_ID);
+
+                        string[] TagTimeStamp = new string[Tag_in_TemplateTable.Rows.Count];
+                        string[] TagValue = new string[Tag_in_TemplateTable.Rows.Count];
+
+                        GET_TagValue(ref TagTimeStamp, ref TagValue);
+
+                        string header = Pub_Config.Rows[0].ItemArray[1].ToString();
+
+                        string message = TemplateDescription + "\n"; //Template Description
+                        string messagelog = TemplateDescription + " ";
+                        for (int tag = 0; tag < Tag_in_TemplateTable.Rows.Count; tag++)
+                        {
+                            string tagalias = Tag_in_TemplateTable.Rows[tag].ItemArray[2].ToString(); //Tag alias
+                            message += tagalias + "\n";
+                            message += TagValue[tag] + "\n";
+                            messagelog += tagalias + " ";
+                            messagelog += TagValue[tag] + " ";
+                        }
+
+                        
+                        for (sendmessage = 0; sendmessage < User_In_Template.Rows.Count; sendmessage++)
+                        {
+                            string phonenumber = User_In_Template.Rows[sendmessage].ItemArray[4].ToString();
+                            char in_msg_type = 'E';
+
+                            SMSGateway.SMS_Result response = client.sendSMS2DTAC(phonenumber, header, message, in_msg_type);
+                            response.result.ToString();
+
+                            message = message.Remove(message.Length - 2);
+                            using (StreamWriter file2 = File.AppendText(newFileName))
+                            {
+                                string clientDetails = DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "," + User_In_Template.Rows[sendmessage].ItemArray[0].ToString() + "," + phonenumber + "," + messagelog + "," + response.result.ToString() + "";
+
+                                file2.WriteLine(clientDetails);
+                            }
+                                
+                        }
+                    }
+                    Prepare_TemplateID_ForSendSMS.Clear();
                 }
+                catch (Exception ex)
+                {
+                    using (StreamWriter sw = File.AppendText(debuglog + "\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt"))
+                    {
+                        sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
+                        sw.WriteLine(ex);
+
+                    }
+                }
+                
             }
-            
             
         }
 

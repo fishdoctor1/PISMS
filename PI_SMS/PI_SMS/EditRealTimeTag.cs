@@ -61,7 +61,7 @@ namespace PI_SMS
             textBoxhihi.Text = grouppi.dataGridViewTaginRealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].Cells["Danger"].Value.ToString();
             textBoxhi.Text = grouppi.dataGridViewTaginRealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].Cells["High"].Value.ToString();
             textBoxlo.Text = grouppi.dataGridViewTaginRealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].Cells["Low"].Value.ToString();
-            checkBoxenable.Checked = Boolean.Parse(grouppi.dataGridViewTaginRealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].Cells["tagEnable"].Value.ToString());
+            checkBoxenable.Checked = Boolean.Parse(grouppi.dataGridViewTaginRealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].Cells["Enable"].Value.ToString());
             checkBoxmail.Checked = Boolean.Parse(grouppi.dataGridViewTaginRealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].Cells["Mail"].Value.ToString());
             checkBoxphone.Checked = Boolean.Parse(grouppi.dataGridViewTaginRealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].Cells["Phone"].Value.ToString());
         }

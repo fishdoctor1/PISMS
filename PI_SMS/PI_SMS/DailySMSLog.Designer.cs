@@ -31,11 +31,12 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.No = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.UserID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CellPhone = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Message = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -70,6 +71,7 @@
             this.dataGridView1.ColumnHeadersHeight = 26;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.No,
             this.Time,
             this.UserID,
             this.CellPhone,
@@ -78,14 +80,20 @@
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView1.Location = new System.Drawing.Point(3, 211);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.RowTemplate.Height = 26;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dataGridView1.Size = new System.Drawing.Size(716, 188);
             this.dataGridView1.TabIndex = 0;
+            // 
+            // No
+            // 
+            this.No.HeaderText = "No";
+            this.No.MinimumWidth = 50;
+            this.No.Name = "No";
+            this.No.Width = 50;
             // 
             // Time
             // 
@@ -107,7 +115,6 @@
             this.CellPhone.HeaderText = "CellPhone";
             this.CellPhone.MinimumWidth = 120;
             this.CellPhone.Name = "CellPhone";
-            this.CellPhone.ReadOnly = true;
             this.CellPhone.Width = 120;
             // 
             // Message
@@ -115,7 +122,6 @@
             this.Message.HeaderText = "Message";
             this.Message.MinimumWidth = 120;
             this.Message.Name = "Message";
-            this.Message.ReadOnly = true;
             this.Message.Width = 120;
             // 
             // Status
@@ -124,6 +130,8 @@
             this.Status.MinimumWidth = 100;
             this.Status.Name = "Status";
             this.Status.ReadOnly = true;
+            this.Status.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Status.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // tableLayoutPanel1
             // 
@@ -211,7 +219,6 @@
             // checkBoxStatusSuccess
             // 
             this.checkBoxStatusSuccess.AutoSize = true;
-            this.checkBoxStatusSuccess.Enabled = false;
             this.checkBoxStatusSuccess.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.checkBoxStatusSuccess.Location = new System.Drawing.Point(245, 61);
             this.checkBoxStatusSuccess.Name = "checkBoxStatusSuccess";
@@ -243,7 +250,6 @@
             // checkBoxStatusFalse
             // 
             this.checkBoxStatusFalse.AutoSize = true;
-            this.checkBoxStatusFalse.Enabled = false;
             this.checkBoxStatusFalse.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.checkBoxStatusFalse.Location = new System.Drawing.Point(245, 35);
             this.checkBoxStatusFalse.Name = "checkBoxStatusFalse";
@@ -256,7 +262,6 @@
             // checkBoxPhone
             // 
             this.checkBoxPhone.AutoSize = true;
-            this.checkBoxPhone.Enabled = false;
             this.checkBoxPhone.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.checkBoxPhone.Location = new System.Drawing.Point(245, 87);
             this.checkBoxPhone.Name = "checkBoxPhone";
@@ -303,11 +308,6 @@
 
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Time;
-        private System.Windows.Forms.DataGridViewTextBoxColumn UserID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CellPhone;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Message;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Status;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button buttonsearch;
         private System.Windows.Forms.TextBox textBox1;
@@ -320,5 +320,11 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.RadioButton radioButtonSingleDay;
         private System.Windows.Forms.RadioButton radioButtonPeriod;
+        private System.Windows.Forms.DataGridViewTextBoxColumn No;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Time;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UserID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CellPhone;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Message;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Status;
     }
 }

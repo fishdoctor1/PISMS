@@ -96,10 +96,11 @@ namespace PI_SMS
                     ContextMenuStrip my_menu = new ContextMenuStrip();
                     SelectedRowIndexdataGridView = dataGridView1.HitTest(e.X, e.Y).RowIndex;
                     dataGridView1.ClearSelection();
-                    dataGridView1.Rows[SelectedRowIndexdataGridView].Selected = true;
+                    
 
                     if (SelectedRowIndexdataGridView >= 0)
                     {
+                        dataGridView1.Rows[SelectedRowIndexdataGridView].Selected = true;
                         my_menu.Items.Add("Edit").Name = "Edit";
                         my_menu.Items.Add("Remove").Name = "Delete";
                     }

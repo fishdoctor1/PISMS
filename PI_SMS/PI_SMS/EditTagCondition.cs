@@ -45,11 +45,11 @@ namespace PI_SMS
                     SqlCommand command = new SqlCommand(queryString, connection);
                     command.Connection.Open();
                     command.ExecuteNonQuery();
-
-
-                    grouppialarm.FilldataGridViewTagCondition();
+                    
                     MessageBox.Show("UPDATE Success", "UPDATE",MessageBoxButtons.OK,MessageBoxIcon.Asterisk,MessageBoxDefaultButton.Button1);
                     this.Close();
+                    grouppialarm.Load_TagCondition();
+                    grouppialarm.FilldataGridViewTagCondition();
                 }
             }
             catch (Exception ex)

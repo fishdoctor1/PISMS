@@ -65,6 +65,12 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.dataGridViewTagCondition = new System.Windows.Forms.DataGridView();
+            this.CompareTo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Operator = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.value = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TimeTrue = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Timeunit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ConditionID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.buttonSaveMessage = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
@@ -79,7 +85,7 @@
             this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Mail = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Phone = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.tagEnable = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Enable = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.OnAlert = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.acknowledge = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.unit = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -89,12 +95,6 @@
             this.High = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Low = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TagID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CompareTo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Operator = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.value = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TimeTrue = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Timeunit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ConditionID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel10.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -130,7 +130,7 @@
             // panel10
             // 
             this.panel10.AutoScroll = true;
-            this.panel10.BackColor = System.Drawing.Color.Plum;
+            this.panel10.BackColor = System.Drawing.Color.Aqua;
             this.panel10.Controls.Add(this.groupBox2);
             this.panel10.Controls.Add(this.groupBox1);
             this.panel10.Controls.Add(this.buttonRefresh);
@@ -190,13 +190,14 @@
             // 
             // comboBoxmanagestatus
             // 
+            this.comboBoxmanagestatus.BackColor = System.Drawing.SystemColors.Info;
             this.comboBoxmanagestatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxmanagestatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.comboBoxmanagestatus.FormattingEnabled = true;
             this.comboBoxmanagestatus.Items.AddRange(new object[] {
             "Mail",
             "Phone",
-            "Enabled"});
+            "Enable"});
             this.comboBoxmanagestatus.Location = new System.Drawing.Point(6, 19);
             this.comboBoxmanagestatus.Name = "comboBoxmanagestatus";
             this.comboBoxmanagestatus.Size = new System.Drawing.Size(121, 24);
@@ -205,6 +206,7 @@
             // 
             // UpdateStatusTag
             // 
+            this.UpdateStatusTag.BackColor = System.Drawing.Color.Wheat;
             this.UpdateStatusTag.Enabled = false;
             this.UpdateStatusTag.FlatAppearance.BorderColor = System.Drawing.Color.Black;
             this.UpdateStatusTag.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -214,7 +216,7 @@
             this.UpdateStatusTag.Size = new System.Drawing.Size(71, 35);
             this.UpdateStatusTag.TabIndex = 9;
             this.UpdateStatusTag.Text = "Update";
-            this.UpdateStatusTag.UseVisualStyleBackColor = true;
+            this.UpdateStatusTag.UseVisualStyleBackColor = false;
             this.UpdateStatusTag.Click += new System.EventHandler(this.UpdateEnableStatus_Click);
             // 
             // groupBox1
@@ -260,6 +262,7 @@
             // 
             // comboBoxNonRepetitionIntervalunit
             // 
+            this.comboBoxNonRepetitionIntervalunit.BackColor = System.Drawing.SystemColors.Info;
             this.comboBoxNonRepetitionIntervalunit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxNonRepetitionIntervalunit.FormattingEnabled = true;
             this.comboBoxNonRepetitionIntervalunit.Items.AddRange(new object[] {
@@ -274,7 +277,7 @@
             // 
             // comboBoxResendIntervalunit
             // 
-            this.comboBoxResendIntervalunit.BackColor = System.Drawing.SystemColors.Menu;
+            this.comboBoxResendIntervalunit.BackColor = System.Drawing.SystemColors.Info;
             this.comboBoxResendIntervalunit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxResendIntervalunit.FormattingEnabled = true;
             this.comboBoxResendIntervalunit.Items.AddRange(new object[] {
@@ -338,6 +341,7 @@
             // 
             // buttonAckAll
             // 
+            this.buttonAckAll.BackColor = System.Drawing.Color.Wheat;
             this.buttonAckAll.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonAckAll.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.buttonAckAll.Location = new System.Drawing.Point(424, 40);
@@ -345,7 +349,7 @@
             this.buttonAckAll.Size = new System.Drawing.Size(88, 29);
             this.buttonAckAll.TabIndex = 26;
             this.buttonAckAll.Text = "Ack. ALL";
-            this.buttonAckAll.UseVisualStyleBackColor = true;
+            this.buttonAckAll.UseVisualStyleBackColor = false;
             this.buttonAckAll.Click += new System.EventHandler(this.buttonAckAll_Click);
             // 
             // label2
@@ -388,6 +392,7 @@
             // 
             // comboBoxRealTimeGroup
             // 
+            this.comboBoxRealTimeGroup.BackColor = System.Drawing.SystemColors.Info;
             this.comboBoxRealTimeGroup.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxRealTimeGroup.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(222)));
             this.comboBoxRealTimeGroup.FormattingEnabled = true;
@@ -401,17 +406,19 @@
             // 
             // buttonAddTag
             // 
+            this.buttonAddTag.BackColor = System.Drawing.Color.Wheat;
+            this.buttonAddTag.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.buttonAddTag.Location = new System.Drawing.Point(194, 3);
             this.buttonAddTag.Name = "buttonAddTag";
-            this.buttonAddTag.Size = new System.Drawing.Size(65, 31);
+            this.buttonAddTag.Size = new System.Drawing.Size(65, 26);
             this.buttonAddTag.TabIndex = 4;
             this.buttonAddTag.Text = "Add Tag";
-            this.buttonAddTag.UseVisualStyleBackColor = true;
+            this.buttonAddTag.UseVisualStyleBackColor = false;
             this.buttonAddTag.Click += new System.EventHandler(this.buttonAddTag_Click);
             // 
             // buttonSearch
             // 
-            this.buttonSearch.BackColor = System.Drawing.Color.Plum;
+            this.buttonSearch.BackColor = System.Drawing.Color.Wheat;
             this.buttonSearch.FlatAppearance.BorderColor = System.Drawing.Color.Purple;
             this.buttonSearch.FlatAppearance.BorderSize = 2;
             this.buttonSearch.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -489,7 +496,7 @@
             this.Type,
             this.Mail,
             this.Phone,
-            this.tagEnable,
+            this.Enable,
             this.OnAlert,
             this.acknowledge,
             this.unit,
@@ -543,6 +550,7 @@
             // 
             this.dataGridViewTagCondition.AllowUserToAddRows = false;
             this.dataGridViewTagCondition.AllowUserToDeleteRows = false;
+            this.dataGridViewTagCondition.BackgroundColor = System.Drawing.Color.Tan;
             this.dataGridViewTagCondition.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewTagCondition.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.CompareTo,
@@ -561,6 +569,53 @@
             this.dataGridViewTagCondition.Size = new System.Drawing.Size(383, 192);
             this.dataGridViewTagCondition.TabIndex = 9;
             this.dataGridViewTagCondition.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dataGridViewTagCondition_MouseClick);
+            // 
+            // CompareTo
+            // 
+            this.CompareTo.HeaderText = "CompareTo";
+            this.CompareTo.MinimumWidth = 20;
+            this.CompareTo.Name = "CompareTo";
+            this.CompareTo.ReadOnly = true;
+            this.CompareTo.Width = 70;
+            // 
+            // Operator
+            // 
+            this.Operator.HeaderText = "Operator";
+            this.Operator.MinimumWidth = 60;
+            this.Operator.Name = "Operator";
+            this.Operator.ReadOnly = true;
+            this.Operator.Width = 60;
+            // 
+            // value
+            // 
+            this.value.HeaderText = "value";
+            this.value.MinimumWidth = 50;
+            this.value.Name = "value";
+            this.value.ReadOnly = true;
+            this.value.Width = 50;
+            // 
+            // TimeTrue
+            // 
+            this.TimeTrue.HeaderText = "Time True";
+            this.TimeTrue.MinimumWidth = 70;
+            this.TimeTrue.Name = "TimeTrue";
+            this.TimeTrue.ReadOnly = true;
+            this.TimeTrue.Width = 70;
+            // 
+            // Timeunit
+            // 
+            this.Timeunit.HeaderText = "Timeunit";
+            this.Timeunit.MinimumWidth = 70;
+            this.Timeunit.Name = "Timeunit";
+            this.Timeunit.ReadOnly = true;
+            this.Timeunit.Width = 70;
+            // 
+            // ConditionID
+            // 
+            this.ConditionID.HeaderText = "ConditionID";
+            this.ConditionID.Name = "ConditionID";
+            this.ConditionID.ReadOnly = true;
+            this.ConditionID.Visible = false;
             // 
             // tabPage2
             // 
@@ -692,20 +747,21 @@
             this.Phone.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.Phone.Width = 60;
             // 
-            // tagEnable
+            // Enable
             // 
-            this.tagEnable.HeaderText = "Enable";
-            this.tagEnable.MinimumWidth = 20;
-            this.tagEnable.Name = "tagEnable";
-            this.tagEnable.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.tagEnable.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.tagEnable.Width = 55;
+            this.Enable.HeaderText = "Enable";
+            this.Enable.MinimumWidth = 20;
+            this.Enable.Name = "Enable";
+            this.Enable.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Enable.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Enable.Width = 55;
             // 
             // OnAlert
             // 
             this.OnAlert.HeaderText = "Alert";
             this.OnAlert.MinimumWidth = 30;
             this.OnAlert.Name = "OnAlert";
+            this.OnAlert.ReadOnly = true;
             this.OnAlert.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.OnAlert.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.OnAlert.Width = 45;
@@ -715,6 +771,7 @@
             this.acknowledge.HeaderText = "Ack";
             this.acknowledge.MinimumWidth = 30;
             this.acknowledge.Name = "acknowledge";
+            this.acknowledge.ReadOnly = true;
             this.acknowledge.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.acknowledge.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.acknowledge.Width = 50;
@@ -772,53 +829,6 @@
             this.TagID.Name = "TagID";
             this.TagID.ReadOnly = true;
             this.TagID.Visible = false;
-            // 
-            // CompareTo
-            // 
-            this.CompareTo.HeaderText = "CompareTo";
-            this.CompareTo.MinimumWidth = 20;
-            this.CompareTo.Name = "CompareTo";
-            this.CompareTo.ReadOnly = true;
-            this.CompareTo.Width = 70;
-            // 
-            // Operator
-            // 
-            this.Operator.HeaderText = "Operator";
-            this.Operator.MinimumWidth = 60;
-            this.Operator.Name = "Operator";
-            this.Operator.ReadOnly = true;
-            this.Operator.Width = 60;
-            // 
-            // value
-            // 
-            this.value.HeaderText = "value";
-            this.value.MinimumWidth = 50;
-            this.value.Name = "value";
-            this.value.ReadOnly = true;
-            this.value.Width = 50;
-            // 
-            // TimeTrue
-            // 
-            this.TimeTrue.HeaderText = "Time True";
-            this.TimeTrue.MinimumWidth = 70;
-            this.TimeTrue.Name = "TimeTrue";
-            this.TimeTrue.ReadOnly = true;
-            this.TimeTrue.Width = 70;
-            // 
-            // Timeunit
-            // 
-            this.Timeunit.HeaderText = "Timeunit";
-            this.Timeunit.MinimumWidth = 70;
-            this.Timeunit.Name = "Timeunit";
-            this.Timeunit.ReadOnly = true;
-            this.Timeunit.Width = 70;
-            // 
-            // ConditionID
-            // 
-            this.ConditionID.HeaderText = "ConditionID";
-            this.ConditionID.Name = "ConditionID";
-            this.ConditionID.ReadOnly = true;
-            this.ConditionID.Visible = false;
             // 
             // GroupPIAlarm
             // 
@@ -890,6 +900,12 @@
         private System.Windows.Forms.CheckBox checkBoxNotifyonlyonchange;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button buttonsaveoption;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CompareTo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Operator;
+        private System.Windows.Forms.DataGridViewTextBoxColumn value;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TimeTrue;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Timeunit;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ConditionID;
         private System.Windows.Forms.DataGridViewTextBoxColumn No;
         private System.Windows.Forms.DataGridViewTextBoxColumn PIServer;
         private System.Windows.Forms.DataGridViewTextBoxColumn TagName;
@@ -897,7 +913,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Type;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Mail;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Phone;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn tagEnable;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Enable;
         private System.Windows.Forms.DataGridViewCheckBoxColumn OnAlert;
         private System.Windows.Forms.DataGridViewCheckBoxColumn acknowledge;
         private System.Windows.Forms.DataGridViewTextBoxColumn unit;
@@ -907,11 +923,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn High;
         private System.Windows.Forms.DataGridViewTextBoxColumn Low;
         private System.Windows.Forms.DataGridViewTextBoxColumn TagID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CompareTo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Operator;
-        private System.Windows.Forms.DataGridViewTextBoxColumn value;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TimeTrue;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Timeunit;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ConditionID;
     }
 }

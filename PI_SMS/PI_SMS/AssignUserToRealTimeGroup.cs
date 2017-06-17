@@ -269,10 +269,11 @@ namespace PI_SMS
 
 
                     dataGridViewUserinGroup.ClearSelection();
-                    dataGridViewUserinGroup.Rows[SelectedRowIndexdataGridViewUserinGroup].Selected = true;
+                    
 
                     if (SelectedRowIndexdataGridViewUserinGroup >= 0)
                     {
+                        dataGridViewUserinGroup.Rows[SelectedRowIndexdataGridViewUserinGroup].Selected = true;
                         my_menu.Items.Add("Remove").Name = "Delete";
                     }
                     my_menu.Show(dataGridViewUserinGroup, new Point(e.X, e.Y));
@@ -471,9 +472,10 @@ namespace PI_SMS
                     ContextMenuStrip my_menu = new ContextMenuStrip();
                     SelectedrowIndexdataGridviewAvilableuser = dataGridViewAvilableuser.HitTest(e.X, e.Y).RowIndex;
                     dataGridViewAvilableuser.ClearSelection();
-                    dataGridViewAvilableuser.Rows[SelectedrowIndexdataGridviewAvilableuser].Selected = true;
+                    
                     if (SelectedRowIndexdataGridViewUserinGroup >= 0)
                     {
+                        dataGridViewAvilableuser.Rows[SelectedrowIndexdataGridviewAvilableuser].Selected = true;
                         my_menu.Items.Add("Add").Name = "Add";
                     }
                     my_menu.Show(dataGridViewAvilableuser, new Point(e.X, e.Y));

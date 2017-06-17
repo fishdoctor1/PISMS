@@ -38,11 +38,13 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxTagname = new System.Windows.Forms.TextBox();
+            this.comboBoxCompareTo = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // buttonsave
             // 
-            this.buttonsave.Location = new System.Drawing.Point(156, 137);
+            this.buttonsave.Location = new System.Drawing.Point(156, 163);
             this.buttonsave.Name = "buttonsave";
             this.buttonsave.Size = new System.Drawing.Size(85, 28);
             this.buttonsave.TabIndex = 31;
@@ -56,17 +58,16 @@
             this.comboBoxunittime.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxunittime.FormattingEnabled = true;
             this.comboBoxunittime.Items.AddRange(new object[] {
-            "Second",
             "Minute",
             "Hour"});
-            this.comboBoxunittime.Location = new System.Drawing.Point(178, 110);
+            this.comboBoxunittime.Location = new System.Drawing.Point(178, 136);
             this.comboBoxunittime.Name = "comboBoxunittime";
             this.comboBoxunittime.Size = new System.Drawing.Size(63, 21);
             this.comboBoxunittime.TabIndex = 28;
             // 
             // textBoxtime
             // 
-            this.textBoxtime.Location = new System.Drawing.Point(113, 110);
+            this.textBoxtime.Location = new System.Drawing.Point(113, 136);
             this.textBoxtime.Name = "textBoxtime";
             this.textBoxtime.Size = new System.Drawing.Size(59, 20);
             this.textBoxtime.TabIndex = 27;
@@ -74,7 +75,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(26, 114);
+            this.label5.Location = new System.Drawing.Point(26, 140);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(52, 13);
             this.label5.TabIndex = 26;
@@ -83,7 +84,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(26, 84);
+            this.label4.Location = new System.Drawing.Point(26, 110);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(33, 13);
             this.label4.TabIndex = 25;
@@ -106,7 +107,7 @@
             // 
             // textBoxvalue
             // 
-            this.textBoxvalue.Location = new System.Drawing.Point(113, 81);
+            this.textBoxvalue.Location = new System.Drawing.Point(113, 107);
             this.textBoxvalue.Name = "textBoxvalue";
             this.textBoxvalue.Size = new System.Drawing.Size(129, 20);
             this.textBoxvalue.TabIndex = 23;
@@ -137,11 +138,38 @@
             this.textBoxTagname.Size = new System.Drawing.Size(129, 20);
             this.textBoxTagname.TabIndex = 18;
             // 
+            // comboBoxCompareTo
+            // 
+            this.comboBoxCompareTo.BackColor = System.Drawing.SystemColors.Info;
+            this.comboBoxCompareTo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxCompareTo.FormattingEnabled = true;
+            this.comboBoxCompareTo.Items.AddRange(new object[] {
+            "Value",
+            "Low",
+            "High",
+            "Danger"});
+            this.comboBoxCompareTo.Location = new System.Drawing.Point(112, 80);
+            this.comboBoxCompareTo.Name = "comboBoxCompareTo";
+            this.comboBoxCompareTo.Size = new System.Drawing.Size(129, 21);
+            this.comboBoxCompareTo.TabIndex = 33;
+            this.comboBoxCompareTo.SelectedIndexChanged += new System.EventHandler(this.comboBoxCompareTo_SelectedIndexChanged);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(26, 83);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(65, 13);
+            this.label7.TabIndex = 32;
+            this.label7.Text = "Compare To";
+            // 
             // AddTrigger
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(252, 175);
+            this.ClientSize = new System.Drawing.Size(252, 201);
+            this.Controls.Add(this.comboBoxCompareTo);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.buttonsave);
             this.Controls.Add(this.comboBoxunittime);
             this.Controls.Add(this.textBoxtime);
@@ -170,5 +198,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBoxTagname;
+        private System.Windows.Forms.ComboBox comboBoxCompareTo;
+        private System.Windows.Forms.Label label7;
     }
 }

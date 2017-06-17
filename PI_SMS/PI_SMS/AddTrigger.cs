@@ -23,6 +23,8 @@ namespace PI_SMS
             this.SelectedRowIndexdataGridViewRealTimeTag = SelectedRowIndexdataGridViewRealTimeTag;
             this.grouppialarm = grouppialarm;
             this.connectionString = connectionString;
+            comboBoxCompareTo.SelectedIndex = 0;
+            comboBoxunittime.SelectedIndex = 0;
             preparedata();
         }
 
@@ -39,7 +41,8 @@ namespace PI_SMS
                 string tagid = grouppialarm.dataGridViewTaginRealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].Cells["TagID"].Value.ToString();
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    string queryString = "INSERT INTO ["+DataBaseName+"].[dbo].[RealTimeTagCondition] ([operator],[value],[TimeTrue],[TimeUnit],[RealTimeTagID]) VALUES('" + comboBoxoperator.SelectedItem.ToString()+"','"+textBoxvalue.Text.ToString()+"','"+textBoxtime.Text.ToString()+"','"+comboBoxunittime.SelectedItem.ToString()+ "','"+tagid+"')";
+                    
+                    string queryString = "INSERT INTO ["+DataBaseName+"].[dbo].[RealTimeTagCondition] ([CompareTo],[operator],[value],[TimeTrue],[TimeUnit],[RealTimeTagID]) VALUES('"+ comboBoxCompareTo.SelectedItem.ToString()+ "','" + comboBoxoperator.SelectedItem.ToString()+"','"+textBoxvalue.Text.ToString()+"','"+textBoxtime.Text.ToString()+"','"+comboBoxunittime.SelectedItem.ToString()+ "','"+tagid+"')";
                     
                     
                     SqlCommand command = new SqlCommand(queryString, connection);
@@ -58,6 +61,23 @@ namespace PI_SMS
             {
                 MessageBox.Show("Error \n" + ex, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void comboBoxCompareTo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(comboBoxCompareTo.SelectedItem.ToString() == "Danger")
+            {
+                textBoxvalue.Text = grouppialarm.dataGridViewTaginRealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].Cells["Danger"].Value.ToString();
+            }
+            else if (comboBoxCompareTo.SelectedItem.ToString() == "High")
+            {
+                textBoxvalue.Text = grouppialarm.dataGridViewTaginRealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].Cells["High"].Value.ToString();
+            }
+            else if (comboBoxCompareTo.SelectedItem.ToString() == "Low")
+            {
+                textBoxvalue.Text = grouppialarm.dataGridViewTaginRealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].Cells["Low"].Value.ToString();
+            }
+            
         }
     }
 }

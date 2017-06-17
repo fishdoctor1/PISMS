@@ -44,7 +44,14 @@
             this.Sat = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EventID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Repeat = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.RepeatTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RepeatTimeUnit = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.comboBoxTimeRepeatUnit = new System.Windows.Forms.ComboBox();
+            this.textBoxtimeRepeat = new System.Windows.Forms.TextBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.buttonNEWEvent = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -97,7 +104,10 @@
             this.Fri,
             this.Sat,
             this.Time,
-            this.EventID});
+            this.EventID,
+            this.Repeat,
+            this.RepeatTime,
+            this.RepeatTimeUnit});
             this.dataGridView1.EnableHeadersVisualStyles = false;
             this.dataGridView1.Location = new System.Drawing.Point(12, 6);
             this.dataGridView1.Name = "dataGridView1";
@@ -119,7 +129,7 @@
             this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridView1.RowTemplate.Height = 26;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(713, 217);
+            this.dataGridView1.Size = new System.Drawing.Size(780, 217);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dataGridView1_MouseClick);
             // 
@@ -134,65 +144,72 @@
             // Sun
             // 
             this.Sun.HeaderText = "Sun";
+            this.Sun.MinimumWidth = 35;
             this.Sun.Name = "Sun";
             this.Sun.ReadOnly = true;
             this.Sun.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Sun.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Sun.Width = 75;
+            this.Sun.Width = 35;
             // 
             // Mon
             // 
             this.Mon.HeaderText = "Mon";
+            this.Mon.MinimumWidth = 37;
             this.Mon.Name = "Mon";
             this.Mon.ReadOnly = true;
             this.Mon.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Mon.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Mon.Width = 74;
+            this.Mon.Width = 37;
             // 
             // Tue
             // 
             this.Tue.HeaderText = "Tue";
+            this.Tue.MinimumWidth = 35;
             this.Tue.Name = "Tue";
             this.Tue.ReadOnly = true;
             this.Tue.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Tue.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Tue.Width = 75;
+            this.Tue.Width = 35;
             // 
             // Wed
             // 
             this.Wed.HeaderText = "Wed";
+            this.Wed.MinimumWidth = 37;
             this.Wed.Name = "Wed";
             this.Wed.ReadOnly = true;
             this.Wed.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Wed.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Wed.Width = 74;
+            this.Wed.Width = 37;
             // 
             // Thu
             // 
             this.Thu.HeaderText = "Thu";
+            this.Thu.MinimumWidth = 35;
             this.Thu.Name = "Thu";
             this.Thu.ReadOnly = true;
             this.Thu.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Thu.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Thu.Width = 75;
+            this.Thu.Width = 35;
             // 
             // Fri
             // 
             this.Fri.HeaderText = "Fri";
+            this.Fri.MinimumWidth = 35;
             this.Fri.Name = "Fri";
             this.Fri.ReadOnly = true;
             this.Fri.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Fri.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Fri.Width = 74;
+            this.Fri.Width = 35;
             // 
             // Sat
             // 
             this.Sat.HeaderText = "Sat";
+            this.Sat.MinimumWidth = 35;
             this.Sat.Name = "Sat";
             this.Sat.ReadOnly = true;
             this.Sat.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Sat.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Sat.Width = 75;
+            this.Sat.Width = 35;
             // 
             // Time
             // 
@@ -206,12 +223,45 @@
             this.EventID.HeaderText = "EventID";
             this.EventID.Name = "EventID";
             this.EventID.ReadOnly = true;
+            this.EventID.Visible = false;
+            // 
+            // Repeat
+            // 
+            this.Repeat.HeaderText = "Repeat";
+            this.Repeat.MinimumWidth = 55;
+            this.Repeat.Name = "Repeat";
+            this.Repeat.ReadOnly = true;
+            this.Repeat.Width = 55;
+            // 
+            // RepeatTime
+            // 
+            this.RepeatTime.HeaderText = "RepeatTime";
+            this.RepeatTime.MinimumWidth = 35;
+            this.RepeatTime.Name = "RepeatTime";
+            this.RepeatTime.ReadOnly = true;
+            this.RepeatTime.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.RepeatTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.RepeatTime.Width = 95;
+            // 
+            // RepeatTimeUnit
+            // 
+            this.RepeatTimeUnit.HeaderText = "RepeatTimeUnit";
+            this.RepeatTimeUnit.MinimumWidth = 35;
+            this.RepeatTimeUnit.Name = "RepeatTimeUnit";
+            this.RepeatTimeUnit.ReadOnly = true;
+            this.RepeatTimeUnit.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.RepeatTimeUnit.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.RepeatTimeUnit.Width = 120;
             // 
             // panel2
             // 
             this.panel2.AutoScroll = true;
             this.panel2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel2.BackgroundImage")));
             this.panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Controls.Add(this.comboBoxTimeRepeatUnit);
+            this.panel2.Controls.Add(this.textBoxtimeRepeat);
+            this.panel2.Controls.Add(this.checkBox1);
             this.panel2.Controls.Add(this.buttonNEWEvent);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.label3);
@@ -232,8 +282,53 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(737, 160);
+            this.panel2.Size = new System.Drawing.Size(804, 160);
             this.panel2.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(449, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(86, 13);
+            this.label1.TabIndex = 29;
+            this.label1.Text = "above 5 Minutes";
+            this.label1.Visible = false;
+            // 
+            // comboBoxTimeRepeatUnit
+            // 
+            this.comboBoxTimeRepeatUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxTimeRepeatUnit.Enabled = false;
+            this.comboBoxTimeRepeatUnit.FormattingEnabled = true;
+            this.comboBoxTimeRepeatUnit.Items.AddRange(new object[] {
+            "Minute",
+            "Hour"});
+            this.comboBoxTimeRepeatUnit.Location = new System.Drawing.Point(590, 24);
+            this.comboBoxTimeRepeatUnit.Name = "comboBoxTimeRepeatUnit";
+            this.comboBoxTimeRepeatUnit.Size = new System.Drawing.Size(76, 21);
+            this.comboBoxTimeRepeatUnit.TabIndex = 28;
+            this.comboBoxTimeRepeatUnit.Visible = false;
+            // 
+            // textBoxtimeRepeat
+            // 
+            this.textBoxtimeRepeat.Enabled = false;
+            this.textBoxtimeRepeat.Location = new System.Drawing.Point(526, 26);
+            this.textBoxtimeRepeat.Name = "textBoxtimeRepeat";
+            this.textBoxtimeRepeat.Size = new System.Drawing.Size(58, 20);
+            this.textBoxtimeRepeat.TabIndex = 27;
+            this.textBoxtimeRepeat.Visible = false;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(452, 28);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(61, 17);
+            this.checkBox1.TabIndex = 26;
+            this.checkBox1.Text = "Repeat";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.Visible = false;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // buttonNEWEvent
             // 
@@ -289,17 +384,64 @@
             this.comboBoxMin.IntegralHeight = false;
             this.comboBoxMin.Items.AddRange(new object[] {
             "00",
+            "02",
+            "03",
+            "04",
             "05",
+            "06",
+            "07",
+            "08",
+            "09",
             "10",
+            "11",
+            "12",
+            "13",
+            "14",
             "15",
+            "16",
+            "17",
+            "18",
+            "19",
             "20",
+            "21",
+            "22",
+            "23",
+            "24",
             "25",
+            "26",
+            "27",
+            "28",
+            "29",
             "30",
+            "31",
+            "32",
+            "33",
+            "34",
             "35",
+            "36",
+            "37",
+            "38",
+            "39",
             "40",
+            "41",
+            "42",
+            "43",
+            "44",
             "45",
+            "46",
+            "47",
+            "48",
+            "49",
             "50",
-            "55"});
+            "51",
+            "52",
+            "53",
+            "54",
+            "55",
+            "56",
+            "57",
+            "58",
+            "59"});
             this.comboBoxMin.Location = new System.Drawing.Point(525, 55);
             this.comboBoxMin.MaxDropDownItems = 5;
             this.comboBoxMin.Name = "comboBoxMin";
@@ -521,14 +663,14 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 160);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(737, 235);
+            this.panel1.Size = new System.Drawing.Size(804, 235);
             this.panel1.TabIndex = 3;
             // 
             // Event
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(737, 395);
+            this.ClientSize = new System.Drawing.Size(804, 395);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel2);
             this.Name = "Event";
@@ -563,6 +705,10 @@
         public System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button buttonUpdate;
         private System.Windows.Forms.Button buttonCancel;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ComboBox comboBoxTimeRepeatUnit;
+        private System.Windows.Forms.TextBox textBoxtimeRepeat;
+        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.DataGridViewTextBoxColumn EventCol;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Sun;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Mon;
@@ -573,5 +719,8 @@
         private System.Windows.Forms.DataGridViewCheckBoxColumn Sat;
         private System.Windows.Forms.DataGridViewTextBoxColumn Time;
         private System.Windows.Forms.DataGridViewTextBoxColumn EventID;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Repeat;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RepeatTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RepeatTimeUnit;
     }
 }

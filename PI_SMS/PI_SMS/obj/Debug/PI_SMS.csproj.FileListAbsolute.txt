@@ -40,19 +40,15 @@ C:\Users\PorNB\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\bin\Debug\PI_SMS.exe.config
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\bin\Debug\PI_SMS.exe
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\bin\Debug\PI_SMS.pdb
-C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\bin\Debug\CircularProgressBar.dll
-C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\bin\Debug\Control.Draggable.dll
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\bin\Debug\Emgu.CV.UI.dll
-C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\bin\Debug\WinFormAnimation.dll
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\bin\Debug\Emgu.CV.World.dll
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\bin\Debug\ZedGraph.dll
-C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\bin\Debug\CircularProgressBar.xml
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\bin\Debug\Emgu.CV.UI.xml
-C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\bin\Debug\WinFormAnimation.xml
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\bin\Debug\Emgu.CV.World.xml
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.ADDRealTimeTag.resources
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.AddTrigger.resources
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.AssignEventToTemplate.resources
+C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.AssignUserToRealTimeGroup.resources
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.AssignTagToTemplate.resources
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.DailySMSForm.resources
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.DailySMSLog.resources
@@ -64,6 +60,7 @@ C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.GroupPIAlarm.resources
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.Properties.Resources.resources
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.SendSMS.resources
+C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.SendTemplate.resources
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.SystemConfig.resources
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.TagCurrentValue.resources
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.Template.resources
@@ -73,5 +70,3 @@ C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.exe
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.pdb
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.csprojResolveAssemblyReference.cache
-C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.AssignUserToRealTimeGroup.resources
-C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Debug\PI_SMS.SendTemplate.resources

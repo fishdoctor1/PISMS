@@ -407,7 +407,7 @@ namespace PI_SMS
                     ContextMenuStrip my_menu = new ContextMenuStrip();
                     SelectedRowIndexdataGridView = dataGridView1.HitTest(e.X, e.Y).RowIndex;
                     dataGridView1.ClearSelection();
-                    dataGridView1.Rows[SelectedRowIndexdataGridView].Selected = true;
+                    
                     //MessageBox.Show("right click");
                     //MessageBox.Show(SelectedRowIndexdataGridView.ToString());
 
@@ -415,6 +415,7 @@ namespace PI_SMS
                     {
                         my_menu.Items.Add("Edit").Name = "Edit";
                         my_menu.Items.Add("Remove").Name = "Delete";
+                        dataGridView1.Rows[SelectedRowIndexdataGridView].Selected = true;
                     }
                     my_menu.Show(dataGridView1, new Point(e.X, e.Y));
 

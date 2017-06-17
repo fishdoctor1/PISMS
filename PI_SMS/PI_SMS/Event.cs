@@ -86,6 +86,9 @@ namespace PI_SMS
                     dataGridView1.Rows[row].Cells["Sun"].Value = Event_data.Rows[row].ItemArray[7];
                     dataGridView1.Rows[row].Cells["Time"].Value = Event_data.Rows[row].ItemArray[8];
                     dataGridView1.Rows[row].Cells["EventID"].Value = Event_data.Rows[row].ItemArray[9];
+                    dataGridView1.Rows[row].Cells["Repeat"].Value = Event_data.Rows[row].ItemArray[10];
+                    dataGridView1.Rows[row].Cells["RepeatTime"].Value = Event_data.Rows[row].ItemArray[11]; 
+                    dataGridView1.Rows[row].Cells["RepeatTimeUnit"].Value = Event_data.Rows[row].ItemArray[12];
                 }
             }
             catch (Exception ex)
@@ -99,6 +102,9 @@ namespace PI_SMS
 
         private void buttonNEWEvent_Click(object sender, EventArgs e)
         {
+            comboBoxMin.SelectedIndex = 0;
+            comboBoxHour.SelectedIndex = 0;
+            comboBoxTimeRepeatUnit.SelectedIndex = 0;
             label4.Visible = true;
             label2.Visible = true;
             label3.Visible = true;
@@ -115,6 +121,10 @@ namespace PI_SMS
             buttonadd.Visible = true;
             buttonCancel.Visible = true;
             buttonNEWEvent.Visible = false;
+            label1.Visible = true;
+            textBoxtimeRepeat.Visible = true;
+            checkBox1.Visible = true;
+            comboBoxTimeRepeatUnit.Visible = true;
         }
 
         private void nEWToolStripMenuItem_Click(object sender, EventArgs e)
@@ -126,7 +136,8 @@ namespace PI_SMS
         #region Cancel
 
         private void buttonCancel_Click(object sender, EventArgs e)
-        {            
+        {
+            buttonNEWEvent.Visible = true;
             label4.Visible = false;
             label2.Visible = false;
             label3.Visible = false;
@@ -151,7 +162,10 @@ namespace PI_SMS
             checkBoxSat.Checked = false;
             buttonadd.Visible = false;
             buttonCancel.Visible = false;
-            buttonNEWEvent.Visible = true;
+            label1.Visible = false;
+            textBoxtimeRepeat.Visible = false;
+            checkBox1.Visible = false;
+            comboBoxTimeRepeatUnit.Visible = false;
         }
         #endregion
 
@@ -170,12 +184,13 @@ namespace PI_SMS
                     ContextMenuStrip my_menu = new ContextMenuStrip();
                     SelectedRowIndexdataGridView = dataGridView1.HitTest(e.X, e.Y).RowIndex;
                     dataGridView1.ClearSelection();
-                    dataGridView1.Rows[SelectedRowIndexdataGridView].Selected = true;
+                    
                     //MessageBox.Show("right click");
                     //MessageBox.Show(SelectedRowIndexdataGridView.ToString());
 
                     if (SelectedRowIndexdataGridView >= 0)
                     {
+                        dataGridView1.Rows[SelectedRowIndexdataGridView].Selected = true;
                         my_menu.Items.Add("Edit").Name = "Edit";
                         my_menu.Items.Add("Remove").Name = "Delete";
                     }
@@ -230,67 +245,73 @@ namespace PI_SMS
 
                     buttonUpdate.Visible = true;
                     try
-                    {                        
-                            
-                            //int mouse_row = dataGridView1;
-                            textBox1.Text = dataGridView1.Rows[SelectedRowIndexdataGridView].Cells["EventCol"].Value.ToString();
-                            string checkbox_statusSun = dataGridView1.Rows[SelectedRowIndexdataGridView].Cells[1].Value.ToString();
-                            string checkbox_statusMon = dataGridView1.Rows[SelectedRowIndexdataGridView].Cells[2].Value.ToString();
-                            string checkbox_statusTue = dataGridView1.Rows[SelectedRowIndexdataGridView].Cells[3].Value.ToString();
-                            string checkbox_statusWed = dataGridView1.Rows[SelectedRowIndexdataGridView].Cells[4].Value.ToString();
-                            string checkbox_statusThu = dataGridView1.Rows[SelectedRowIndexdataGridView].Cells[5].Value.ToString();
-                            string checkbox_statusFri = dataGridView1.Rows[SelectedRowIndexdataGridView].Cells[6].Value.ToString();
-                            string checkbox_statusSat = dataGridView1.Rows[SelectedRowIndexdataGridView].Cells[7].Value.ToString();
-                            string StringTime = dataGridView1.Rows[SelectedRowIndexdataGridView].Cells[8].Value.ToString();
-                            string[] Timevalues = StringTime.Split(':');
-                            comboBoxHour.SelectedIndex = comboBoxHour.FindString(Timevalues[0]);
-                            comboBoxMin.SelectedIndex = comboBoxMin.FindString(Timevalues[1]);
-                            if (checkbox_statusSun == "True")
-                            {
-                                checkBoxSun.Checked = true;
-                            }
-                            if (checkbox_statusMon == "True")
-                            {
-                                checkBoxMon.Checked = true;
-                            }
-                            if (checkbox_statusTue == "True")
-                            {
-                                checkBoxTue.Checked = true;
-                            }
-                            if (checkbox_statusWed == "True")
-                            {
-                                checkBoxWed.Checked = true;
-                            }
-                            if (checkbox_statusThu == "True")
-                            {
-                                checkBoxThu.Checked = true;
-                            }
-                            if (checkbox_statusFri == "True")
-                            {
-                                checkBoxFri.Checked = true;
-                            }
-                            if (checkbox_statusSat == "True")
-                            {
-                                checkBoxSat.Checked = true;
-                            }
-                            label4.Visible = true;
-                            label2.Visible = true;
-                            label3.Visible = true;
-                            //comboBoxEvent.Visible = false;
-                            comboBoxHour.Visible = true;
-                            comboBoxMin.Visible = true;
-                            checkBoxSun.Visible = true;
-                            checkBoxMon.Visible = true;
-                            checkBoxTue.Visible = true;
-                            checkBoxWed.Visible = true;
-                            checkBoxThu.Visible = true;
-                            checkBoxFri.Visible = true;
-                            checkBoxSat.Visible = true;
-                            buttonadd.Visible = false;
-                            buttonCancel.Visible = true;
-                            //comboBoxEvent.SelectedIndex = comboBoxEvent.FindString(dataGridView1.Rows[mouse_row].Cells[0].Value.ToString());
-                            textBox1.Visible = true;                        
+                    {
+                        //int mouse_row = dataGridView1;
+                        textBox1.Text = dataGridView1.Rows[SelectedRowIndexdataGridView].Cells["EventCol"].Value.ToString();
+                        string checkbox_statusSun = dataGridView1.Rows[SelectedRowIndexdataGridView].Cells[1].Value.ToString();
+                        string checkbox_statusMon = dataGridView1.Rows[SelectedRowIndexdataGridView].Cells[2].Value.ToString();
+                        string checkbox_statusTue = dataGridView1.Rows[SelectedRowIndexdataGridView].Cells[3].Value.ToString();
+                        string checkbox_statusWed = dataGridView1.Rows[SelectedRowIndexdataGridView].Cells[4].Value.ToString();
+                        string checkbox_statusThu = dataGridView1.Rows[SelectedRowIndexdataGridView].Cells[5].Value.ToString();
+                        string checkbox_statusFri = dataGridView1.Rows[SelectedRowIndexdataGridView].Cells[6].Value.ToString();
+                        string checkbox_statusSat = dataGridView1.Rows[SelectedRowIndexdataGridView].Cells[7].Value.ToString();
+                        string StringTime = dataGridView1.Rows[SelectedRowIndexdataGridView].Cells[8].Value.ToString();
+                        string[] Timevalues = StringTime.Split(':');
+                        textBoxtimeRepeat.Text = dataGridView1.Rows[SelectedRowIndexdataGridView].Cells["RepeatTime"].Value.ToString();
+                        comboBoxHour.SelectedIndex = comboBoxHour.FindString(Timevalues[0]);
+                        comboBoxMin.SelectedIndex = comboBoxMin.FindString(Timevalues[1]);
+                        comboBoxTimeRepeatUnit.SelectedIndex = comboBoxTimeRepeatUnit.FindString(dataGridView1.Rows[SelectedRowIndexdataGridView].Cells["RepeatTimeUnit"].Value.ToString());
+                        if (checkbox_statusSun == "True")
+                        {
+                            checkBoxSun.Checked = true;
+                        }
+                        if (checkbox_statusMon == "True")
+                        {
+                            checkBoxMon.Checked = true;
+                        }
+                        if (checkbox_statusTue == "True")
+                        {
+                            checkBoxTue.Checked = true;
+                        }
+                        if (checkbox_statusWed == "True")
+                        {
+                            checkBoxWed.Checked = true;
+                        }
+                        if (checkbox_statusThu == "True")
+                        {
+                            checkBoxThu.Checked = true;
+                        }
+                        if (checkbox_statusFri == "True")
+                        {
+                            checkBoxFri.Checked = true;
+                        }
+                        if (checkbox_statusSat == "True")
+                        {
+                            checkBoxSat.Checked = true;
+                        }
+                        textBox1.Visible = true;
+                        label4.Visible = true;
+                        label2.Visible = true;
+                        label3.Visible = true;
 
+                        label1.Visible = true;
+                        textBoxtimeRepeat.Visible = true;
+                        checkBox1.Visible = true;
+                        comboBoxTimeRepeatUnit.Visible = true;
+
+                        comboBoxHour.Visible = true;
+                        comboBoxMin.Visible = true;
+                        checkBoxSun.Visible = true;
+                        checkBoxMon.Visible = true;
+                        checkBoxTue.Visible = true;
+                        checkBoxWed.Visible = true;
+                        checkBoxThu.Visible = true;
+                        checkBoxFri.Visible = true;
+                        checkBoxSat.Visible = true;
+                        buttonadd.Visible = false;
+                        buttonCancel.Visible = true;
+                        //comboBoxEvent.SelectedIndex = comboBoxEvent.FindString(dataGridView1.Rows[mouse_row].Cells[0].Value.ToString());
+                        textBox1.Visible = true;
                     }
                     catch (Exception ex)
                     {
@@ -312,7 +333,7 @@ namespace PI_SMS
                 //string TemplateSelected = dataGridView1.Rows[rowindex].Cells["TemplateID"].Value.ToString();
                 string Event = textBox1.Text;
                 string mon = checkBoxMon.Checked.ToString();
-                string tue = checkBoxThu.Checked.ToString();
+                string tue = checkBoxTue.Checked.ToString();
                 string wed = checkBoxWed.Checked.ToString();
                 string thu = checkBoxThu.Checked.ToString();
                 string fri = checkBoxFri.Checked.ToString();
@@ -343,7 +364,7 @@ namespace PI_SMS
                 {
                     using (SqlConnection connection = new SqlConnection(connectionString))
                     {
-                        string queryString = "UPDATE ["+DataBaseName+"].[dbo].[Event] " +
+                        string queryString = "UPDATE [" + DataBaseName + "].[dbo].[Event] " +
                             "SET Monday='" + mon
                             + "',EventName='" + Event
                             + "',Tuesday='" + tue
@@ -353,6 +374,9 @@ namespace PI_SMS
                             + "',Saturday='" + sat
                             + "',Sunday='" + sun
                             + "',Time='" + Timeconcat
+                            + "',Repeat='" + checkBox1.Checked.ToString()
+                            + "',RepeatTime='" + textBoxtimeRepeat.Text.ToString()
+                            + "',RepeatTimeUnit='" + comboBoxTimeRepeatUnit.SelectedItem.ToString()
                             + "' WHERE EventID='" + dataGridView1.Rows[SelectedRowIndexdataGridView].Cells["EventID"].Value.ToString() + "'";
                         SqlCommand command = new SqlCommand(queryString, connection); ;
                         command.Connection.Open();
@@ -362,12 +386,15 @@ namespace PI_SMS
                         Filldatagridview();
                         dataGridView1.Update();
 
-                        //label1.Visible = false;
+                        label1.Visible = false;
                         label2.Visible = false;
                         label3.Visible = false;
+                        label4.Visible = false;
                         buttonUpdate.Visible = false;
                         textBox1.Visible = false;
-                        //comboBoxEvent.Visible = false;
+                        textBoxtimeRepeat.Visible = false;
+                        checkBox1.Visible = false;
+                        comboBoxTimeRepeatUnit.Visible = false;
                         comboBoxHour.Visible = false;
                         comboBoxMin.Visible = false;
                         checkBoxSun.Visible = false;
@@ -427,7 +454,7 @@ namespace PI_SMS
                         string TimeHour = comboBoxHour.SelectedItem.ToString();
                         string TimeMin = comboBoxMin.SelectedItem.ToString();
                         string Time = TimeHour + ":" + TimeMin;
-                        string queryString = "INSERT INTO ["+DataBaseName+"].[dbo].[Event] ([EventName],[Monday],[Tuesday],[Wednesday],[Thursday],[Friday],[Time],[Sunday],[Saturday])VALUES('"
+                        string queryString = "INSERT INTO ["+DataBaseName+"].[dbo].[Event] ([EventName],[Monday],[Tuesday],[Wednesday],[Thursday],[Friday],[Time],[Sunday],[Saturday],[Repeat],[RepeatTime],[RepeatTimeUnit])VALUES('"
                             + textBox1.Text.ToString() + "','"
                             + checkBoxMon.Checked +"','"
                             + checkBoxTue.Checked + "','"
@@ -436,7 +463,10 @@ namespace PI_SMS
                             + checkBoxFri.Checked + "','"
                             + Time + "','"
                             + checkBoxSun.Checked + "','"
-                            + checkBoxSat.Checked + "')";
+                            + checkBoxSat.Checked + "','"
+                            + checkBox1.Checked.ToString()+"','"
+                            + textBoxtimeRepeat.Text.ToString()+"','"
+                            + comboBoxTimeRepeatUnit.SelectedItem.ToString()+"')";
 
                         SqlCommand command = new SqlCommand(queryString, connection);
                         command.Connection.Open();
@@ -495,5 +525,18 @@ namespace PI_SMS
             panel2.Dispose();
         }
 
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                textBoxtimeRepeat.Enabled = true;
+                comboBoxTimeRepeatUnit.Enabled = true;
+            }
+            else
+            {
+                textBoxtimeRepeat.Enabled = false;
+                comboBoxTimeRepeatUnit.Enabled = false;
+            }
+        }
     }
 }

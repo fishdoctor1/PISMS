@@ -366,7 +366,7 @@ namespace PI_SMS
                         using (SqlConnection connection = new SqlConnection(
                        connectionString))
                         {
-                            string queryString = " DELETE FROM ["+DataBaseName+"].[dbo].[User_Group_RelationTable] WHERE UserIDAuToInc ='" + User_IdSelected + "'"
+                            string queryString = ""
                                 + " DELETE FROM ["+DataBaseName+"].[dbo].[User_Template_Relation] WHERE UserIDAuToInc ='" + User_IdSelected + "'"
                                 + " DELETE FROM ["+DataBaseName+"].[dbo].[User_RealTimeGroup_Relation] WHERE UserIDAuToInc = '" + User_IdSelected + "'"
                                 + " DELETE FROM ["+DataBaseName+"].[dbo].[User] WHERE UserIDAuToInc = '" + User_IdSelected + "'";
@@ -582,7 +582,7 @@ namespace PI_SMS
                         string User_IdSelected = dataGridView1.Rows[row].Cells["UserIDAuToInc"].Value.ToString();
                         using (SqlConnection connection = new SqlConnection(connectionString))
                         {
-                            string queryString = " DELETE FROM ["+DataBaseName+"].[dbo].[User_Group_RelationTable] WHERE UserIDAuToInc ='" + User_IdSelected
+                            string queryString = " DELETE FROM ["+DataBaseName+ "].[dbo].[User_RealTimeGroup_Relation] WHERE UserIDAuToInc ='" + User_IdSelected
                                 + "' DELETE FROM ["+DataBaseName+"].[dbo].[User_Template_Relation] WHERE UserIDAuToInc ='" + User_IdSelected + "'"
                                 + " DELETE FROM["+DataBaseName+"].[dbo].[User] WHERE UserIDAuToInc ='" + User_IdSelected + "'";
                             //Console.WriteLine(row + " : Checked True");
@@ -625,6 +625,21 @@ namespace PI_SMS
                 checkBoxLastName.Visible = true;
                 checkBoxPhone.Visible = true;
                 SearchUser.Visible = false;
+            }
+        }
+
+        private void checkBoxSelectall_CheckedChanged(object sender, EventArgs e)
+        {
+            for(int row = 0; row < dataGridView1.Rows.Count; row++)
+            {
+                if (checkBoxSelectall.Checked)
+                {
+                    dataGridView1.Rows[row].Cells[0].Value = true;
+                }
+                else
+                {
+                    dataGridView1.Rows[row].Cells[0].Value = false;
+                }
             }
         }
     }

@@ -28,36 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.timer3 = new System.Timers.Timer();
+            this.timer2 = new System.Timers.Timer();
             this.timer1 = new System.Timers.Timer();
-            ((System.ComponentModel.ISupportInitialize)(this.timer3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.timer2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.timer1)).BeginInit();
-            // 
-            // timer3
-            // 
-            this.timer3.AutoReset = false;
-            this.timer3.Enabled = true;
-            this.timer3.Interval = 20000D;
-            this.timer3.Elapsed += new System.Timers.ElapsedEventHandler(this.timer3_Elapsed);
             // 
             // timer1
             // 
             this.timer1.AutoReset = false;
             this.timer1.Enabled = true;
-            this.timer1.Interval = 10000D;
+            this.timer1.Interval = 1000D;
             this.timer1.Elapsed += new System.Timers.ElapsedEventHandler(this.timer1_Elapsed);
             // 
             // PISMS_Service_RealTime
             // 
             this.ServiceName = "Service1";
-            ((System.ComponentModel.ISupportInitialize)(this.timer3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.timer2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.timer1)).EndInit();
 
         }
 
         #endregion
 
-        private System.Timers.Timer timer3;
+        private System.Timers.Timer timer2;
         private System.Timers.Timer timer1;
     }
 }

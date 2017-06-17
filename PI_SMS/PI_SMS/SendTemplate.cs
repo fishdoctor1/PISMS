@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Data.OleDb;
+using System.Threading;
 
 namespace PI_SMS
 {
@@ -221,7 +222,7 @@ namespace PI_SMS
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show("Error \n" + ex, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -305,7 +306,7 @@ namespace PI_SMS
             {
                 if (dataGridViewAllUser.Visible == true)
                 {
-                    for (int row = 0; row < dataGridViewTemplate.Rows.Count; row++)
+                    for (int row = 0; row < dataGridViewAllUser.Rows.Count; row++)
                     {
                         if (dataGridViewAllUser.Rows[row].Cells["adduser"].Value.ToString() == "True")
                         {
@@ -363,6 +364,7 @@ namespace PI_SMS
         {
             dataGridViewUserToSend.Rows.Add();
             int rowdatagridview = (dataGridViewUserToSend.RowCount) - 1;
+            dataGridViewUserToSend.Rows[rowdatagridview].Cells[0].Value = false;
             dataGridViewUserToSend.Rows[rowdatagridview].Cells["FirstnameToSend"].Value = "Unknown";
             dataGridViewUserToSend.Rows[rowdatagridview].Cells["PhoneNoToSend"].Value = textBox1.Text.ToString();
         }
@@ -394,7 +396,7 @@ namespace PI_SMS
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show("Error \n" + ex, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -477,6 +479,11 @@ namespace PI_SMS
             {
                 try
                 {
+                    progressBar1.Visible = true;
+                    progressBar1.Minimum = 0;
+                    progressBar1.Maximum = 200;
+                    progressBar1.Value = 0;
+                    progressBar1.Update();
                     int Template_ID = Convert.ToInt32(comboBoxTemplate.SelectedValue.ToString());
                     string TemplateDescription = "";
                     GET_TemplateDescription(ref TemplateDescription);
@@ -496,19 +503,25 @@ namespace PI_SMS
                         string tagalias = Tag_in_TemplateTable.Rows[tag].ItemArray[2].ToString(); //Tag alias
                         message += tagalias + "\n";
                         message += TagValue[tag] + "\n";
-
+                        progressBar1.Value = (tag * 100) / Tag_in_TemplateTable.Rows.Count;
+                        progressBar1.Update();
+                        Thread.Sleep(100);
                     }
+
                     for (int row = 0; row < dataGridViewUserToSend.Rows.Count; row++)
                     {
                         string phonenumber = dataGridViewUserToSend.Rows[row].Cells[3].Value.ToString();
                         char in_msg_type = 'E';
 
                         SMSGateway.SMS_Result response = client.sendSMS2DTAC(phonenumber, header, message, in_msg_type);
-                        response.result.ToString();
+                        //response.result.ToString();
 
                         message = message.Remove(message.Length - 2);
+                        progressBar1.Value = 100+((row * 100) / dataGridViewUserToSend.Rows.Count);
+                        progressBar1.Update();
+                        Thread.Sleep(100);
                     }
-                    
+                    progressBar1.Visible = false;
                 }
                 catch (Exception ex)
                 {

@@ -1,7 +1,6 @@
 c:\users\pornb3558\documents\visual studio 2017\Projects\PI_SMS_Service\PI_SMS_Service\bin\Debug\PI_SMS_Service.exe.config
 c:\users\pornb3558\documents\visual studio 2017\Projects\PI_SMS_Service\PI_SMS_Service\bin\Debug\PI_SMS_Service.exe
 c:\users\pornb3558\documents\visual studio 2017\Projects\PI_SMS_Service\PI_SMS_Service\bin\Debug\PI_SMS_Service.pdb
-c:\users\pornb3558\documents\visual studio 2017\Projects\PI_SMS_Service\PI_SMS_Service\obj\Debug\PI_SMS_Service.csprojResolveAssemblyReference.cache
 c:\users\pornb3558\documents\visual studio 2017\Projects\PI_SMS_Service\PI_SMS_Service\obj\Debug\PI_SMS_Service.exe
 c:\users\pornb3558\documents\visual studio 2017\Projects\PI_SMS_Service\PI_SMS_Service\obj\Debug\PI_SMS_Service.pdb
 C:\Users\PorNB3558\documents\visual studio 2017\Projects\PI_SMS_Service\PI_SMS_Service\bin\Debug\OSIsoft.PISDK.dll

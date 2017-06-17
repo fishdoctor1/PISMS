@@ -1,0 +1,12 @@
+C:\Users\PorNB3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\bin\Release\PISMS_Service_Realtime.exe.config
+C:\Users\PorNB3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\bin\Release\PISMS_Service_Realtime.exe
+C:\Users\PorNB3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\bin\Release\PISMS_Service_Realtime.pdb
+C:\Users\PorNB3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\bin\Release\OSIsoft.PISDK.dll
+C:\Users\PorNB3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\bin\Release\OSIsoft.PISDKCommon.dll
+C:\Users\PorNB3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\bin\Release\OSIsoft.PISDKCtl.dll
+C:\Users\PorNB3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\bin\Release\OSIsoft.PISDKDlg.dll
+C:\Users\PorNB3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\bin\Release\OSIsoft.PITimeServer.dll
+C:\Users\PorNB3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\obj\Release\PISMS_Service_Realtime.PISMS_Service_RealTime.resources
+C:\Users\PorNB3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\obj\Release\PISMS_Service_Realtime.csproj.GenerateResource.Cache
+C:\Users\PorNB3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\obj\Release\PISMS_Service_Realtime.exe
+C:\Users\PorNB3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\obj\Release\PISMS_Service_Realtime.pdb

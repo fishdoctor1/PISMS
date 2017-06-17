@@ -36,7 +36,7 @@ namespace PI_SMS
             UserMatchSearch2.Dispose();
             UserinDataGridview2.Dispose();
             panel1.Dispose();
-            dataGridViewAdd.Dispose();
+            dataGridViewAvilableUser.Dispose();
             dataGridViewUserInTemplate.Dispose();
             tableLayoutPanel1.Dispose();
         }
@@ -162,7 +162,7 @@ namespace PI_SMS
         {
             try
             {
-                dataGridViewAdd.Rows.Clear();
+                dataGridViewAvilableUser.Rows.Clear();
                 int RowNotDuplicate = 0;
                 DataRow rowTable2;
                 UserinDataGridview2.Clear();
@@ -182,12 +182,12 @@ namespace PI_SMS
                     }
                     if (checkAlluser_duplicate_UserinTemplate == 0)
                     {
-                        dataGridViewAdd.Rows.Add();
-                        dataGridViewAdd.Rows[RowNotDuplicate].Cells[0].Value = false;
-                        dataGridViewAdd.Rows[RowNotDuplicate].Cells["UserIDAdd"].Value = AllUserDataTable.Rows[rowAlluserDataTable].ItemArray[0];
-                        dataGridViewAdd.Rows[RowNotDuplicate].Cells["FirstNameAdd"].Value = AllUserDataTable.Rows[rowAlluserDataTable].ItemArray[6];
-                        dataGridViewAdd.Rows[RowNotDuplicate].Cells["LastNameAdd"].Value = AllUserDataTable.Rows[rowAlluserDataTable].ItemArray[7];
-                        dataGridViewAdd.Rows[RowNotDuplicate].Cells["UserIDAuToIncAllUser"].Value = AllUserDataTable.Rows[rowAlluserDataTable].ItemArray[5];
+                        dataGridViewAvilableUser.Rows.Add();
+                        dataGridViewAvilableUser.Rows[RowNotDuplicate].Cells[0].Value = false;
+                        dataGridViewAvilableUser.Rows[RowNotDuplicate].Cells["UserIDAdd"].Value = AllUserDataTable.Rows[rowAlluserDataTable].ItemArray[0];
+                        dataGridViewAvilableUser.Rows[RowNotDuplicate].Cells["FirstNameAdd"].Value = AllUserDataTable.Rows[rowAlluserDataTable].ItemArray[6];
+                        dataGridViewAvilableUser.Rows[RowNotDuplicate].Cells["LastNameAdd"].Value = AllUserDataTable.Rows[rowAlluserDataTable].ItemArray[7];
+                        dataGridViewAvilableUser.Rows[RowNotDuplicate].Cells["UserIDAuToIncAllUser"].Value = AllUserDataTable.Rows[rowAlluserDataTable].ItemArray[5];
 
                         rowTable2 = UserinDataGridview2.NewRow();
                         rowTable2["UserID"] = AllUserDataTable.Rows[rowAlluserDataTable].ItemArray[0].ToString();
@@ -256,7 +256,7 @@ namespace PI_SMS
 
         #region Mouse Click datagridview UserinTemplate
 
-        private void dataGridView1_MouseClick(object sender, MouseEventArgs e)
+        private void dataGridViewUserInTemplate_MouseClick(object sender, MouseEventArgs e)
         {
             try
             {
@@ -269,12 +269,13 @@ namespace PI_SMS
                     ContextMenuStrip my_menu = new ContextMenuStrip();
                     SelectedRowIndexdataGridView = dataGridViewUserInTemplate.HitTest(e.X, e.Y).RowIndex;
                     dataGridViewUserInTemplate.ClearSelection();
-                    dataGridViewUserInTemplate.Rows[SelectedRowIndexdataGridView].Selected = true;
+
                     //MessageBox.Show("right click");
                     //MessageBox.Show(SelectedRowIndexdataGridView.ToString());
 
                     if (SelectedRowIndexdataGridView >= 0)
                     {
+                        dataGridViewUserInTemplate.Rows[SelectedRowIndexdataGridView].Selected = true;
                         my_menu.Items.Add("Remove").Name = "Delete";
                     }
                     my_menu.Show(dataGridViewUserInTemplate, new Point(e.X, e.Y));
@@ -287,9 +288,7 @@ namespace PI_SMS
             {
                 MessageBox.Show("Error \n" + ex, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
         }
-
         private void my_menu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
@@ -333,11 +332,11 @@ namespace PI_SMS
         {
             try
             {
-                for(int row=0;row< dataGridViewAdd.Rows.Count;row++)
+                for(int row=0;row< dataGridViewAvilableUser.Rows.Count;row++)
                 {
                     bool result ;
                     
-                    Boolean.TryParse(dataGridViewAdd.Rows[row].Cells[0].Value.ToString(),out result);
+                    Boolean.TryParse(dataGridViewAvilableUser.Rows[row].Cells[0].Value.ToString(),out result);
                     int checkDuplicateUser = 0;
                     if(result == true)// checkBoxtrue Then Check Duplicate
                     {
@@ -346,7 +345,7 @@ namespace PI_SMS
                             string User_OndatagridviewAuToInc = dataGridViewUserInTemplate.Rows[rowdatagrid1].Cells["UserIDAuToInc"].Value.ToString();
                             string User_OndatagridviewID = dataGridViewUserInTemplate.Rows[rowdatagrid1].Cells["UserID"].Value.ToString();
                             //check same Event
-                            if (dataGridViewAdd.Rows[row].Cells[1].Value.ToString() == User_OndatagridviewID)
+                            if (dataGridViewAvilableUser.Rows[row].Cells[1].Value.ToString() == User_OndatagridviewID)
                             {
                                 MessageBox.Show("Error User " + User_OndatagridviewID + " duplicate", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 checkDuplicateUser = 1;
@@ -366,7 +365,7 @@ namespace PI_SMS
                         using (SqlConnection connection = new SqlConnection(connectionString))
                         {
                             string comboboxselect = comboBoxTemplate.SelectedValue.ToString();
-                            string queryString = "INSERT INTO ["+DataBaseName+"].[dbo].[User_Template_Relation] ([UserIDAutoInc],[TemplateIDAuToInc]) VALUES ('" + dataGridViewAdd.Rows[row].Cells[4].Value.ToString() + "' , '" + comboboxselect + "')";
+                            string queryString = "INSERT INTO ["+DataBaseName+"].[dbo].[User_Template_Relation] ([UserIDAutoInc],[TemplateIDAuToInc]) VALUES ('" + dataGridViewAvilableUser.Rows[row].Cells[4].Value.ToString() + "' , '" + comboboxselect + "')";
                             //Console.WriteLine(row + " : Checked True");
                             SqlCommand command = new SqlCommand(queryString, connection);
                             command.Connection.Open();
@@ -534,16 +533,16 @@ namespace PI_SMS
                         rowIndex++;
 
                     }
-                    dataGridViewAdd.Rows.Clear();
+                    dataGridViewAvilableUser.Rows.Clear();
                     // Set a DataGrid control's DataSource to the DataView.
                     for (int row = 0; row < UserMatchSearch2.Rows.Count; row++)
                     {
-                        dataGridViewAdd.Rows.Add();
-                        dataGridViewAdd.Rows[row].Cells["CheckBoxADD"].Value = false;
-                        dataGridViewAdd.Rows[row].Cells["UserIDAdd"].Value = UserMatchSearch2.Rows[row].ItemArray[0];
-                        dataGridViewAdd.Rows[row].Cells["FirstNameAdd"].Value = UserMatchSearch2.Rows[row].ItemArray[1];
-                        dataGridViewAdd.Rows[row].Cells["LastNameAdd"].Value = UserMatchSearch2.Rows[row].ItemArray[2];
-                        dataGridViewAdd.Rows[row].Cells["UserIDAuToIncAllUser"].Value = UserMatchSearch2.Rows[row].ItemArray[3];
+                        dataGridViewAvilableUser.Rows.Add();
+                        dataGridViewAvilableUser.Rows[row].Cells["CheckBoxADD"].Value = false;
+                        dataGridViewAvilableUser.Rows[row].Cells["UserIDAdd"].Value = UserMatchSearch2.Rows[row].ItemArray[0];
+                        dataGridViewAvilableUser.Rows[row].Cells["FirstNameAdd"].Value = UserMatchSearch2.Rows[row].ItemArray[1];
+                        dataGridViewAvilableUser.Rows[row].Cells["LastNameAdd"].Value = UserMatchSearch2.Rows[row].ItemArray[2];
+                        dataGridViewAvilableUser.Rows[row].Cells["UserIDAuToIncAllUser"].Value = UserMatchSearch2.Rows[row].ItemArray[3];
                     }//end forloop add Match Search
 
             }
@@ -722,15 +721,15 @@ namespace PI_SMS
 
         private void checkBoxAddAll_CheckedChanged(object sender, EventArgs e)
         {
-            for (int rowgrid2 = 0; rowgrid2 < dataGridViewAdd.Rows.Count; rowgrid2++)
+            for (int rowgrid2 = 0; rowgrid2 < dataGridViewAvilableUser.Rows.Count; rowgrid2++)
             {
                 if (checkBoxAddAll.Checked)
                 {
-                    dataGridViewAdd.Rows[rowgrid2].Cells[0].Value = true;
+                    dataGridViewAvilableUser.Rows[rowgrid2].Cells[0].Value = true;
                 }
                 else
                 {
-                    dataGridViewAdd.Rows[rowgrid2].Cells[0].Value = false;
+                    dataGridViewAvilableUser.Rows[rowgrid2].Cells[0].Value = false;
                 }
             }
         }
@@ -739,28 +738,29 @@ namespace PI_SMS
 
         #region Add by rightclick
 
-        private void dataGridViewAdd_MouseClick(object sender, MouseEventArgs e)
+        private void dataGridViewAvilableUser_MouseClick(object sender, MouseEventArgs e)
         {
             try
             {
                 if (e.Button == MouseButtons.Left)
                 {
-                    SelectedRowIndexdataGridViewAdd = dataGridViewAdd.HitTest(e.X, e.Y).RowIndex;
+                    SelectedRowIndexdataGridViewAdd = dataGridViewAvilableUser.HitTest(e.X, e.Y).RowIndex;
                 }
                 else
                 {
                     ContextMenuStrip my_menu2 = new ContextMenuStrip();
-                    SelectedRowIndexdataGridViewAdd = dataGridViewAdd.HitTest(e.X, e.Y).RowIndex;
-                    dataGridViewAdd.ClearSelection();
-                    dataGridViewAdd.Rows[SelectedRowIndexdataGridViewAdd].Selected = true;
+                    SelectedRowIndexdataGridViewAdd = dataGridViewAvilableUser.HitTest(e.X, e.Y).RowIndex;
+                    dataGridViewAvilableUser.ClearSelection();
+
                     //MessageBox.Show("right click");
                     //MessageBox.Show(SelectedRowIndexdataGridView.ToString());
 
                     if (SelectedRowIndexdataGridViewAdd >= 0)
                     {
                         my_menu2.Items.Add("Add").Name = "Add";
+                        dataGridViewAvilableUser.Rows[SelectedRowIndexdataGridViewAdd].Selected = true;
                     }
-                    my_menu2.Show(dataGridViewAdd, new Point(e.X, e.Y));
+                    my_menu2.Show(dataGridViewAvilableUser, new Point(e.X, e.Y));
 
                     //Event menu Click
                     my_menu2.ItemClicked += new ToolStripItemClickedEventHandler(my_menu_ItemClicked2);
@@ -771,6 +771,7 @@ namespace PI_SMS
                 MessageBox.Show("Error \n" + ex, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void my_menu_ItemClicked2(object sender, ToolStripItemClickedEventArgs e)
         {
 
@@ -780,15 +781,15 @@ namespace PI_SMS
                     try
                     {
                         int checkDuplicateUser = 0;
-                            string User_OndatagridviewAuToInc = dataGridViewAdd.Rows[SelectedRowIndexdataGridViewAdd].Cells["UserIDAuToIncAllUser"].Value.ToString();
-                            string User_OndatagridviewID = dataGridViewAdd.Rows[SelectedRowIndexdataGridViewAdd].Cells["UserIDAdd"].Value.ToString();                        
+                            string User_OndatagridviewAuToInc = dataGridViewAvilableUser.Rows[SelectedRowIndexdataGridViewAdd].Cells["UserIDAuToIncAllUser"].Value.ToString();
+                            string User_OndatagridviewID = dataGridViewAvilableUser.Rows[SelectedRowIndexdataGridViewAdd].Cells["UserIDAdd"].Value.ToString();                        
 
                         if (checkDuplicateUser == 0)
                         {
                             using (SqlConnection connection = new SqlConnection(connectionString))
                             {
                                 string comboboxselect = comboBoxTemplate.SelectedValue.ToString();
-                                string queryString = "INSERT INTO ["+DataBaseName+"].[dbo].[User_Template_Relation] ([UserIDAutoInc],[TemplateIDAuToInc]) VALUES ('" + dataGridViewAdd.Rows[SelectedRowIndexdataGridViewAdd].Cells["UserIDAuToIncAllUser"].Value.ToString() + "' , '" + comboboxselect + "')";
+                                string queryString = "INSERT INTO ["+DataBaseName+"].[dbo].[User_Template_Relation] ([UserIDAutoInc],[TemplateIDAuToInc]) VALUES ('" + dataGridViewAvilableUser.Rows[SelectedRowIndexdataGridViewAdd].Cells["UserIDAuToIncAllUser"].Value.ToString() + "' , '" + comboboxselect + "')";
                                 //Console.WriteLine(row + " : Checked True");
                                 SqlCommand command = new SqlCommand(queryString, connection);
                                 command.Connection.Open();
@@ -817,7 +818,9 @@ namespace PI_SMS
             }
         }
 
-#endregion
 
+        #endregion
+
+        
     }
 }

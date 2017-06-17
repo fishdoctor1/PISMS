@@ -25,6 +25,7 @@ namespace PI_SMS
             InitializeComponent();
             pisms = Frompisms;
             start();
+            
         }
 
         public void start()
@@ -111,7 +112,11 @@ namespace PI_SMS
                     ContextMenuStrip my_menu = new ContextMenuStrip();
                     SelectedrowIndexdataGridView = dataGridViewTemplate.HitTest(e.X, e.Y).RowIndex;
                     dataGridViewTemplate.ClearSelection();
-                    dataGridViewTemplate.Rows[SelectedrowIndexdataGridView].Selected = true;
+                    if (SelectedrowIndexdataGridView >= 0)
+                    {
+                        dataGridViewTemplate.Rows[SelectedrowIndexdataGridView].Selected = true;
+                    }
+                    
                     //MessageBox.Show("right click");
                     //MessageBox.Show(SelectedrowIndexdataGridView.ToString());
 
@@ -135,8 +140,6 @@ namespace PI_SMS
 
         private void my_menu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            //MessageBox.Show(e.ClickedItem.Name.ToString());
-            //int rowIndex = dataGridViewTemplate.CurrentCell.RowIndex;
             string TemplateSelected = dataGridViewTemplate.Rows[SelectedrowIndexdataGridView].Cells["TemplateID"].Value.ToString();
             switch (e.ClickedItem.Name.ToString())
             {
@@ -325,7 +328,7 @@ namespace PI_SMS
                     {
                         for (int row = 0; row < dataGridViewTemplate.Rows.Count; row++)
                         {
-                            queryString = "UPDATE [" + DataBaseName + "].[dbo].[NotificationTemplate] SET SMSNotify='" + dataGridViewTemplate.Rows[row].Cells["SMSCol"].Value + "' ";
+                            queryString = "UPDATE [" + DataBaseName + "].[dbo].[NotificationTemplate] SET SMSNotify='" + dataGridViewTemplate.Rows[row].Cells["SMSCol"].Value.ToString() + "' WHERE TemplateIDAuToInc='"+ dataGridViewTemplate.Rows[row].Cells["TemplateID"].Value.ToString() + "'";
 
                             SqlCommand command = new SqlCommand(queryString, connection);
                             SqlDataAdapter data = new SqlDataAdapter(command);
@@ -341,8 +344,8 @@ namespace PI_SMS
                     }
                     LoadDataToTable_Template();
                     Filldatagridview();
-
                 }
+                MessageBox.Show("UPDATE Done", "UPDATE");
             }
             catch (Exception ex)
             {

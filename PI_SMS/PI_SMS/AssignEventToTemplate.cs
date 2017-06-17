@@ -181,7 +181,7 @@ namespace PI_SMS
         {
             try
             {
-                dataGridViewAdd.Rows.Clear();
+                dataGridViewAvilableEvent.Rows.Clear();
                 int RowNotDuplicate = 0;
                 DataRow rowTable2;
                 EventinDataGridview2.Clear();
@@ -201,10 +201,10 @@ namespace PI_SMS
                     }
                     if (checkAlluser_duplicate_UserinTemplate == 0)
                     {
-                        dataGridViewAdd.Rows.Add();
-                        dataGridViewAdd.Rows[RowNotDuplicate].Cells[0].Value = false;
-                        dataGridViewAdd.Rows[RowNotDuplicate].Cells["EventNameAdd"].Value = AllEventDataTable.Rows[rowAlluserDataTable].ItemArray[0];
-                        dataGridViewAdd.Rows[RowNotDuplicate].Cells["EventIDAdd"].Value = AllEventDataTable.Rows[rowAlluserDataTable].ItemArray[9];
+                        dataGridViewAvilableEvent.Rows.Add();
+                        dataGridViewAvilableEvent.Rows[RowNotDuplicate].Cells[0].Value = false;
+                        dataGridViewAvilableEvent.Rows[RowNotDuplicate].Cells["EventNameAdd"].Value = AllEventDataTable.Rows[rowAlluserDataTable].ItemArray[0];
+                        dataGridViewAvilableEvent.Rows[RowNotDuplicate].Cells["EventIDAdd"].Value = AllEventDataTable.Rows[rowAlluserDataTable].ItemArray[9];
                         
                         //rowTable2 = UserinDataGridview2.NewRow();
                         //rowTable2["UserID"] = AllEventDataTable.Rows[rowAlluserDataTable].ItemArray[0].ToString();
@@ -228,15 +228,15 @@ namespace PI_SMS
         {
             try
             {
-                for (int row = 0; row < dataGridViewAdd.Rows.Count; row++)
+                for (int row = 0; row < dataGridViewAvilableEvent.Rows.Count; row++)
                 {
                     bool result;
                     string EventID="";
-                    Boolean.TryParse(dataGridViewAdd.Rows[row].Cells[0].Value.ToString(), out result);
+                    Boolean.TryParse(dataGridViewAvilableEvent.Rows[row].Cells[0].Value.ToString(), out result);
                     int checkDuplicateUser = 0;
                     if (result == true)// checkBoxtrue Then Check Duplicate
                     {
-                        EventID = dataGridViewAdd.Rows[row].Cells["EventIDAdd"].Value.ToString();
+                        EventID = dataGridViewAvilableEvent.Rows[row].Cells["EventIDAdd"].Value.ToString();
                         
                     }
 
@@ -303,11 +303,12 @@ namespace PI_SMS
 
         }
 
-#endregion
+        #endregion
 
         #region Mouse ClickdataGrid Delete
 
-        private void dataGridView1_MouseClick(object sender, MouseEventArgs e)
+
+        private void dataGridViewevent_in_template_MouseClick(object sender, MouseEventArgs e)
         {
             try
             {
@@ -320,10 +321,10 @@ namespace PI_SMS
                     ContextMenuStrip my_menu = new ContextMenuStrip();
                     SelectedRowIndexdataGridView = dataGridViewevent_in_template.HitTest(e.X, e.Y).RowIndex;
                     dataGridViewevent_in_template.ClearSelection();
-                    dataGridViewevent_in_template.Rows[SelectedRowIndexdataGridView].Selected = true;
-
+                    
                     if (SelectedRowIndexdataGridView >= 0)
                     {
+                        dataGridViewevent_in_template.Rows[SelectedRowIndexdataGridView].Selected = true;
                         my_menu.Items.Add("Remove").Name = "Delete";
                     }
                     my_menu.Show(dataGridViewevent_in_template, new Point(e.X, e.Y));
@@ -336,7 +337,6 @@ namespace PI_SMS
             {
                 MessageBox.Show("Error \n" + ex, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
         }
         private void my_menu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
@@ -528,22 +528,23 @@ namespace PI_SMS
             {
                 if (e.Button == MouseButtons.Left)
                 {
-                    SelectedRowIndexdataGridViewAdd = dataGridViewAdd.HitTest(e.X, e.Y).RowIndex;
+                    SelectedRowIndexdataGridViewAdd = dataGridViewAvilableEvent.HitTest(e.X, e.Y).RowIndex;
                 }
                 else
                 {
                     ContextMenuStrip my_menu2 = new ContextMenuStrip();
-                    SelectedRowIndexdataGridViewAdd = dataGridViewAdd.HitTest(e.X, e.Y).RowIndex;
-                    dataGridViewAdd.ClearSelection();
-                    dataGridViewAdd.Rows[SelectedRowIndexdataGridViewAdd].Selected = true;
+                    SelectedRowIndexdataGridViewAdd = dataGridViewAvilableEvent.HitTest(e.X, e.Y).RowIndex;
+                    dataGridViewAvilableEvent.ClearSelection();
+                    
                     //MessageBox.Show("right click");
                     //MessageBox.Show(SelectedRowIndexdataGridView.ToString());
 
                     if (SelectedRowIndexdataGridViewAdd >= 0)
                     {
+                        dataGridViewAvilableEvent.Rows[SelectedRowIndexdataGridViewAdd].Selected = true;
                         my_menu2.Items.Add("Add").Name = "Add";
                     }
-                    my_menu2.Show(dataGridViewAdd, new Point(e.X, e.Y));
+                    my_menu2.Show(dataGridViewAvilableEvent, new Point(e.X, e.Y));
 
                     //Event menu Click
                     my_menu2.ItemClicked += new ToolStripItemClickedEventHandler(my_menu_ItemClicked2);
@@ -566,7 +567,7 @@ namespace PI_SMS
                         using (SqlConnection connection = new SqlConnection(connectionString))
                         {
                             int checksameEvent = 0;
-                            string EventID = dataGridViewAdd.Rows[SelectedRowIndexdataGridViewAdd].Cells["EventIDAdd"].Value.ToString();
+                            string EventID = dataGridViewAvilableEvent.Rows[SelectedRowIndexdataGridViewAdd].Cells["EventIDAdd"].Value.ToString();
                             for (int row = 0; row < dataGridViewevent_in_template.Rows.Count; row++)
                             {
 
@@ -608,17 +609,19 @@ namespace PI_SMS
 
         private void checkBoxAdd_CheckedChanged(object sender, EventArgs e)
         {
-            for (int rowgrid2 = 0; rowgrid2 < dataGridViewAdd.Rows.Count; rowgrid2++)
+            for (int rowgrid2 = 0; rowgrid2 < dataGridViewAvilableEvent.Rows.Count; rowgrid2++)
             {
                 if (checkBoxAdd.Checked)
                 {
-                    dataGridViewAdd.Rows[rowgrid2].Cells[0].Value = true;
+                    dataGridViewAvilableEvent.Rows[rowgrid2].Cells[0].Value = true;
                 }
                 else
                 {
-                    dataGridViewAdd.Rows[rowgrid2].Cells[0].Value = false;
+                    dataGridViewAvilableEvent.Rows[rowgrid2].Cells[0].Value = false;
                 }
             }
         }
+
+
     }
 }
