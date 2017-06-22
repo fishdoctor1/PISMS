@@ -1,0 +1,5 @@
+!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!
+System.ArgumentException: Column 'TemplateID' does not belong to table .
+   at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.set_Item(String columnName, Object value)
+   at PI_SMS_Service.PI_SMS_Service.CheckEvent_In_Template(Int32 Template_ID, Int32 templatenumber, String TemplateDescription) in C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS_Service\PI_SMS_Service\PI_SMS_Service.cs:line 488

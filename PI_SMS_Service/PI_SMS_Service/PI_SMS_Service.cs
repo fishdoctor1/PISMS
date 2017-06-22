@@ -29,7 +29,7 @@ namespace PI_SMS_Service
 
         string connectionString = "Data Source = 172.28.57.123; Initial Catalog =PISMS; User ID =PISMS; Password =P@ssw0rd";
         public  System.Timers.Timer aTimer;
-        string debuglog = AppDomain.CurrentDomain.BaseDirectory + "\\ServiceDebugLog";
+        string debuglog = AppDomain.CurrentDomain.BaseDirectory + "\\DailyServiceDebugLog";
 
         string TimeNow;
         //DateTime NowDateTime1;
@@ -40,8 +40,6 @@ namespace PI_SMS_Service
         //int NowDateTime2Min;
         string Time;
         string NowDayOfWeek;
-        string TagValue;
-        string TagTimeStamp;
 
         PISDK.PISDK g_SDK;
 
@@ -52,21 +50,29 @@ namespace PI_SMS_Service
             InitializeComponent();
 
             // Declare DataColumn and DataRow variables.
-            //DataColumn column;
+            DataColumn column;
 
-            //// Create new DataColumn, set DataType, ColumnName and add to DataTable.    
-            //column = new DataColumn();
-            //column.DataType = System.Type.GetType("System.String");
-            //column.ColumnName = "TemplateID";
-            //Prepare_TemplateID_ForSendSMS.Columns.Add(column);
+            // Create new DataColumn, set DataType, ColumnName and add to DataTable.    
+            column = new DataColumn();
+            column.DataType = System.Type.GetType("System.String");
+            column.ColumnName = "TemplateID";
+            Prepare_TemplateID_ForSendSMS.Columns.Add(column);
 
-            //column = new DataColumn();
-            //column.DataType = System.Type.GetType("System.String");
-            //column.ColumnName = "TemplateDescriptionForSend";
-            //Prepare_TemplateID_ForSendSMS.Columns.Add(column);
+            column = new DataColumn();
+            column.DataType = System.Type.GetType("System.String");
+            column.ColumnName = "TemplateDescriptionForSend";
+            Prepare_TemplateID_ForSendSMS.Columns.Add(column);
             //column.Dispose();
             try
             {
+                if (!Directory.Exists(debuglog))
+                {
+                    Directory.CreateDirectory(debuglog);
+                }
+                if (!File.Exists(debuglog + "\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt"))
+                {
+                    File.Create(debuglog + "\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt");
+                }
 
                 g_SDK = new PISDK.PISDKClass();
 
@@ -75,11 +81,12 @@ namespace PI_SMS_Service
             }
             catch (System.Runtime.InteropServices.COMException comExc)
             {
-                //MessageBox.Show(comExc.Message, comExc.ErrorCode + " Error",
+                using (StreamWriter sw = File.AppendText(debuglog + "\\" + DateTime.Now.ToString("yyyy-MM-dd") + ".txt"))
+                {
+                    sw.WriteLine("!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!");
+                    sw.WriteLine(comExc);
 
-                //MessageBoxButtons.OK,
-
-                //MessageBoxIcon.Exclamation);
+                }
             }
         }
 
@@ -671,11 +678,11 @@ namespace PI_SMS_Service
                         {
                             string phonenumber = User_In_Template.Rows[sendmessage].ItemArray[4].ToString();
                             char in_msg_type = 'E';
-
-                            SMSGateway.SMS_Result response = client.sendSMS2DTAC(phonenumber, header, message, in_msg_type);
-                            response.result.ToString();
-
                             message = message.Remove(message.Length - 2);
+                            SMSGateway.SMS_Result response = client.sendSMS2DTAC(phonenumber, header, message, in_msg_type);
+                            
+
+                            //Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "," + User_In_Template.Rows[sendmessage].ItemArray[0].ToString() + "," + phonenumber + "," + messagelog );
                             using (StreamWriter file2 = File.AppendText(newFileName))
                             {
                                 string clientDetails = DateTime.Now.ToString("yyyy-MM-dd HH:mm") + "," + User_In_Template.Rows[sendmessage].ItemArray[0].ToString() + "," + phonenumber + "," + messagelog + "," + response.result.ToString() + "";

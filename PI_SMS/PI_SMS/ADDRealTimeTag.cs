@@ -20,7 +20,6 @@ namespace PI_SMS
 
         //PISDKDlg.ApplicationObject g_SDKDlgAppObject; // PISDK dialog app. object 
 
-        DataTable RealTimeTag_in_RealTimeGroupTable = new DataTable();
         DataTable tableRealTimeGroup = new DataTable();
         DataTable ALLRealTimeTag = new DataTable();
 
@@ -44,34 +43,6 @@ namespace PI_SMS
             this.rowindexTaginREalTime = rowindexTaginREalTime;
             
         }
-
-//        public void LoadData_RealTimeTag_in_RealTimeGroup()
-//        {
-//            try
-//            {
-//                RealTimeTag_in_RealTimeGroupTable.Clear();
-
-//                using (SqlConnection connection = new SqlConnection(
-//               connectionString))
-//                {
-//                    string groupselect = groupid;
-//                    string queryString = "SELECT ["+DataBaseName+"].[dbo].[RealTimeTag].TagName,["+DataBaseName+"].[dbo].[RealTimeTag].PIServer,["+DataBaseName+"].[dbo].[RealTimeTag].Type,["+DataBaseName+"].[dbo].[RealTimeTag].Enabled,["+DataBaseName+"].[dbo].[RealTimeTag].Mail,["+DataBaseName+"].[dbo].[RealTimeTag].Phone" +
-//" From["+DataBaseName+"].[dbo].[RealTimeTag_RealTimeGroup_Relation]" +
-//" JOIN RealTimeTag ON["+DataBaseName+"].[dbo].[RealTimeTag_RealTimeGroup_Relation].RealTimeTagID = ["+DataBaseName+"].[dbo].[RealTimeTag].RealTimeTagID" +
-//" JOIN["+DataBaseName+"].[dbo].[RealTimeGroup] ON["+DataBaseName+"].[dbo].[RealTimeTag_RealTimeGroup_Relation].RealTimeGroupID = ["+DataBaseName+"].[dbo].[RealTimeGroup].RealTimeGroupID" +
-//" WHERE [RealTimeGroup].RealTimeGroupID='" + groupselect + "' ORDER BY TagName";
-//                    SqlCommand command = new SqlCommand(queryString, connection);
-//                    SqlDataAdapter data = new SqlDataAdapter(command);
-//                    command.Connection.Open();
-//                    command.ExecuteNonQuery();
-//                    data.Fill(RealTimeTag_in_RealTimeGroupTable);
-//                }
-//            }
-//            catch (Exception ex)
-//            {
-//                MessageBox.Show("Error \n" + ex, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-//            }
-//        }
 
         #region Load All Tag
         //
@@ -115,25 +86,7 @@ namespace PI_SMS
                 {
                     textBoxTagname.Text = PtList[1].Name.ToString();
                     textBoxserver.Text = PtList.get_Item(ref valInx).Parent.Name;
-
-                    
-
-                    for (int tag_in_database = 0; tag_in_database < ALLRealTimeTag.Rows.Count; tag_in_database++)
-                    {
-                        //check Duplicate TagName in DataBase
-                        if (textBoxTagname.Text.ToString() == ALLRealTimeTag.Rows[tag_in_database].ItemArray[0].ToString())
-                        {
-                            checkDuplicateTaginDatabase = 1;
-                            checkBoxEnabled.Enabled = false;
-                            checkBoxMail.Enabled = false;
-                            checkBoxPhone.Enabled = false;
-                            textBoxhigh.Enabled = false;
-                            textBoxhihi.Enabled = false;
-                            textBoxlow.Enabled = false;
-                            break;
-                        }
-
-                    }
+                                       
                 }
                 else if(PtList.Count > 1)
                 {
@@ -149,22 +102,32 @@ namespace PI_SMS
         }
 
         private void buttonsave_Click(object sender, EventArgs e)
-        {               
-                //
+        {
+            for (int tag_in_database = 0; tag_in_database < ALLRealTimeTag.Rows.Count; tag_in_database++)
+            {
+                //check Duplicate TagName in DataBase
+                if (textBoxTagname.Text.ToString() == ALLRealTimeTag.Rows[tag_in_database].ItemArray[0].ToString())
+                {
+                    checkDuplicateTaginDatabase = 1;
+                    break;
+                }
+            }
+            //
 
-                // (0) When don't have TagName in TagDataBase Then Add
+            // (0) When don't have TagName in TagDataBase Then Add
 
-                //
-                if (checkDuplicateTaginDatabase == 0)
+            //
+            string message = "[vtagname] Value = [vtagname]";
+            if (checkDuplicateTaginDatabase == 0)
                 {
                     try
                     {
-                        
-                        using (SqlConnection connection = new SqlConnection(connectionString))
+                    
+                    using (SqlConnection connection = new SqlConnection(connectionString))
                         {
-                        string message = "[vtagname] Value = [vtagname]";
-                            string queryString = "INSERT INTO ["+DataBaseName+"].[dbo].[RealTimeTag] ([PIServer],[TagName],[Mail],[Phone],[Enabled],[MessageForm],[High],[Low],[Danger]) VALUES('" + textBoxserver.Text.ToString() + "','" + textBoxTagname.Text.ToString() + "','" + checkBoxMail.Checked.ToString() + "','" + checkBoxPhone.Checked.ToString() + "','" + checkBoxEnabled.Checked.ToString() + "','"+ message + "',"+
-                            "'"+ textBoxhigh.Text.ToString() + "','"+ textBoxlow.Text.ToString() + "','"+ textBoxhihi.Text.ToString() + "')"; 
+                        
+                        string queryString = "INSERT INTO [" + DataBaseName + "].[dbo].[RealTimeTag] ([PIServer],[TagName]) VALUES('" + textBoxserver.Text.ToString() + "','" + textBoxTagname.Text.ToString() + "') ";
+                            
                             SqlCommand command = new SqlCommand(queryString, connection);
                             SqlDataAdapter data = new SqlDataAdapter(command);
                             command.Connection.Open();
@@ -178,10 +141,12 @@ namespace PI_SMS
                             {
                                 if (ALLRealTimeTag.Rows[i].ItemArray[0].ToString() == textBoxTagname.Text.ToString())
                                 {
-                                    queryString2 = "INSERT INTO ["+DataBaseName+"].[dbo].[RealTimeTag_RealTimeGroup_Relation] ([RealTimeGroupID],[RealTimeTagID]) VALUES('" + groupid + "','" + ALLRealTimeTag.Rows[i].ItemArray[1].ToString() + "') " +
-                                    " INSERT INTO [" + DataBaseName + "].[dbo].[AlertInformation] ([OnAlert],[Acknowledge],[RealTimeGroupID],[RealTimeTagID]) VALUES('false','false','"+groupid+"','"+ALLRealTimeTag.Rows[i].ItemArray[1].ToString()+"')";
-                                    //queryString3 = "INSERT INTO ["+DataBaseName+"].[dbo].[RealTimeTagCondition] ([CompareTo],[operator],[value],[TimeTrue],[TimeUnit],[RealTimeTagID]) VALUES('"+comboBoxCompareTo.SelectedItem.ToString()+"','" + comboBoxoperator.SelectedItem.ToString() + "','" + textBoxvalue.Text.ToString() + "','" + textBoxtime.Text.ToString() + "','" + comboBoxunittime.SelectedItem.ToString() + "','" + ALLRealTimeTag.Rows[i].ItemArray[1].ToString() + "')";
-                                    break;
+                                queryString2 = "INSERT INTO [" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation] ([RealTimeGroupID],[RealTimeTagID],[Mail],[Phone],[Enabled],[MessageForm],[High],[Low],[Danger],[OnAlert],[Acknowledge]) "+
+                                    "VALUES('" + groupid + "','" + ALLRealTimeTag.Rows[i].ItemArray[1].ToString() + "','" + checkBoxMail.Checked.ToString() + "','" + checkBoxPhone.Checked.ToString() + "','" + checkBoxEnabled.Checked.ToString() + "','" + message + "'," +
+                        "'" + textBoxhigh.Text.ToString() + "','" + textBoxlow.Text.ToString() + "','" + textBoxhihi.Text.ToString() + "','false','false') ";
+                                
+                                //queryString3 = "INSERT INTO ["+DataBaseName+"].[dbo].[RealTimeTagCondition] ([CompareTo],[operator],[value],[TimeTrue],[TimeUnit],[RealTimeTagID]) VALUES('"+comboBoxCompareTo.SelectedItem.ToString()+"','" + comboBoxoperator.SelectedItem.ToString() + "','" + textBoxvalue.Text.ToString() + "','" + textBoxtime.Text.ToString() + "','" + comboBoxunittime.SelectedItem.ToString() + "','" + ALLRealTimeTag.Rows[i].ItemArray[1].ToString() + "')";
+                                break;
                                 }
                             }
 
@@ -216,9 +181,9 @@ namespace PI_SMS
 
                 try
                 {
-                    for (int row = 0; row < RealTimeTag_in_RealTimeGroupTable.Rows.Count; row++)
+                    for (int row = 0; row < grouppi.RealTimeTag_in_RealTimeGroup.Rows.Count; row++)
                     {
-                        string TagName_indatagridview = RealTimeTag_in_RealTimeGroupTable.Rows[row].ItemArray[0].ToString();
+                        string TagName_indatagridview = grouppi.RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[0].ToString();
 
                         //check duplicate TagName
                         if (textBoxTagname.Text.ToString() == TagName_indatagridview)
@@ -244,7 +209,9 @@ namespace PI_SMS
                             {
                                 if (ALLRealTimeTag.Rows[i].ItemArray[0].ToString() == textBoxTagname.Text.ToString())
                                 {
-                                    queryString = "INSERT INTO ["+DataBaseName+"].[dbo].[RealTimeTag_RealTimeGroup_Relation] ([RealTimeGroupID],[RealTimeTagID]) VALUES('" + groupid + "','" + ALLRealTimeTag.Rows[i].ItemArray[1].ToString() + "')";                                
+                                    queryString = "INSERT INTO [" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation] ([RealTimeGroupID],[RealTimeTagID],[Mail],[Phone],[Enabled],[MessageForm],[High],[Low],[Danger],[OnAlert],[Acknowledge]) " +
+                                    "VALUES('" + groupid + "','" + ALLRealTimeTag.Rows[i].ItemArray[1].ToString() + "','" + checkBoxMail.Checked.ToString() + "','" + checkBoxPhone.Checked.ToString() + "','" + checkBoxEnabled.Checked.ToString() + "','" + message + "'," +
+                        "'" + textBoxhigh.Text.ToString() + "','" + textBoxlow.Text.ToString() + "','" + textBoxhihi.Text.ToString() + "','false','false') ";
                                     break;
                                 }
                             }

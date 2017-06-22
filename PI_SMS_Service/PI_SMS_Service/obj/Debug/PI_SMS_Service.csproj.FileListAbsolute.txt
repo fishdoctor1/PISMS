@@ -8,3 +8,4 @@ C:\Users\PorNB3558\documents\visual studio 2017\Projects\PI_SMS_Service\PI_SMS_S
 C:\Users\PorNB3558\documents\visual studio 2017\Projects\PI_SMS_Service\PI_SMS_Service\bin\Debug\OSIsoft.PISDKCtl.dll
 C:\Users\PorNB3558\documents\visual studio 2017\Projects\PI_SMS_Service\PI_SMS_Service\bin\Debug\OSIsoft.PISDKDlg.dll
 C:\Users\PorNB3558\documents\visual studio 2017\Projects\PI_SMS_Service\PI_SMS_Service\bin\Debug\OSIsoft.PITimeServer.dll
+C:\Users\PorNB3558\documents\visual studio 2017\Projects\PI_SMS_Service\PI_SMS_Service\obj\Debug\PI_SMS_Service.csprojResolveAssemblyReference.cache

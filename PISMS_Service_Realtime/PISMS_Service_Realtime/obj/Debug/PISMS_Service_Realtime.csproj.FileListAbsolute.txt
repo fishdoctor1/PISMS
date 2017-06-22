@@ -7,3 +7,4 @@ c:\users\pornb3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\
 C:\Users\PorNB3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\bin\Debug\OSIsoft.PISDKCtl.dll
 C:\Users\PorNB3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\bin\Debug\OSIsoft.PITimeServer.dll
 C:\Users\PorNB3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\bin\Debug\PISMS_Service_Realtime.exe.config
+C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\obj\Debug\PISMS_Service_Realtime.csprojResolveAssemblyReference.cache

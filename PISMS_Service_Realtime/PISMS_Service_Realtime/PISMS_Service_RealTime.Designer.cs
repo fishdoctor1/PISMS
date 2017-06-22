@@ -37,7 +37,7 @@
             // 
             this.timer1.AutoReset = false;
             this.timer1.Enabled = true;
-            this.timer1.Interval = 1000D;
+            this.timer1.Interval = 60000D;
             this.timer1.Elapsed += new System.Timers.ElapsedEventHandler(this.timer1_Elapsed);
             // 
             // PISMS_Service_RealTime

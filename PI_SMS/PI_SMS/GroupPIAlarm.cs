@@ -14,8 +14,8 @@ namespace PI_SMS
 {
     public partial class GroupPIAlarm : Form
     {
-        DataTable Alertinformation_Search = new DataTable();
-        DataTable Alertinformation = new DataTable();
+        //DataTable RealTimeTag_in_RealTimeGroup_Search = new DataTable();
+        //DataTable RealTimeTag_in_RealTimeGroup = new DataTable();
         DataTable RealTimeGroupTable = new DataTable();
         DataTable RealTimeGroupTableSetbutton = new DataTable();
         DataTable TagMatchSearch = new DataTable();
@@ -53,12 +53,12 @@ namespace PI_SMS
             TagMatchSearch.Columns.Add("Mail", typeof(string));//4
             TagMatchSearch.Columns.Add("Phone", typeof(string));
             TagMatchSearch.Columns.Add("Enable", typeof(string));//6
-            TagMatchSearch.Columns.Add("TagAlias", typeof(string));
-            TagMatchSearch.Columns.Add("OnAlert", typeof(string));//8
+            TagMatchSearch.Columns.Add("OnAlert", typeof(string));//7
             TagMatchSearch.Columns.Add("Acknowledge", typeof(string));
-            TagMatchSearch.Columns.Add("High", typeof(string));//10
+            TagMatchSearch.Columns.Add("High", typeof(string));//9
             TagMatchSearch.Columns.Add("Low", typeof(string));
-            TagMatchSearch.Columns.Add("Danger", typeof(string));//12
+            TagMatchSearch.Columns.Add("Danger", typeof(string));//11
+            TagMatchSearch.Columns.Add("RealTimeTag_RealTimeGroup_RelationID", typeof(string));//11
 
             FillComboBoxRealTimeGroup();
             
@@ -104,9 +104,9 @@ namespace PI_SMS
         {
             //string s = comboBoxRealTimeGroup.SelectedValue.ToString(); //ID
             LoadRealTimeGroup();
-            textBoxNonRepetitionInterval.Text = RealTimeGroupTableSetbutton.Rows[0].ItemArray[3].ToString();
+            textBoxNonRepetitionInterval.Text = RealTimeGroupTableSetbutton.Rows[0].ItemArray[5].ToString();
             comboBoxResendIntervalunit.SelectedItem = RealTimeGroupTableSetbutton.Rows[0].ItemArray[4].ToString();
-            textBoxresendtime.Text = RealTimeGroupTableSetbutton.Rows[0].ItemArray[5].ToString();
+            textBoxresendtime.Text = RealTimeGroupTableSetbutton.Rows[0].ItemArray[3].ToString();
             comboBoxNonRepetitionIntervalunit.SelectedItem = RealTimeGroupTableSetbutton.Rows[0].ItemArray[6].ToString();
 
             dataGridViewTagCondition.Rows.Clear();
@@ -144,16 +144,23 @@ namespace PI_SMS
                     dataGridViewTaginRealTimeGroup.Rows[row].Cells["TagName"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[0].ToString();
                     dataGridViewTaginRealTimeGroup.Rows[row].Cells["PIServer"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[1].ToString();
                     dataGridViewTaginRealTimeGroup.Rows[row].Cells["Type"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[2].ToString();
-                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["Enable"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[3].ToString();
-                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["Mail"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[4].ToString();
-                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["Phone"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[5].ToString();
-                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["TagID"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[6].ToString();
-                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["TagAlias"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[7].ToString();
+                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["TagID"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[3].ToString();
+
+                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["OnAlert"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[4].ToString();
+                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["acknowledge"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[5].ToString();
+
+                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["High"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[6].ToString();
+                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["Low"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[7].ToString();
+                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["Danger"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[8].ToString();
+
+                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["Enable"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[9].ToString();
+                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["Mail"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[10].ToString();
+                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["Phone"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[11].ToString();
                     
-                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["High"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[8].ToString();
-                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["Low"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[9].ToString();
-                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["Danger"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[10].ToString();
-                    LoadData_Alertinformation(RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[6].ToString(),row);
+                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["RealTimeTag_RealTimeGroup_RelationID"].Value = RealTimeTag_in_RealTimeGroup.Rows[row].ItemArray[13].ToString();
+
+
+
                 }
             }
             catch (Exception ex)
@@ -177,14 +184,20 @@ namespace PI_SMS
                connectionString))
                 {
                     string groupselect = comboBoxRealTimeGroup.SelectedValue.ToString();
-                    string queryString = "SELECT ["+DataBaseName+"].[dbo].[RealTimeTag].TagName,["+DataBaseName+"].[dbo].[RealTimeTag].PIServer,"+
-                        "["+DataBaseName+"].[dbo].[RealTimeTag].Type,["+DataBaseName+"].[dbo].[RealTimeTag].Enabled,"+/*3*/
-                        "["+DataBaseName+"].[dbo].[RealTimeTag].Mail,["+DataBaseName+"].[dbo].[RealTimeTag].Phone,"+/*5*/
-                        "["+DataBaseName+"].[dbo].[RealTimeTag].RealTimeTagID,["+DataBaseName+"].[dbo].[RealTimeTag].TagAlias," + /*7*/
-                        "["+DataBaseName+"].[dbo].[RealTimeTag].High," +
-                        "["+DataBaseName+"].[dbo].[RealTimeTag].Low," +/*9*/
-                        "["+DataBaseName+"].[dbo].[RealTimeTag].Danger," +
-                        "[" + DataBaseName + "].[dbo].[RealTimeTag].MessageForm"+/*11*/
+                    string queryString = "SELECT ["+DataBaseName+"].[dbo].[RealTimeTag].TagName,"+
+                        "["+DataBaseName+"].[dbo].[RealTimeTag].PIServer,"+/*1*/
+                        "["+DataBaseName+"].[dbo].[RealTimeTag].Type,"+
+                        "["+DataBaseName+"].[dbo].[RealTimeTag].RealTimeTagID," + /*3*/
+                        "[" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation].OnAlert," +
+                        "[" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation].Acknowledge," +/*5*/
+                        "[" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation].High," +
+                        "[" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation].Low," +/*7*/
+                        "[" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation].Danger," +
+                        "[" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation].Enabled," +/*9*/
+                        "[" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation].Mail," +/*10*/
+                        "[" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation].Phone," +
+                        "[" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation].MessageForm," +/*12*/
+                        "[" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation].RealTimeTag_RealTimeGroup_RelationID" +
 " From[" +DataBaseName+"].[dbo].[RealTimeTag_RealTimeGroup_Relation]" +
 " JOIN RealTimeTag ON["+DataBaseName+"].[dbo].[RealTimeTag_RealTimeGroup_Relation].RealTimeTagID = ["+DataBaseName+"].[dbo].[RealTimeTag].RealTimeTagID" +
 " JOIN["+DataBaseName+"].[dbo].[RealTimeGroup] ON["+DataBaseName+"].[dbo].[RealTimeTag_RealTimeGroup_Relation].RealTimeGroupID = ["+DataBaseName+"].[dbo].[RealTimeGroup].RealTimeGroupID" +
@@ -204,60 +217,6 @@ namespace PI_SMS
 
 
         #endregion
-
-        public void LoadData_Alertinformation(string tagid,int row)
-        {
-            try
-            {
-                Alertinformation.Clear();
-
-                using (SqlConnection connection = new SqlConnection(
-               connectionString))
-                {
-                    string groupselect = comboBoxRealTimeGroup.SelectedValue.ToString();
-                    string queryString = "SELECT * From [" + DataBaseName + "].[dbo].[AlertInformation] WHERE RealTimeGroupID='" + groupselect + "' AND RealTimeTagID='"+ tagid + "'";
-                    SqlCommand command = new SqlCommand(queryString, connection);
-                    SqlDataAdapter data = new SqlDataAdapter(command);
-                    command.Connection.Open();
-                    command.ExecuteNonQuery();
-                    data.Fill(Alertinformation);
-
-                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["OnAlert"].Value = Alertinformation.Rows[0].ItemArray[3].ToString();
-                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["acknowledge"].Value = Alertinformation.Rows[0].ItemArray[5].ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error \n" + ex, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        public void LoadData_Alertinformation_Search(string tagid, int row)
-        {
-            try
-            {
-                Alertinformation_Search.Clear();
-
-                using (SqlConnection connection = new SqlConnection(
-               connectionString))
-                {
-                    string groupselect = comboBoxRealTimeGroup.SelectedValue.ToString();
-                    string queryString = "SELECT * From [" + DataBaseName + "].[dbo].[AlertInformation] WHERE RealTimeGroupID='" + groupselect + "' AND RealTimeTagID='" + tagid + "'";
-                    SqlCommand command = new SqlCommand(queryString, connection);
-                    SqlDataAdapter data = new SqlDataAdapter(command);
-                    command.Connection.Open();
-                    command.ExecuteNonQuery();
-                    data.Fill(Alertinformation_Search);
-
-                    rowTableSearch["OnAlert"] = Alertinformation.Rows[0].ItemArray[3].ToString();
-                    rowTableSearch["Acknowledge"] = Alertinformation.Rows[0].ItemArray[5].ToString();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error \n" + ex, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
 
         #region LoadRealTimeGroup
 
@@ -293,7 +252,7 @@ namespace PI_SMS
             try
             {
                 string columnchange_status = comboBoxmanagestatus.SelectedItem.ToString();
-
+                string columnchange_status_indatabase="";
                 using (SqlConnection connection = new SqlConnection(
                    connectionString))
                 {
@@ -303,9 +262,13 @@ namespace PI_SMS
                         string statusupdate = dataGridViewTaginRealTimeGroup.Rows[row].Cells[columnchange_status].Value.ToString();
                         if(columnchange_status == "Enable")
                         {
-                            columnchange_status = "Enabled";
+                            columnchange_status_indatabase = "Enabled";
                         }
-                        string queryString = "UPDATE ["+DataBaseName+"].[dbo].[RealTimeTag] SET [" + columnchange_status + "] = '" + statusupdate + "' WHERE RealTimeTagID = '" + dataGridViewTaginRealTimeGroup.Rows[row].Cells["TagID"].Value.ToString() + "'";
+                        else
+                        {
+                            columnchange_status_indatabase = columnchange_status;
+                        }
+                        string queryString = "UPDATE ["+DataBaseName+ "].[dbo].[RealTimeTag_RealTimeGroup_Relation] SET [" + columnchange_status_indatabase + "] = '" + statusupdate + "' WHERE RealTimeTag_RealTimeGroup_RelationID = '" + dataGridViewTaginRealTimeGroup.Rows[row].Cells["RealTimeTag_RealTimeGroup_RelationID"].Value.ToString() + "'";
                         SqlCommand command = new SqlCommand(queryString, connection);
                         SqlDataAdapter data = new SqlDataAdapter(command);
                         if (row == 0)
@@ -330,8 +293,11 @@ namespace PI_SMS
 
         private void buttonAddTag_Click(object sender, EventArgs e)
         {
-            string groupselectname = comboBoxRealTimeGroup.ValueMember.ToString();
+            int indexcombobox =  Convert.ToInt32(comboBoxRealTimeGroup.SelectedIndex.ToString());
+            //string groupselectname = comboBoxRealTimeGroup.DisplayMember[indexcombobox].ToString();
+            string groupselectname = ((DataRowView)comboBoxRealTimeGroup.Items[indexcombobox])["GroupName"].ToString();
             string groupselectid = comboBoxRealTimeGroup.SelectedValue.ToString();
+            
             ADDRealTimeTag newtag = new ADDRealTimeTag(groupselectname, groupselectid, this, connectionString, SelectedRowIndexdataGridViewRealTimeTag,DataBaseName);
             newtag.Show();
             
@@ -445,8 +411,9 @@ namespace PI_SMS
 
         private void my_menu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            string Tag_IdSelected = dataGridViewTaginRealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].Cells["TagID"].Value.ToString();
-            string RealTimeGroupIDSelected = comboBoxRealTimeGroup.SelectedValue.ToString();
+            string RealTimeTag_RealTimeGroup_RelationID = dataGridViewTaginRealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].Cells["RealTimeTag_RealTimeGroup_RelationID"].Value.ToString();
+            string TagID = dataGridViewTaginRealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].Cells["TagID"].Value.ToString();
+            //string RealTimeGroupIDSelected = comboBoxRealTimeGroup.SelectedValue.ToString();
             switch (e.ClickedItem.Name.ToString())
             {
                 case "Delete":
@@ -456,7 +423,7 @@ namespace PI_SMS
                         using (SqlConnection connection = new SqlConnection(
                        connectionString))
                         {
-                            string queryString = " DELETE FROM ["+DataBaseName+"].[dbo].[RealTimeTag_RealTimeGroup_Relation] WHERE RealTimeTagID ='" + Tag_IdSelected + "' AND RealTimeGroupID = '" + RealTimeGroupIDSelected + "' ";
+                            string queryString = "DELETE FROM [" + DataBaseName + "].[dbo].[RealTimeTagCondition] WHERE RealTimeTagID = '" + TagID + "' AND RealTimeTag_RealTimeGroup_RelationID ='" + RealTimeTag_RealTimeGroup_RelationID + "' DELETE FROM [" + DataBaseName+ "].[dbo].[RealTimeTag_RealTimeGroup_Relation] WHERE RealTimeTag_RealTimeGroup_RelationID ='" + RealTimeTag_RealTimeGroup_RelationID + "' ";
                             SqlCommand command = new SqlCommand(queryString, connection);
                             command.Connection.Open();
                             command.ExecuteNonQuery();
@@ -477,7 +444,8 @@ namespace PI_SMS
                     {
                         if (SelectedRowIndexdataGridViewRealTimeTag >= 0)
                         {
-                            EditRealTimeTag addtrigger = new EditRealTimeTag(connectionString, SelectedRowIndexdataGridViewRealTimeTag, this, DataBaseName);
+                            //string RealTimeTag_RealTimeGroup_RelationID = dataGridViewTaginRealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].Cells["RealTimeTag_RealTimeGroup_RelationID"].ToString();
+                            EditRealTimeTag addtrigger = new EditRealTimeTag(connectionString, SelectedRowIndexdataGridViewRealTimeTag, this, DataBaseName, RealTimeTag_RealTimeGroup_RelationID);
                             addtrigger.Show();
                         }
                         else
@@ -496,7 +464,8 @@ namespace PI_SMS
                     {
                         if(SelectedRowIndexdataGridViewRealTimeTag >= 0)
                         {
-                            AddTrigger addtrigger = new AddTrigger(connectionString,SelectedRowIndexdataGridViewRealTimeTag, this, DataBaseName);
+                            //string RealTimeTag_RealTimeGroup_RelationID = dataGridViewTaginRealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].Cells["RealTimeTag_RealTimeGroup_RelationID"].Value.ToString();
+                            AddTrigger addtrigger = new AddTrigger(connectionString,SelectedRowIndexdataGridViewRealTimeTag, this, DataBaseName, RealTimeTag_RealTimeGroup_RelationID);
                             addtrigger.Show();
                         }
                         else
@@ -575,24 +544,25 @@ namespace PI_SMS
                     //
                     if (strIndex >= 0)
                     {
+                       
                         rowTableSearch = TagMatchSearch.NewRow();
-                        
+
                         rowTableSearch["TagName"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[0].ToString();
                         rowTableSearch["PIServer"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[1].ToString();
                         rowTableSearch["Type"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[2].ToString();
-                        rowTableSearch["TagID"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[6].ToString();
-                        rowTableSearch["Mail"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[4].ToString();
-                        rowTableSearch["Phone"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[5].ToString();
-                        rowTableSearch["Enable"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[3].ToString();
-                        rowTableSearch["TagAlias"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[7].ToString();
-                        //rowTableSearch["OnAlert"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[8].ToString();
-                        //rowTableSearch["Acknowledge"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[9].ToString();
-                        rowTableSearch["High"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[8].ToString();
-                        rowTableSearch["Low"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[9].ToString();
-                        rowTableSearch["Danger"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[10].ToString();
-                        LoadData_Alertinformation_Search(RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[6].ToString(), rowIndex);
+                        rowTableSearch["TagID"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[3].ToString();
 
+                        rowTableSearch["OnAlert"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[4].ToString();
+                        rowTableSearch["Acknowledge"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[5].ToString();
 
+                        rowTableSearch["High"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[6].ToString();
+                        rowTableSearch["Low"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[7].ToString();
+                        rowTableSearch["Danger"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[8].ToString();
+
+                        rowTableSearch["Enable"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[9].ToString();
+                        rowTableSearch["Mail"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[10].ToString();
+                        rowTableSearch["Phone"] = RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[11].ToString();                      
+                        
                         TagMatchSearch.Rows.Add(rowTableSearch);
                     }
                     rowIndex++;
@@ -603,8 +573,8 @@ namespace PI_SMS
                     //    row.Selected = true;
                     //    int rowIndex = dataGridView1.CurrentCell.RowIndex;
                     //    //dataGridView1.Rows[rowIndex].Selected = true;
-                    //    dataGridView1.FirstDisplayedScrollingRowIndex = rowIndex;
-                    //    dataGridView1.Focus();
+                    //    //dataGridView1.FirstDisplayedScrollingRowIndex = rowIndex;
+                    //    //dataGridView1.Focus();
                     //    break;
                     //}
                     #endregion
@@ -622,13 +592,12 @@ namespace PI_SMS
                     dataGridViewTaginRealTimeGroup.Rows[row].Cells["Mail"].Value = TagMatchSearch.Rows[row].ItemArray[4];
                     dataGridViewTaginRealTimeGroup.Rows[row].Cells["Phone"].Value = TagMatchSearch.Rows[row].ItemArray[5];
                     dataGridViewTaginRealTimeGroup.Rows[row].Cells["Enable"].Value = TagMatchSearch.Rows[row].ItemArray[6];
-                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["TagAlias"].Value = TagMatchSearch.Rows[row].ItemArray[7];
-                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["OnAlert"].Value = TagMatchSearch.Rows[row].ItemArray[8];
-                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["Acknowledge"].Value = TagMatchSearch.Rows[row].ItemArray[9];
-                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["High"].Value = TagMatchSearch.Rows[row].ItemArray[10];
-                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["Low"].Value = TagMatchSearch.Rows[row].ItemArray[11];
-                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["Danger"].Value = TagMatchSearch.Rows[row].ItemArray[12];
-                    //LoadData_Alertinformation_Search(RealTimeTag_in_RealTimeGroup.Rows[rowIndex].ItemArray[6].ToString(), rowIndex);
+                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["OnAlert"].Value = TagMatchSearch.Rows[row].ItemArray[7];
+                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["Acknowledge"].Value = TagMatchSearch.Rows[row].ItemArray[8];
+                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["High"].Value = TagMatchSearch.Rows[row].ItemArray[9];
+                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["Low"].Value = TagMatchSearch.Rows[row].ItemArray[10];
+                    dataGridViewTaginRealTimeGroup.Rows[row].Cells["Danger"].Value = TagMatchSearch.Rows[row].ItemArray[11];
+                   
 
                 }//end forloop add Match Search
             }
@@ -667,7 +636,7 @@ namespace PI_SMS
 
         public void FillMessagebox()
         {
-            string message = RealTimeTag_in_RealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].ItemArray[11].ToString();
+            string message = RealTimeTag_in_RealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].ItemArray[12].ToString();
             if(message != null)
             {
                 textBoxmessage.Text = message;
@@ -686,9 +655,9 @@ namespace PI_SMS
                 TagConditionTable.Rows.Clear();
                 using (SqlConnection connection = new SqlConnection(
                connectionString))
-                {
-                    string groupselect = dataGridViewTaginRealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].Cells["TagID"].Value.ToString();
-                    string queryString = "SELECT * FROM ["+DataBaseName+"].[dbo].[RealTimeTagCondition] WHERE RealTimeTagID = '"+groupselect+"'";
+                {                    
+                    string tagselect = dataGridViewTaginRealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].Cells["RealTimeTag_RealTimeGroup_RelationID"].Value.ToString();
+                    string queryString = "SELECT * FROM ["+DataBaseName+ "].[dbo].[RealTimeTagCondition] WHERE RealTimeTag_RealTimeGroup_RelationID = '" + tagselect+"' ";
                     SqlCommand command = new SqlCommand(queryString, connection);
                     SqlDataAdapter data = new SqlDataAdapter(command);
                     command.Connection.Open();
@@ -748,7 +717,7 @@ namespace PI_SMS
                         using (SqlConnection connection = new SqlConnection(
                        connectionString))
                         {
-                            string queryString = " DELETE FROM ["+DataBaseName+"].[dbo].[RealTimeTagCondition] WHERE ID ='" + ConditionTag_IdSelected + "' ";
+                            string queryString = " DELETE FROM ["+DataBaseName+ "].[dbo].[RealTimeTagCondition] WHERE RealTimeTagConditionID ='" + ConditionTag_IdSelected + "' ";
                             SqlCommand command = new SqlCommand(queryString, connection);
                             command.Connection.Open();
                             command.ExecuteNonQuery();
@@ -849,13 +818,20 @@ namespace PI_SMS
                 using (SqlConnection connection = new SqlConnection(
                connectionString))
                 {
-                    string groupselect = comboBoxRealTimeGroup.SelectedValue.ToString();
-                    string queryString = "UPDATE ["+DataBaseName+ "].[dbo].[RealTimeTag] SET MessageForm='"+textBoxmessage.Text.ToString()+"' WHERE RealTimeTagID='"+ dataGridViewTaginRealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].Cells["TagID"].Value.ToString() + "'"; 
-                     SqlCommand command = new SqlCommand(queryString, connection);
-                    SqlDataAdapter data = new SqlDataAdapter(command);
-                    command.Connection.Open();
-                    command.ExecuteNonQuery();
-                    MessageBox.Show("Update Success", "Update ");
+                    if (SelectedRowIndexdataGridViewRealTimeTag >= 0)
+                    {
+                        string groupselect = comboBoxRealTimeGroup.SelectedValue.ToString();
+                        string queryString = "UPDATE [" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation] SET MessageForm='" + textBoxmessage.Text.ToString() + "' WHERE RealTimeTag_RealTimeGroup_RelationID ='" + dataGridViewTaginRealTimeGroup.Rows[SelectedRowIndexdataGridViewRealTimeTag].Cells["RealTimeTag_RealTimeGroup_RelationID"].Value.ToString() + "'";
+                        SqlCommand command = new SqlCommand(queryString, connection);
+                        SqlDataAdapter data = new SqlDataAdapter(command);
+                        command.Connection.Open();
+                        command.ExecuteNonQuery();
+                        MessageBox.Show("Update Success", "Update ");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Select Tag again", "ERROR ");
+                    }
                 }
             }
             catch (Exception ex)
@@ -893,7 +869,7 @@ namespace PI_SMS
                         {
                             dataGridViewTaginRealTimeGroup.Rows[row].Cells["acknowledge"].Value = "true";
 
-                            string queryString = "UPDATE [" + DataBaseName + "].[dbo].[AlertInformation] SET Acknowledge='True' WHERE RealTimeTagID='" + dataGridViewTaginRealTimeGroup.Rows[row].Cells["TagID"].Value.ToString() + "' AND RealTimeGroupID='"+ comboBoxRealTimeGroup.SelectedValue.ToString() + "'";
+                            string queryString = "UPDATE [" + DataBaseName + "].[dbo].[RealTimeTag_in_RealTimeGroup] SET Acknowledge='True',AcknowledgeTime='"+ DateTime.Now.ToString("HH:mm") +"' WHERE RealTimeTag_RealTimeGroup_RelationID='" + dataGridViewTaginRealTimeGroup.Rows[row].Cells["RealTimeTag_RealTimeGroup_RelationID"].Value.ToString() + "'";
                             SqlCommand command = new SqlCommand(queryString, connection);
                             SqlDataAdapter data = new SqlDataAdapter(command);
                             if (row == 0)

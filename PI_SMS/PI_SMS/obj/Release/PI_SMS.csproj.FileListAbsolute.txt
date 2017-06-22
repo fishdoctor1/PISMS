@@ -35,3 +35,4 @@ C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Relea
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Release\PI_SMS.csproj.GenerateResource.Cache
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Release\PI_SMS.exe
 C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Release\PI_SMS.pdb
+C:\Users\PorNB3558\Documents\Visual Studio 2017\Projects\PI_SMS\PI_SMS\obj\Release\PI_SMS.csprojResolveAssemblyReference.cache

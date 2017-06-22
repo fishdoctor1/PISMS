@@ -1,1 +1,1 @@
-net stop OPC2MODBUS
+net stop PISMS_test

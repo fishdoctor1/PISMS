@@ -14,12 +14,14 @@ namespace PI_SMS
     {
         string connectionString, DataBaseName;
         int SelectedRowIndexdataGridViewRealTimeTag;
+        string RealTimeTag_RealTimeGroup_RelationID;
         private readonly GroupPIAlarm grouppi;
-        public EditRealTimeTag(string connectionString, int SelectedRowIndexdataGridViewRealTimeTag, GroupPIAlarm formgrouppi,string DataBaseName)
+        public EditRealTimeTag(string connectionString, int SelectedRowIndexdataGridViewRealTimeTag, GroupPIAlarm formgrouppi,string DataBaseName,string RealTimeTag_RealTimeGroup_RelationID)
         {
             InitializeComponent();
             this.connectionString = connectionString;
             this.DataBaseName = DataBaseName;
+            this.RealTimeTag_RealTimeGroup_RelationID = RealTimeTag_RealTimeGroup_RelationID;
             this.SelectedRowIndexdataGridViewRealTimeTag = SelectedRowIndexdataGridViewRealTimeTag;
             this.grouppi = formgrouppi;
             prepare();
@@ -32,19 +34,31 @@ namespace PI_SMS
                 using (SqlConnection connection = new SqlConnection(
                        connectionString))
                 {
-                    string queryString = "UPDATE [PISMS].[dbo].[RealTimeTag] SET Danger='" + textBoxhihi.Text.ToString() + "'," +
+                    string queryString = "UPDATE [" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation] SET Danger='" + textBoxhihi.Text.ToString() + "'," +
                         "High='" + textBoxhi.Text.ToString() + "'," + 
                         "Low='"+ textBoxlo.Text.ToString() + "',"+
                         "Mail='"+ checkBoxmail.Checked.ToString() + "',"+
                         "Phone='"+checkBoxphone.Checked.ToString()+"',"+
                         "Enabled='"+ checkBoxenable.Checked.ToString() + "' "+
-                        "WHERE TagName ='"+ textBoxTagname.Text.ToString() + "'";   
+                        "WHERE RealTimeTag_RealTimeGroup_RelationID ='" + RealTimeTag_RealTimeGroup_RelationID + "'";   
                     SqlCommand command = new SqlCommand(queryString, connection);
                     command.Connection.Open();
                     command.ExecuteNonQuery();
 
+                    string queryString2 = "UPDATE [" + DataBaseName + "].[dbo].[RealTimeTagCondition] SET value='"+ textBoxhi.Text.ToString() + "'" +
+                        "WHERE RealTimeTag_RealTimeGroup_RelationID ='" + RealTimeTag_RealTimeGroup_RelationID + "' AND CompareTo='HIGH' "+
+                        "UPDATE [" + DataBaseName + "].[dbo].[RealTimeTagCondition] SET value='" + textBoxlo.Text.ToString() + "'" +
+                        "WHERE RealTimeTag_RealTimeGroup_RelationID ='" + RealTimeTag_RealTimeGroup_RelationID + "' AND CompareTo='Low' "+
+                        "UPDATE [" + DataBaseName + "].[dbo].[RealTimeTagCondition] SET value='" + textBoxhihi.Text.ToString() + "'" +
+                        "WHERE RealTimeTag_RealTimeGroup_RelationID ='" + RealTimeTag_RealTimeGroup_RelationID + "' AND CompareTo='Danger'";
+
+                    SqlCommand command2 = new SqlCommand(queryString2, connection);
+                    command2.ExecuteNonQuery();
+
                     grouppi.LoadData_RealTimeTag_in_RealTimeGroup();
                     grouppi.Fill_datagridview_Tag_in_RealTimeGroup();
+                    grouppi.Load_TagCondition();
+                    grouppi.FilldataGridViewTagCondition();
                     MessageBox.Show("Update Success", "Update ", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
                     this.Close();
                 }

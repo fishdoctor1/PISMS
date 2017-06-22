@@ -16,10 +16,12 @@ namespace PI_SMS
         int SelectedRowIndexdataGridViewRealTimeTag;
         string connectionString="";
         string DataBaseName;
-        public AddTrigger(string connectionString, int SelectedRowIndexdataGridViewRealTimeTag, GroupPIAlarm grouppialarm, string DataBaseName)
+        string RealTimeTag_RealTimeGroup_RelationID;
+        public AddTrigger(string connectionString, int SelectedRowIndexdataGridViewRealTimeTag, GroupPIAlarm grouppialarm, string DataBaseName, string RealTimeTag_RealTimeGroup_RelationID)
         {
             InitializeComponent();
             this.DataBaseName = DataBaseName;
+            this.RealTimeTag_RealTimeGroup_RelationID = RealTimeTag_RealTimeGroup_RelationID;
             this.SelectedRowIndexdataGridViewRealTimeTag = SelectedRowIndexdataGridViewRealTimeTag;
             this.grouppialarm = grouppialarm;
             this.connectionString = connectionString;
@@ -42,7 +44,8 @@ namespace PI_SMS
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     
-                    string queryString = "INSERT INTO ["+DataBaseName+"].[dbo].[RealTimeTagCondition] ([CompareTo],[operator],[value],[TimeTrue],[TimeUnit],[RealTimeTagID]) VALUES('"+ comboBoxCompareTo.SelectedItem.ToString()+ "','" + comboBoxoperator.SelectedItem.ToString()+"','"+textBoxvalue.Text.ToString()+"','"+textBoxtime.Text.ToString()+"','"+comboBoxunittime.SelectedItem.ToString()+ "','"+tagid+"')";
+                    string queryString = "INSERT INTO ["+DataBaseName+ "].[dbo].[RealTimeTagCondition] ([CompareTo],[operator],[value],[TimeTrue],[TimeUnit],[RealTimeTagID],[RealTimeTag_RealTimeGroup_RelationID]) " +
+                        "VALUES('"+ comboBoxCompareTo.SelectedItem.ToString()+ "','" + comboBoxoperator.SelectedItem.ToString()+"','"+textBoxvalue.Text.ToString()+"','"+textBoxtime.Text.ToString()+"','"+comboBoxunittime.SelectedItem.ToString()+ "','"+tagid+ "','"+RealTimeTag_RealTimeGroup_RelationID+"')";
                     
                     
                     SqlCommand command = new SqlCommand(queryString, connection);
@@ -50,6 +53,7 @@ namespace PI_SMS
                     command.Connection.Open();
                     command.ExecuteNonQuery();
 
+                    grouppialarm.Load_TagCondition();
                     grouppialarm.FilldataGridViewTagCondition();
                     MessageBox.Show("OK!!", "Success",MessageBoxButtons.OK, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
                     this.Close();

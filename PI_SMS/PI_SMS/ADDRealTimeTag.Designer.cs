@@ -51,9 +51,9 @@
             // 
             this.textBoxTagname.Location = new System.Drawing.Point(99, 6);
             this.textBoxTagname.Name = "textBoxTagname";
-            this.textBoxTagname.ReadOnly = true;
             this.textBoxTagname.Size = new System.Drawing.Size(129, 20);
             this.textBoxTagname.TabIndex = 0;
+            this.textBoxTagname.Text = "Demo2";
             // 
             // textBoxserver
             // 
@@ -62,6 +62,7 @@
             this.textBoxserver.ReadOnly = true;
             this.textBoxserver.Size = new System.Drawing.Size(129, 20);
             this.textBoxserver.TabIndex = 1;
+            this.textBoxserver.Text = "piserver";
             // 
             // label1
             // 

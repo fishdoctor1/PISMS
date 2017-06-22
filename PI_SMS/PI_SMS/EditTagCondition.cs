@@ -41,7 +41,7 @@ namespace PI_SMS
                         "',[TimeTrue]='"+textBoxtimetrue.Text.ToString()+"'"+
                         ",[TimeUnit]='"+comboBoxTimeUnit.SelectedItem.ToString()+"'" +
                         ",[CompareTo]='"+comboBoxCompareTo.SelectedItem.ToString()+"' " +
-                        " WHERE ID='" + conditionid+"'";
+                        " WHERE RealTimeTagConditionID='" + conditionid+"'";
                     SqlCommand command = new SqlCommand(queryString, connection);
                     command.Connection.Open();
                     command.ExecuteNonQuery();

@@ -81,7 +81,6 @@
             this.No = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PIServer = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TagName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TagAlias = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Mail = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Phone = new System.Windows.Forms.DataGridViewCheckBoxColumn();
@@ -95,6 +94,7 @@
             this.High = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Low = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TagID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RealTimeTag_RealTimeGroup_RelationID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel10.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -492,7 +492,6 @@
             this.No,
             this.PIServer,
             this.TagName,
-            this.TagAlias,
             this.Type,
             this.Mail,
             this.Phone,
@@ -505,7 +504,8 @@
             this.Danger,
             this.High,
             this.Low,
-            this.TagID});
+            this.TagID,
+            this.RealTimeTag_RealTimeGroup_RelationID});
             this.dataGridViewTaginRealTimeGroup.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridViewTaginRealTimeGroup.Location = new System.Drawing.Point(0, 0);
             this.dataGridViewTaginRealTimeGroup.MultiSelect = false;
@@ -711,15 +711,6 @@
             this.TagName.HeaderText = "Tag";
             this.TagName.Name = "TagName";
             // 
-            // TagAlias
-            // 
-            this.TagAlias.HeaderText = "TagAlias";
-            this.TagAlias.MinimumWidth = 90;
-            this.TagAlias.Name = "TagAlias";
-            this.TagAlias.ReadOnly = true;
-            this.TagAlias.Visible = false;
-            this.TagAlias.Width = 90;
-            // 
             // Type
             // 
             this.Type.HeaderText = "Type";
@@ -830,6 +821,12 @@
             this.TagID.ReadOnly = true;
             this.TagID.Visible = false;
             // 
+            // RealTimeTag_RealTimeGroup_RelationID
+            // 
+            this.RealTimeTag_RealTimeGroup_RelationID.HeaderText = "RealTimeTag_RealTimeGroup_RelationID";
+            this.RealTimeTag_RealTimeGroup_RelationID.Name = "RealTimeTag_RealTimeGroup_RelationID";
+            this.RealTimeTag_RealTimeGroup_RelationID.Visible = false;
+            // 
             // GroupPIAlarm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -909,7 +906,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn No;
         private System.Windows.Forms.DataGridViewTextBoxColumn PIServer;
         private System.Windows.Forms.DataGridViewTextBoxColumn TagName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TagAlias;
         private System.Windows.Forms.DataGridViewTextBoxColumn Type;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Mail;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Phone;
@@ -923,5 +919,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn High;
         private System.Windows.Forms.DataGridViewTextBoxColumn Low;
         private System.Windows.Forms.DataGridViewTextBoxColumn TagID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RealTimeTag_RealTimeGroup_RelationID;
     }
 }

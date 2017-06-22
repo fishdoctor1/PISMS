@@ -1,0 +1,4 @@
+!!!!!!!!!!!!!!!!!!!!ERROR!!!!!!!!!!!!!!!!!!!!
+System.Runtime.InteropServices.COMException (0x80040500): A Winsock error occurred while attempting to open a session on a server.No such host is known.
+   at PISDK.PIPoints.get_Item(String key)
+   at PI_SMS_Service.PI_SMS_Service.GET_TagValue(String[]& TagTimeStamp, String[]& TagValue) in C:\Users\PorNB3558\documents\visual studio 2017\Projects\PI_SMS_Service\PI_SMS_Service\PI_SMS_Service.cs:line 572
