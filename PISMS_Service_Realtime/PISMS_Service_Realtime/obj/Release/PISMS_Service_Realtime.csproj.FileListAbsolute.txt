@@ -10,3 +10,4 @@ C:\Users\PorNB3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\
 C:\Users\PorNB3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\obj\Release\PISMS_Service_Realtime.csproj.GenerateResource.Cache
 C:\Users\PorNB3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\obj\Release\PISMS_Service_Realtime.exe
 C:\Users\PorNB3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\obj\Release\PISMS_Service_Realtime.pdb
+C:\Users\PorNB3558\documents\visual studio 2017\Projects\PISMS_Service_Realtime\PISMS_Service_Realtime\obj\Release\PISMS_Service_Realtime.csprojResolveAssemblyReference.cache

@@ -390,7 +390,7 @@ namespace PISMS_Service_Realtime
                                                     ValueCanAlarm_and_NotAcknowledge(Tagvalue, condition_value, alertbool, acknowledgebool, timetrue, timetrueUnit, RealTimeTag_RealTimeGroup_RelationID, groupid, operatorincondition, alertconditionvalue, nonrepeatition_IntervalUnit, nonrepeatition_Interval, alertbyoperator);
 
                                                 }
-                                                if (alertbool && (alertbyoperator == ">")) //back to normal don't ack
+                                                else if (alertbool && (alertbyoperator == ">")) //back to normal don't ack
                                                 {
                                                     BacktoNormal_NotAck(RealTimeTag_RealTimeGroup_RelationID);
                                                 }
@@ -401,7 +401,7 @@ namespace PISMS_Service_Realtime
                                                     ValueCanAlarm_and_NotAcknowledge(Tagvalue, condition_value, alertbool, acknowledgebool, timetrue, timetrueUnit, RealTimeTag_RealTimeGroup_RelationID, groupid, operatorincondition, alertconditionvalue, nonrepeatition_IntervalUnit, nonrepeatition_Interval, alertbyoperator);
 
                                                 }
-                                                if (alertbool && (alertbyoperator == ">")) //back to normal don't ack
+                                                else if (alertbool && (alertbyoperator == "<")) //back to normal don't ack
                                                 {
                                                     BacktoNormal_NotAck(RealTimeTag_RealTimeGroup_RelationID);
                                                 }
@@ -412,7 +412,7 @@ namespace PISMS_Service_Realtime
                                                     ValueCanAlarm_and_NotAcknowledge(Tagvalue, condition_value, alertbool, acknowledgebool, timetrue, timetrueUnit, RealTimeTag_RealTimeGroup_RelationID, groupid, operatorincondition, alertconditionvalue, nonrepeatition_IntervalUnit, nonrepeatition_Interval, alertbyoperator);
 
                                                 }
-                                                if (alertbool && (alertbyoperator == ">")) //back to normal don't ack
+                                                else if (alertbool && (alertbyoperator == ">=")) //back to normal don't ack
                                                 {
                                                     BacktoNormal_NotAck(RealTimeTag_RealTimeGroup_RelationID);
                                                 }
@@ -423,7 +423,7 @@ namespace PISMS_Service_Realtime
                                                     ValueCanAlarm_and_NotAcknowledge(Tagvalue, condition_value, alertbool, acknowledgebool, timetrue, timetrueUnit, RealTimeTag_RealTimeGroup_RelationID, groupid, operatorincondition, alertconditionvalue, nonrepeatition_IntervalUnit, nonrepeatition_Interval, alertbyoperator);
 
                                                 }
-                                                if (alertbool && (alertbyoperator == ">")) //back to normal don't ack
+                                                else if (alertbool && (alertbyoperator == "<=")) //back to normal don't ack
                                                 {
                                                     BacktoNormal_NotAck(RealTimeTag_RealTimeGroup_RelationID);
                                                 }
@@ -434,7 +434,7 @@ namespace PISMS_Service_Realtime
                                                     ValueCanAlarm_and_NotAcknowledge(Tagvalue, condition_value, alertbool, acknowledgebool, timetrue, timetrueUnit, RealTimeTag_RealTimeGroup_RelationID, groupid, operatorincondition, alertconditionvalue, nonrepeatition_IntervalUnit, nonrepeatition_Interval, alertbyoperator);
                                                     
                                                 }
-                                                if (alertbool && (alertbyoperator == ">")) //back to normal don't ack
+                                                else if (alertbool && (alertbyoperator == "!=")) //back to normal don't ack
                                                 {
                                                     BacktoNormal_NotAck(RealTimeTag_RealTimeGroup_RelationID);
                                                 }
@@ -563,12 +563,27 @@ namespace PISMS_Service_Realtime
                 {
                     timeInterval = new TimeSpan(0, 0, Convert.ToInt32(resend_Interval), 0);
                 }
-                Endtime = starttimespan.Add(timeInterval);
-                TimeSpan CurrentTime = DateTime.Now.TimeOfDay;
+            string _newDay = DateTime.Now.ToString("HH:mm");
+            TimeSpan CurrentTime = DateTime.Now.TimeOfDay;
+            if (_newDay == "00:00")
+            {
+                TimeSpan addday = new TimeSpan(1, 0, 0, 0);
+                CurrentTime.Add(addday);
+            }
+            Endtime = starttimespan.Add(timeInterval);
                 int resultInterval = TimeSpan.Compare(CurrentTime, Endtime);
                 if (resultInterval >= 0)
                 {
                     Console.WriteLine("Resend " + DateTime.Now.ToShortTimeString());
+                    using (SqlConnection connection = new SqlConnection(connectionString))
+                    {
+                    
+                    string queryAlert2 = "UPDATE [" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation] SET AcknowledgeTime='"+ DateTime.Now.ToString("HH:mm") +"' WHERE RealTimeTag_RealTimeGroup_RelationID='" + RealTimeTag_RealTimeGroup_RelationID + "'";
+                    SqlCommand commandalert2 = new SqlCommand(queryAlert2, connection);
+                    SqlDataAdapter data = new SqlDataAdapter(commandalert2);
+                    commandalert2.Connection.Open();
+                    commandalert2.ExecuteNonQuery();
+                }
                 }
                 //need acktime need resend_interval 
             
@@ -605,36 +620,34 @@ namespace PISMS_Service_Realtime
                             timeInterval = new TimeSpan(0, 0, Convert.ToInt32(timetrue), 0);
                         }
                         Endtime = starttimespan.Add(timeInterval);
+
+                        string _newDay = DateTime.Now.ToString("HH:mm");
                         TimeSpan CurrentTime = DateTime.Now.TimeOfDay;
+                        if (_newDay == "00:00")
+                        {
+                            TimeSpan addday = new TimeSpan(1, 0, 0, 0);
+                            CurrentTime.Add(addday);
+                        }
+
                         int resultInterval = TimeSpan.Compare(CurrentTime, Endtime);
                         if (resultInterval >= 0)
                         {
 
                             Console.WriteLine("Alert " + DateTime.Now.ToShortTimeString());
-                            string queryAlert = "DELETE FROM [" + DataBaseName + "].[dbo].[TimeTrue] WHERE RealTimeTag_RealTimeGroup_RelationID='" + RealTimeTag_RealTimeGroup_RelationID + "'";
+                            string queryAlert = "DELETE FROM [" + DataBaseName + "].[dbo].[TimeTrue] WHERE RealTimeTag_RealTimeGroup_RelationID='" + RealTimeTag_RealTimeGroup_RelationID + "'"+
+                                " DELETE FROM [" + DataBaseName + "].[dbo].[Alerttime] WHERE RealTimeTag_RealTimeGroup_RelationID='" + RealTimeTag_RealTimeGroup_RelationID + "'";
                             SqlCommand commandalert = new SqlCommand(queryAlert, connection);
                             //SqlDataAdapter data = new SqlDataAdapter(commandalert);
                             commandalert.Connection.Open();
                             commandalert.ExecuteNonQuery();
 
-                            //if (alertbool)
-                            //{
-                            //    string queryAlert4 = "UPDATE [" + DataBaseName + "].[dbo].[Alerttime]  SET [Alerttime]='" + DateTime.Now.ToString("HH:mm") + "' WHERE RealTimeTagID='" + tagID + "'";
-                            //    SqlCommand commandalert4 = new SqlCommand(queryAlert4, connection);
-                            //    commandalert4.ExecuteNonQuery();
-                            //}
-
-                            string queryAlert5 = "UPDATE  [" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation] SET [alertbyoperator]='" + alertbyoperator + "',[OnAlert]='true' WHERE RealTimeTag_RealTimeGroup_RelationID='" + RealTimeTag_RealTimeGroup_RelationID + "'";
-                            SqlCommand commandalert5 = new SqlCommand(queryAlert5, connection);
-                            commandalert5.ExecuteNonQuery();
+                            string queryAlert2 = "UPDATE  [" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation] SET [alertbyoperator]='" + alertbyoperator + "',[OnAlert]='true' WHERE RealTimeTag_RealTimeGroup_RelationID='" + RealTimeTag_RealTimeGroup_RelationID + "'";
+                            SqlCommand commandalert2 = new SqlCommand(queryAlert2, connection);
+                            commandalert2.ExecuteNonQuery();
 
                             string queryAlert3 = " INSERT INTO [" + DataBaseName + "].[dbo].[Alerttime] ([Alerttime],[RealTimeTag_RealTimeGroup_RelationID]) VALUES ('" + DateTime.Now.ToString("HH:mm") + "','" + RealTimeTag_RealTimeGroup_RelationID + "')";
                             SqlCommand commandalert3 = new SqlCommand(queryAlert3, connection);
                             commandalert3.ExecuteNonQuery();
-
-                            //string queryAlert2 = "UPDATE [" + DataBaseName + "].[dbo].[RealTimeTag]  SET [OnAlert]='true' WHERE RealTimeTagID='" + tagID + "'";
-                            //SqlCommand commandalert2 = new SqlCommand(queryAlert2, connection);
-                            //commandalert2.ExecuteNonQuery();
 
 
                         }
@@ -660,33 +673,43 @@ namespace PISMS_Service_Realtime
 
         private void BacktoNormal_NotAck(string RealTimeTag_RealTimeGroup_RelationID)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                string queryAlert2 = "UPDATE [" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation]  SET [OnAlert]='false' WHERE RealTimeTag_RealTimeGroup_RelationID='" + RealTimeTag_RealTimeGroup_RelationID + "'";
-                SqlCommand commandalert2 = new SqlCommand(queryAlert2, connection);
-                SqlDataAdapter data = new SqlDataAdapter(commandalert2);
-                commandalert2.Connection.Open();
-                //commandalert2.ExecuteNonQuery();
-                
-                string queryAlert3 = "DELETE [" + DataBaseName + "].[dbo].[Alerttime] WHERE RealTimeTag_RealTimeGroup_RelationID='" + RealTimeTag_RealTimeGroup_RelationID + "'";
-                SqlCommand commandalert3 = new SqlCommand(queryAlert3, connection);
-                commandalert3.ExecuteNonQuery();
-                Console.WriteLine("Back to normal" + DateTime.Now.ToShortTimeString());
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    string queryAlert2 = "UPDATE [" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation]  SET [OnAlert]='false' WHERE RealTimeTag_RealTimeGroup_RelationID='" + RealTimeTag_RealTimeGroup_RelationID + "'";
+                    SqlCommand commandalert2 = new SqlCommand(queryAlert2, connection);
+                    SqlDataAdapter data = new SqlDataAdapter(commandalert2);
+                    commandalert2.Connection.Open();
+                    commandalert2.ExecuteNonQuery();
+
+                    string queryAlert3 = "DELETE [" + DataBaseName + "].[dbo].[Alerttime] WHERE RealTimeTag_RealTimeGroup_RelationID='" + RealTimeTag_RealTimeGroup_RelationID + "'" +
+                        " DELETE [" + DataBaseName + "].[dbo].[TimeTrue] WHERE RealTimeTag_RealTimeGroup_RelationID='" + RealTimeTag_RealTimeGroup_RelationID + "'";
+                    SqlCommand commandalert3 = new SqlCommand(queryAlert3, connection);
+                    commandalert3.ExecuteNonQuery();
+                    Console.WriteLine("Back to normal" + DateTime.Now.ToShortTimeString());
+                }
             }
+            catch(Exception ex)
+            {
+
+            }
+            
         }
 
         private void SendCloseStage(bool phoneEnablebool ,bool mailEnablebool, string RealTimeTag_RealTimeGroup_RelationID, int tag)
         {
-            if (phoneEnablebool)
+            try
             {
-                using (SMSGateway.CTSMSDTACSoapClient client = new SMSGateway.CTSMSDTACSoapClient())
+                if (phoneEnablebool)
                 {
-                    try
+                    using (SMSGateway.CTSMSDTACSoapClient client = new SMSGateway.CTSMSDTACSoapClient())
                     {
+
                         char type = 'E';
                         string message = Tag_in_RealTimeGroup.Rows[tag].ItemArray[12].ToString();
                         string header = Pub_Config.Rows[0].ItemArray[2].ToString();
-                        for(int user = 0; user < User_in_RealTimeGroup.Rows.Count; user++)
+                        for (int user = 0; user < User_in_RealTimeGroup.Rows.Count; user++)
                         {
                             string phonenumber = User_in_RealTimeGroup.Rows[user].ItemArray[3].ToString();
 
@@ -694,63 +717,80 @@ namespace PISMS_Service_Realtime
                         }
                         using (SqlConnection connection = new SqlConnection(connectionString))
                         {
-                            string queryString = "UPDATE [" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation] SET [OnAlert]='false',[Acknowledge]='false' WHERE RealTimeTag_RealTimeGroup_RelationID='" + RealTimeTag_RealTimeGroup_RelationID + "'";
+                            string queryString = "UPDATE [" + DataBaseName + "].[dbo].[RealTimeTag_RealTimeGroup_Relation] SET [OnAlert]='false',[Acknowledge]='false' WHERE RealTimeTag_RealTimeGroup_RelationID='" + RealTimeTag_RealTimeGroup_RelationID + "'"+
+                                " DELETE [" + DataBaseName + "].[dbo].[TimeTrue] WHERE RealTimeTag_RealTimeGroup_RelationID='" + RealTimeTag_RealTimeGroup_RelationID + "'" +
+                                " DELETE[" + DataBaseName + "].[dbo].[Alerttime] WHERE RealTimeTag_RealTimeGroup_RelationID='" + RealTimeTag_RealTimeGroup_RelationID + "'";
                             SqlCommand command = new SqlCommand(queryString, connection);
                             SqlDataAdapter data = new SqlDataAdapter(command);
                             command.Connection.Open();
                             command.ExecuteNonQuery();
                         }
-
-
-                    }
-                    catch (Exception ex)
-                    {
-                        
                     }
                 }
+                if (mailEnablebool)
+                {
+
+                }
             }
-            if (mailEnablebool)
+            catch (Exception ex)
             {
 
             }
+            
         }
 
         private void OptionNonRepeatition_Interval(string nonrepeatition_IntervalUnit, string nonrepeatition_Interval,string RealTimeTag_RealTimeGroup_RelationID)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            try
             {
-                Alerttime.Clear();
-                string queryAlert2 = "SELECT * FROM [" + DataBaseName + "].[dbo].[Alerttime] WHERE RealTimeTag_RealTimeGroup_RelationID='" + RealTimeTag_RealTimeGroup_RelationID + "'";
-                SqlCommand commandalert2 = new SqlCommand(queryAlert2, connection);
-                SqlDataAdapter data = new SqlDataAdapter(commandalert2);
-                commandalert2.Connection.Open();
-                commandalert2.ExecuteNonQuery();
-                data.Fill(Alerttime);
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    Alerttime.Clear();
+                    string queryAlert2 = "SELECT * FROM [" + DataBaseName + "].[dbo].[Alerttime] WHERE RealTimeTag_RealTimeGroup_RelationID='" + RealTimeTag_RealTimeGroup_RelationID + "'";
+                    SqlCommand commandalert2 = new SqlCommand(queryAlert2, connection);
+                    SqlDataAdapter data = new SqlDataAdapter(commandalert2);
+                    commandalert2.Connection.Open();
+                    commandalert2.ExecuteNonQuery();
+                    data.Fill(Alerttime);
 
-                string alerttime = Alerttime.Rows[0].ItemArray[0].ToString();
-                TimeSpan starttimespan = TimeSpan.Parse(alerttime);
-                TimeSpan Endtime = new TimeSpan();
-                TimeSpan timeInterval = new TimeSpan();
-                if (nonrepeatition_IntervalUnit == "Hour")
-                {
-                    timeInterval = new TimeSpan(0, Convert.ToInt32(nonrepeatition_Interval), 0, 0);
-                }
-                else if (nonrepeatition_IntervalUnit == "Minute")
-                {
-                    timeInterval = new TimeSpan(0, 0, Convert.ToInt32(nonrepeatition_Interval), 0);
-                }
-                Endtime = starttimespan.Add(timeInterval);
-                TimeSpan CurrentTime = DateTime.Now.TimeOfDay;
-                int resultInterval = TimeSpan.Compare(CurrentTime, Endtime);
-                if (resultInterval >= 0)
-                {
-                    Console.WriteLine("Repeatition Interval " + DateTime.Now.ToShortTimeString());
+                    string alerttime = Alerttime.Rows[0].ItemArray[0].ToString();
+                    TimeSpan starttimespan = TimeSpan.Parse(alerttime);
+                    TimeSpan Endtime = new TimeSpan();
+                    TimeSpan timeInterval = new TimeSpan();
+                    if (nonrepeatition_IntervalUnit == "Hour")
+                    {
+                        timeInterval = new TimeSpan(0, Convert.ToInt32(nonrepeatition_Interval), 0, 0);
+                    }
+                    else if (nonrepeatition_IntervalUnit == "Minute")
+                    {
+                        timeInterval = new TimeSpan(0, 0, Convert.ToInt32(nonrepeatition_Interval), 0);
+                    }
+                    Endtime = starttimespan.Add(timeInterval);
 
-                    string queryAlert4 = "UPDATE [" + DataBaseName + "].[dbo].[Alerttime]  SET [Alerttime]='" + DateTime.Now.ToString("HH:mm") + "' WHERE RealTimeTag_RealTimeGroup_RelationID='" + RealTimeTag_RealTimeGroup_RelationID + "'";
-                    SqlCommand commandalert4 = new SqlCommand(queryAlert4, connection);
-                    commandalert4.ExecuteNonQuery();
+                    string _newDay = DateTime.Now.ToString("HH:mm");
+                    TimeSpan CurrentTime = DateTime.Now.TimeOfDay;
+                    if (_newDay == "00:00")
+                    {
+                        TimeSpan addday = new TimeSpan(1, 0, 0, 0);
+                        CurrentTime.Add(addday);
+                    }
+
+                    int resultInterval = TimeSpan.Compare(CurrentTime, Endtime);
+                    if (resultInterval >= 0)
+                    {
+                        Console.WriteLine("Repeatition Interval " + DateTime.Now.ToShortTimeString());
+
+                        string queryAlert4 = "UPDATE [" + DataBaseName + "].[dbo].[Alerttime]  SET [Alerttime]='" + DateTime.Now.ToString("HH:mm") + "' WHERE RealTimeTag_RealTimeGroup_RelationID='" + RealTimeTag_RealTimeGroup_RelationID + "'";
+                        SqlCommand commandalert4 = new SqlCommand(queryAlert4, connection);
+                        commandalert4.ExecuteNonQuery();
+                    }
                 }
             }
+            catch(Exception ex)
+            {
+
+            }
+            
         }
 
 

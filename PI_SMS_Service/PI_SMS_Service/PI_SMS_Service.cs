@@ -147,8 +147,7 @@ namespace PI_SMS_Service
         }
 
         private void OnTimedEvent(Object source, System.Timers.ElapsedEventArgs e)
-        {
-            
+        {           
             if (!Directory.Exists(debuglog))
             {
                 Directory.CreateDirectory(debuglog);
@@ -156,23 +155,21 @@ namespace PI_SMS_Service
             if(!File.Exists(debuglog+"\\" + DateTime.Now.ToString("yyyy-MM-dd")+".txt"))
             {
                 File.Create(debuglog + "\\" + DateTime.Now.ToString("yyyy-MM-dd")+".txt");
-            }
+            }            
             try
             {
                 getconfig();
+                TimeNow = DateTime.Now.ToString("HH:mm");
                 connectionString = "Data Source = " + Pub_Config.Rows[0].ItemArray[0].ToString() + "; Initial Catalog =" + Pub_Config.Rows[0].ItemArray[2].ToString() + "; User ID =" + Pub_Config.Rows[0].ItemArray[3].ToString() + "; Password =" + Pub_Config.Rows[0].ItemArray[4].ToString() + "";
                 Thread threadSendSMS = new Thread(Send_SMS);
                 if (threadSendSMS.IsAlive)
-                {
-                    TimeNow = DateTime.Now.ToString("HH:mm");
-
+                {                    
                     threadSendSMS.Join();
                     LoadDataToTable_Template();
                     CheckTemplate_ONSMS();
                 }
                 else
-                {
-                    TimeNow = DateTime.Now.ToString("HH:mm");
+                {                    
                     LoadDataToTable_Template();
                     CheckTemplate_ONSMS();
                 }
@@ -236,7 +233,7 @@ namespace PI_SMS_Service
 
         #endregion
 
-        #region Load Template
+        #region LoadDataToTable_Template
 
         void LoadDataToTable_Template()
         {
@@ -672,13 +669,17 @@ namespace PI_SMS_Service
                             messagelog += tagalias + " ";
                             messagelog += TagValue[tag] + " ";
                         }
-
+                        if(message.Length > 160)
+                        {
+                            int subtract = message.Length - 160;
+                            message = message.Remove(message.Length - subtract);
+                        }
                         
                         for (sendmessage = 0; sendmessage < User_In_Template.Rows.Count; sendmessage++)
                         {
                             string phonenumber = User_In_Template.Rows[sendmessage].ItemArray[4].ToString();
                             char in_msg_type = 'E';
-                            message = message.Remove(message.Length - 2);
+                            //message = message.Remove(message.Length - 2);
                             SMSGateway.SMS_Result response = client.sendSMS2DTAC(phonenumber, header, message, in_msg_type);
                             
 
